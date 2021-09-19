@@ -5,5 +5,6 @@ TO-DO
 2. Brainstorm ER diagram
 
 
-Useful links:
+Useful links
+-----
 https://www.lucidchart.com <- for ERD designing
