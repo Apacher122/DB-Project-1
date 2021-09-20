@@ -1,4 +1,24 @@
-Ecommerce:
+Ecommerce (Front-end web-design option)
+
+ //DESCRIPTION
+  Our project models the database for an online store, including its set of products
+  and its set of users, and allows a user to perform basic tasks like browse by category
+  and “buy” items.
+
+ An entity set contains the list of products, identified by a product number. Each product
+ is assigned at least one clothing type (shirt, shoes, pants…) from the “clothing type” entity
+ set and belongs to at most one seasonal collection. Each product is associated to at least one
+ photo of it, and some photos can contain multiple products (i.e., a model is wearing a shirt
+ and a skirt from the store). A relationship set also exists connecting the set of products to
+ itself, indicating which products are similar and could be listed as suggested products. 
+ Each user, identified by their email address, can add products to their shopping list and can
+ have orders associated with their account, which in turn includes products from the store.
+ 
+ //USER INTERFACE
+ The user can peruse items by looking at clothing types or by collection. Each item is linked
+ to several other items that are similar to it. Given an account, the user can add items to
+ their shopping cart (including multiple of the same item), “buy” them, and then check the
+ status of their orders.
  
   
 YouFace, FaceTube, YouBook, FaceYou:
