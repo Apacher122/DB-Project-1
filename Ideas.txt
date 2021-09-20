@@ -1,19 +1,33 @@
 Ecommerce:
-  Entities:
+ 
   
-  Relations:
+YouFace, FaceTube, YouBook, FaceYou:
+  //DESCRIPTION
+  This application will follow the format of a typical social media website.
+  The only difference between this application and, say, facebook would be that
+  this application is more media-focused. The database will contain users, posts, 
+  messages, media, and comments - all of which should uniquely be identified to 
+  the user of origin. All entities, besides the user, will contain a date field 
+  that displays time and date of submissions. The user will have fields that 
+  contain identity, passwords, contact information, and the ability to disclose 
+  gender and/or age. The media allowed for submission
   
-Social Media:
-  Entities:
-    - Users
-    - Posts
-    - Comments
-    - Messages
-    - Media
-  Relations:
-    - 
-    - 
-    -
-    -
-    -
-    
+  The relationships will include users "connecting" to each other, being able to see
+  posts depending on "connection" status (essentially the same as adding a friend on fb), 
+  sending messages to other users, and submitting posts.
+  The challenging part to this task would be how to handle friends lists and their ability
+  to see posts depending on friend status.
+  
+  For this project, we will follow the front-end web-design option.
+  
+  
+  //USER-INTERACTION PLAN
+  The users will be allowed to add friends and see their posts, be able to message anyone
+  on the platform, share media, and receive recommendations for media. The platform is
+  designed so that all media is shared publicly, unless otherwise specified (i.e. the user
+  only wants to share among friends). In this way, the platform is like a hybrid between
+  facebook and youtube in that users can easily interact and connect with friends, while
+  focusing on creating and sharing content. There will be an additional database that will
+  contain recommendations for media shared by users that will allow users of similar tastes
+  to connect more easily.
+  
