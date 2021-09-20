@@ -1,0 +1,19 @@
+Ecommerce:
+  Entities:
+  
+  Relations:
+  
+Social Media:
+  Entities:
+    - Users
+    - Posts
+    - Comments
+    - Messages
+    - Media
+  Relations:
+    - 
+    - 
+    -
+    -
+    -
+    
