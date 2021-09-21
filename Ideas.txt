@@ -1,9 +1,9 @@
-Ecommerce (Front-end web-design option)
+Ecommerce
 
  //DESCRIPTION
-  Our project models the database for an online store, including its set of products
-  and its set of users, and allows a user to perform basic tasks like browse by category
-  and “buy” items.
+ Our project models the database for an online store, including its set of products
+ and its set of users, and allows a user to perform basic tasks like browse by category
+ and “buy” items.
 
  An entity set contains the list of products, identified by a product number. Each product
  is assigned at least one clothing type (shirt, shoes, pants…) from the “clothing type” entity
@@ -13,6 +13,12 @@ Ecommerce (Front-end web-design option)
  itself, indicating which products are similar and could be listed as suggested products. 
  Each user, identified by their email address, can add products to their shopping list and can
  have orders associated with their account, which in turn includes products from the store.
+ 
+ We will do the web front-end option.
+ 
+ //"DATA PLAN"
+ Mock data or photos, names, prices from an existing online store, depending on the scale of
+ the database
  
  //USER INTERFACE
  The user can peruse items by looking at clothing types or by collection. Each item is linked
