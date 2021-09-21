@@ -46,6 +46,10 @@ YouFace, FaceTube, YouBook, FaceYou:
   
   For this project, we will follow the front-end web-design option.
   
+  //DATA-PLAN
+  Data will be mocked up, user photos, videos, and music will simply just be arbitrary files
+  that represent jpg, mp4, or mp3 formats.
+  
   
   //USER-INTERACTION PLAN
   The users will be allowed to add friends and see their posts, be able to message anyone
