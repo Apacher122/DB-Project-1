@@ -61,3 +61,22 @@ YouFace, FaceTube, YouBook, FaceYou:
   contain recommendations for media shared by users that will allow users of similar tastes
   to connect more easily.
   
+  
+AmaTube (Socialmedia ecommerce combo)
+  //Description
+  Our project will be a social-media focused online store.
+  
+  //DATA-PLAN
+  *include something about using historical data from existing websites*
+  
+  //USER-INTERACTION PLAN
+  
+  
+  
+  
+/* CONTINGENCY PLAN */
+Should one or the other group members become unable to participate in the group project,
+the project will have to be downscaled to make the project feasible for one person. 
+Downscaling will entail reducing the amount of entities, app features, and simplifying
+front-end design.
+  
