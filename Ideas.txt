@@ -65,6 +65,9 @@ YouFace, FaceTube, YouBook, FaceYou:
 AmaTube (Socialmedia ecommerce combo)
   //Description
   Our project will be a social-media focused online store.
+  Entities: Users, Products, Orders, Reviews, Messages, Photobase
+  Relationships: connected_to, sends, has_in_cart, is_pictured_in, contains, is_similar_to, ordered
+  
   
   //DATA-PLAN
   *include something about using historical data from existing websites*
