@@ -1,22 +1,26 @@
 AmaTube (Social media e-commerce combo)
   //Description
   Our project will be an online store where verified major retailers can sell their products
-  and which includes certain social media functionalities like connecting to other users and
-  making posts. Users can browse the catalogue of items, add them to their cart to order them,
-  and leave reviews. Additionally, users can connect to each other, message each other, and
-  make their own posts.
-  Entities: Users, Addresses, Messages, Products, Orders, Reviews, Photobase
+  and which includes certain social media functionalities. Users can browse the catalogue of
+  items by type, add them to their cart to order them, and leave reviews. Additionally,
+  users can connect to each other, message each other, and make their own posts.
+  Entities: Users (sub-entity sets Retailers and Consumers), Addresses, Messages, Products,
+  Orders, Reviews, Photobase
   Relationships: connected_to, sends, has_in_cart, pictures, contains_item, is_similar_to,
   ordered, includes_photo, lives_at, ships_to
   
   
   //DATA-PLAN
-  *include something about using historical data from existing websites*
+  Potentially take product information from existing mall sites
+  Supplement with mock data
   
   //USER-INTERACTION PLAN
-  The user can browse the catalogue of items based on item type and see reviews (which
-  can include photos) left on them. Given an account, a user can leave their own reviews
-  as well as connect with other users. They can also make their own posts.
+  The user will be a consumer who can browse the catalogue of items based on item type and
+  see reviews (which can include photos) left on them. Given an account, a user can leave
+  their own reviews, connect with other users and message them, and make their own posts.
+  With an account, the user can also add products to their shopping cart and "order" them,
+  then check the status of their orders.
+  Retail-side interactions will not be shown.
   
   
   
