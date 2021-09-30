@@ -9,6 +9,9 @@ AmaTube (Social media e-commerce combo)
   Relationships: connected_to, sends, has_in_cart, pictures, contains_item, is_similar_to,
   ordered, includes_photo, lives_at, ships_to
   
+  //PROJECT TYPE
+  Web front-end option
+  
   
   //DATA-PLAN
   Potentially take product information from existing mall sites
