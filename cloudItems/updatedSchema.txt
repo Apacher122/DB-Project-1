@@ -99,9 +99,9 @@ CREATE TABLE Review_Posts(
 	FOREIGN KEY (reviewed_product) REFERENCES Products
 )
 
-// Combines Messages entity set and Sends relationship set because of the
+// Combines Messages entity set with Sends and Receives relationships set because of the
 participation and key constraints: every message is sent by exactly one user
-to exactly one user
+and every message is received by exactly one user
 CREATE TABLE Messages(
     	session_id	CHAR(10),
     	date_time	DATE,
