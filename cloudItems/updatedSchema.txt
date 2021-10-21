@@ -174,10 +174,12 @@ CREATE TABLE Has_In_Cart(
 Participation constraint that cannot be modeled: Every user has at least one address */
 CREATE TABLE Lives_At(
 	user_id		VARCHAR(10),
-	address 	VARCHAR(55),
+	street_1 	VARCHAR(30),
+	street_2	VARCHAR(20),
+	zip		VARCHAR(5),
 	PRIMARY KEY (user_id, address),
 	FOREIGN KEY (user_id) REFERENCES Users,
-	FOREIGN KEY (address) REFERENCES Addresses
+	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
 )
 
 /* associates orders to the products they contain.
