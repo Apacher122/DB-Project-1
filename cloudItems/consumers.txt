@@ -8,7 +8,7 @@ EFG5678               mc5090@columbia.edu         Melissa Che         mc5090
 FGH6789               mavis.beacon@gmail.com      Mavis Beacon        sharkattack20
 GHI7890               helloworld@gmail.com        Bjarne Stroustrup   cppman1950
 HIJ8901               kernel_linus@gmail.com      Linus Torvalds      unixbasedgod
-IJK9012               11HerbsAndSpices@gmail.com  Colonel Sanders     ColonelNotKernel    Large
+IJK9012               11HerbsAndSpices@gmail.com  Colonel Sanders     ColonelNotKernel   
 JKL0123               healthyEats@gmail.com       Mack Donalds        NoFastFood122
 
 
@@ -23,3 +23,30 @@ INSERT Into USERS (user_id, username, email, name) VALUES ('GHI7890', 'cppman195
 INSERT Into USERS (user_id, username, email, name) VALUES ('HIJ8901', 'unixbasedgod', 'kernel_linus@gmail.com', 'Linus Torvalds');
 INSERT Into USERS (user_id, username, email, name) VALUES ('IJK9012', 'ColonelNotKernel', '11HerbsAndSpices@gmail.com', 'Colonel Sanders');
 INSERT Into USERS (user_id, username, email, name) VALUES ('JKL0123', 'NoFastFood122', 'healthyEats@gmail.com', 'Mack Donalds');
+
+user_id               size_pref                   loyalty_pnts        date_of_birth
+---------------------------------------------------------------------------------------------------------------------------
+ABC1234               M                           2000                1994-06-19
+BCD2345               L                           420                 2000-01-21
+CDE3456               L                           10259               1971-03-22
+DEF4567               M                           2                   1994-11-20
+EFG5678               S                           3                   1997-05-01
+FGH6789               S                           69420               1987-01-27
+GHI7890               XL                          560                 1950-12-30
+HIJ8901               M                           580                 1969-12-28
+IJK9012               XLL                         203                 1890-09-09   
+JKL0123               M                           56                  1955-04-15
+
+
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('ABC1234', 'M', 2000, '1994-06-19');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('BCD2345', 'L', 420, '2000-01-21');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('CDE3456', 'L', 10259, '1971-03-22');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('DEF4567', 'M', 2, '1994-11-20');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('EFG5678', 'S', 3, '1997-05-01');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('FGH6789', 'S', 69420, '1987-01-27');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('GHI7890', 'XL', 560, '1950-12-30');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('HIJ8901', 'M', 580, '1969-12-28');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('IJK9012', 'XXL', 203, '1890-09-09');
+INSERT INTO Consumers (user_id, size_pref, loyalty_pnts, date_of_birth) VALUES ('JKL0123', 'M', 56, '1955-04-15');
+
+
