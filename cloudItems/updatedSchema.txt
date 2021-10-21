@@ -177,7 +177,7 @@ CREATE TABLE Lives_At(
 	street_1 	VARCHAR(30),
 	street_2	VARCHAR(20),
 	zip		VARCHAR(5),
-	PRIMARY KEY (user_id, address),
+	PRIMARY KEY (user_id, street_1, street_2, zip),
 	FOREIGN KEY (user_id) REFERENCES Users,
 	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
 )
