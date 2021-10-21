@@ -1,1 +1,12 @@
-
+user_id               email                       name                username
+------------------------------------------------------------------------------
+ABC1234               janedoe@gmail.com           Jane Doe            janedoe123
+BCD2345               mikely123@gmail.com         Mike Ly             mikely234
+CDE3456               funnyMan@gmail.com          Keegan Key          kmk3223
+DEF4567               rda2126@columbia.edu        Rey Aparece         rda2126
+EFG5678               mc5090@columbia.edu         Melissa Che         mc5090
+FGH6789               mavis.beacon@gmail.com      Mavis Beacon        sharkattack20
+GHI7890               helloworld@gmail.com        Bjarne Stroustrup   cppman1950
+HIJ8901               kernel_linus@gmail.com      Linus Torvalds      unixbasedgod
+IJK9012               11HerbsAndSpices@gmail.com  Colonel Sanders     ColonelNotKernel
+JKL0123               healthyEats@gmail.com       Mack Donalds        NoFastFood122
