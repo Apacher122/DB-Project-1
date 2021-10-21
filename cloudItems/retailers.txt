@@ -1,1 +1,18 @@
+Accessories, Fashion, Shoes, Health and Beauty, Food, Sporting Goods, Electronics
 
+INSERT INTO retailers VALUES ('Aerie by American Eagle Outfitters','fashion');
+INSERT INTO retailers VALUES ('Bath & Body Works','health and beauty');
+INSERT INTO retailers VALUES ('Claire's','accessories');
+INSERT INTO retailers VALUES ('Famous Footwear','shoes');
+INSERT INTO retailers VALUES ('Gertrude Hawk Chocolates','food');
+INSERT INTO retailers VALUES ('H&M','fashion');
+INSERT INTO retailers VALUES ('Burberry','fashion');
+INSERT INTO retailers VALUES ('Sephora','health and beaty');
+INSERT INTO retailers VALUES ('Journeys','shoes');
+INSERT INTO retailers VALUES ('Kay Jewelers','accessories');
+INSERT INTO retailers VALUES ('LensCrafters','accessories');
+INSERT INTO retailers VALUES ('S&B Sports Collectibles','sporting goods');
+INSERT INTO retailers VALUES ('Dick's Sporting Goods','sporting goods');
+INSERT INTO retailers VALUES ('Acme Acupuncture & Wellness','health and beauty');
+INSERT INTO retailers VALUES ('Apple Store','electronics');
+INSERT INTO retailers VALUES ('Game Stop','electronics');
