@@ -81,7 +81,7 @@ CREATE TABLE Products(
 	on_sale		BOOLEAN,
 	available	BOOLEAN,
 	item_type	CHAR(30),
-	stock		INTEGER,
+	stock		INTEGER CHECK (stock >= 0),
 	PRIMARY KEY (product_number),
 	FOREIGN KEY (sold_by) REFERENCES Retailers
 )
