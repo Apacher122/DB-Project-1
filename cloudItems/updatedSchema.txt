@@ -74,7 +74,7 @@ product numbers */
 CREATE TABLE Products(
 	product_number	CHAR(10),
 	sold_by		CHAR(10) NOT NULL,
-	name		CHAR(50),
+	name		CHAR(50) NOT NULL,
 	color		CHAR(30),
 	price		REAL CHECK (price > 0),
 	description	CHAR(300),
