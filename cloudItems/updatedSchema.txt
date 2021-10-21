@@ -1,0 +1,195 @@
+// ENTITY SETS
+
+
+CREATE TABLE Users(
+	user_id 	CHAR(10),
+    username 	CHAR(30),
+	email 		CHAR(40),
+	name 		CHAR(40),
+	PRIMARY KEY (user_id),
+    UNIQUE (username)
+)
+
+/* subset of Users entity set. We apply overlap and completeness constraints */	
+CREATE TABLE Retailers(
+	user_id 	CHAR(10),
+	store_type 	CHAR(20),
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users,
+		ON DELETE CASCADE
+)
+
+/* subset of Users entity set. We apply overlap and completeness constraints */	
+CREATE TABLE Consumers( 
+	user_id 		CHAR(10),
+	size_pref 		CHAR(1),
+	loyalty_pnts 	INTEGER,
+	date_of_birth 	DATE,
+	PRIMARY KEY (user_id)
+	FOREIGN KEY (user_id) REFERENCES Users,
+		ON DELETE CASCADE
+)
+
+/* combines Posts entity set and Posted relationship set because of the 
+participation and key constraints: every post is made by exactly one user */
+CREATE TABLE Posts(
+	post_id 		CHAR(10),
+	post_type		CHAR(20),
+	user_id			CHAR(10) NOT NULL,
+	privacy_type	CHAR(20),
+	date_time		DATE,
+	PRIMARY KEY (post_id),
+	FOREIGN KEY (user_id) REFERENCES Users
+)
+
+CREATE TABLE Addresses(
+	street_1	CHAR(30),
+	street_2	CHAR(20),
+	city		CHAR(30),
+	state		CHAR(30),
+	zip			CHAR(5),
+	PRIMARY KEY (street1, street2, zip)
+)
+
+/* combines Orders entity set and Ships_To relationship set because of the
+participation and key constraints: every order ships to exactly one
+address.
+Also combines Orders entity set and Ordered relationship set because each order
+is ordered by exactly one user */
+CREATE TABLE Orders(
+	order_number	CHAR(10),
+	order_date		DATE,
+	status			CHAR(20),
+	user_id			CHAR(10) NOT NULL,
+	address			CHAR(55) NOT NULL,
+	PRIMARY KEY (order_number),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (address) REFERENCES Addresses
+)
+
+/* combines Products entity set and Sells relationship set because of the
+participation and key constraints: every product is sold by exactly one retailer.
+In our model, even if two stores sell the same product, they have different
+product numbers */
+CREATE TABLE Products(
+	product_number	CHAR(10),
+	sold_by			CHAR(10) NOT NULL,
+	name			CHAR(50),
+	color			CHAR(30),
+	price			REAL,
+	description		CHAR(300),
+	on_sale			BOOLEAN,
+	available		BOOLEAN,
+	item_type		CHAR(30),
+	stock			INTEGER,
+	PRIMARY KEY (product_number),
+	FOREIGN KEY (sold_by) REFERENCES Retailers
+)
+
+/* combines Review_Posts entity set and Reviews relationship set because of the
+participation and key constraints: every review post is associated with exactly
+one user and exactly one product.
+Note: users are allowed one review per product. If they re-review a product,
+the new review will replace their previous one*/
+CREATE TABLE Review_Posts(
+	review_id			CHAR(10),
+	review_type			CHAR(30),
+	reviewer			CHAR(10) NOT NULL,
+	reviewed_product	CHAR(10) NOT NULL,
+	PRIMARY KEY (review_id),
+	FOREIGN KEY (reviewer) REFERENCES Consumers,
+	FOREIGN KEY (reviewed_product) REFERENCES Products
+)
+
+// Combines Messages entity set and Sends relationship set because of the
+participation and key constraints: every message is sent by exactly one user
+to exactly one user
+CREATE TABLE Messages(
+    session_id	CHAR(10),
+    date_time	DATE,
+	content		CHAR(1000),
+	sender		CHAR(10) NOT NULL,
+	recipient	CHAR(10) NOT NULL,
+    PRIMARY KEY (session_id),
+	FOREIGN KEY (sender) REFERENCES Users,
+	FOREIGN KEY (recipient) REFERENCES Users
+)
+
+CREATE TABLE Photos(
+	photo_id		CHAR(10),
+	upload_date		DATE,
+	PRIMARY KEY (photo_id),
+	FOREIGN KEY (submitted_by) REFERENCES Users
+)
+
+
+
+
+
+// RELATIONSHIP SETS
+
+/* associates reviews with photos that may be included
+Note: users can attach more than one photo to a review */
+CREATE TABLE Includes_Photo(
+	review_id	CHAR(10),
+	photo_id	CHAR(10),
+	PRIMARY KEY (review_id),
+	FOREIGN KEY (review_id) REFERENCES Review,
+	FOREIGN KEY (photo_id) REFERENCES Photos
+) 
+
+/* associates photos to products, which are displayed on the site.
+Participation constraint between Photos and Products that cannot be modeled:
+Every product must have at least one photo associated with it */
+CREATE TABLE Pictures(
+	photo_id		CHAR(10),
+	product_number	CHAR(10),
+	PRIMARY KEY (photo_id, product_number),
+	FOREIGN KEY (photo_id) REFERENCES Photos,
+	FOREIGN KEY (product_number) REFERENCES Products
+)
+
+/* connects users to other users.
+Note: If user 1 is connected to user 2, then user 2 is connected to user 1 */
+CREATE TABLE Connected_To(
+	user_id		CHAR(10),
+	connection 	CHAR(10),
+	PRIMARY KEY (user_id, connection),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (connection) REFERENCES Users
+)
+
+// associates products to users' online shopping carts
+CREATE TABLE Has_In_Cart(
+	user_id			CHAR(10),
+	product_number	CHAR(10),
+	quantity		INTEGER,
+	PRIMARY KEY (user_id, product_number),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (product_number) REFERENCES Products
+)
+
+/* associates users to addresses they have listed.
+Participation constraint that cannot be modeled: Every user has at least one address */
+CREATE TABLE Lives_At(
+	user_id		CHAR(10),
+	address 	CHAR(55),
+	PRIMARY KEY (user_id, address),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (address) REFERENCES Addresses
+)
+
+/* associates orders to the products they contain.
+Participation constraints that cannot be modeled: every order contains at least one item */
+CREATE TABLE Contains_Item(
+	order_number	CHAR(10),
+	product_number	CHAR(10),
+	quantity		INTEGER,
+	PRIMARY KEY (order_number, product_number),
+	FOREIGN KEY (order_number) REFERENCES Orders,
+	FOREIGN KEY (product_number) REFERENCES Products
+)
+
+
+
+[>:^B|] Mehoy Minoy
