@@ -61,10 +61,12 @@ CREATE TABLE Orders(
 	order_date	DATE,
 	status		VARCHAR(20),
 	user_id		VARCHAR(10) NOT NULL,
-	address		VARCHAR(55) NOT NULL,
+	street_1	VARCHAR(20) NOT NULL,
+	street_2	VARCHAR(10) NOT NULL,
+	zip		VARCHAR(5) NOT NULL,
 	PRIMARY KEY (order_number),
 	FOREIGN KEY (user_id) REFERENCES Users,
-	FOREIGN KEY (address) REFERENCES Addresses
+	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
 )
 
 /* combines Products entity set and Sells relationship set because of the
