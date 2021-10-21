@@ -88,9 +88,7 @@ CREATE TABLE Products(
 
 /* combines Review_Posts entity set and Reviews relationship set because of the
 participation and key constraints: every review post is associated with exactly
-one user and exactly one product.
-Note: users are allowed one review per product. If they re-review a product,
-the new review will replace their previous one*/
+one user. */
 CREATE TABLE Review_Posts(
 	review_id		CHAR(10),
 	review_type		CHAR(30),
@@ -105,8 +103,8 @@ CREATE TABLE Review_Posts(
 participation and key constraints: every message is sent by exactly one user
 to exactly one user
 CREATE TABLE Messages(
-    session_id	CHAR(10),
-    date_time	DATE,
+    	session_id	CHAR(10),
+    	date_time	DATE,
 	content		CHAR(1000),
 	sender		CHAR(10) NOT NULL,
 	recipient	CHAR(10) NOT NULL,
@@ -161,9 +159,9 @@ CREATE TABLE Connected_To(
 
 // associates products to users' online shopping carts
 CREATE TABLE Has_In_Cart(
-	user_id			CHAR(10),
+	user_id		CHAR(10),
 	product_number	CHAR(10),
-	quantity		INTEGER,
+	quantity	INTEGER,
 	PRIMARY KEY (user_id, product_number),
 	FOREIGN KEY (user_id) REFERENCES Users,
 	FOREIGN KEY (product_number) REFERENCES Products
@@ -184,7 +182,7 @@ Participation constraints that cannot be modeled: every order contains at least 
 CREATE TABLE Contains_Item(
 	order_number	CHAR(10),
 	product_number	CHAR(10),
-	quantity		INTEGER,
+	quantity	INTEGER,
 	PRIMARY KEY (order_number, product_number),
 	FOREIGN KEY (order_number) REFERENCES Orders,
 	FOREIGN KEY (product_number) REFERENCES Products
