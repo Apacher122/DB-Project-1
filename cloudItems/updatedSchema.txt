@@ -48,7 +48,7 @@ CREATE TABLE Addresses(
 	city		VARCHAR(30),
 	state		VARCHAR(30),
 	zip		VARCHAR(5),
-	PRIMARY KEY (street1, street2, zip)
+	PRIMARY KEY (street_1, street_2, zip)
 )
 
 /* combines Orders entity set and Ships_To relationship set because of the
