@@ -114,8 +114,9 @@ CREATE TABLE Messages(
 )
 
 CREATE TABLE Photos(
-	photo_id		CHAR(10),
-	upload_date		DATE,
+	photo_id	CHAR(10),
+	upload_date	DATE,
+	submitted_by	CHAR(10),
 	PRIMARY KEY (photo_id),
 	FOREIGN KEY (submitted_by) REFERENCES Users
 )
