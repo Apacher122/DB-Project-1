@@ -3,7 +3,7 @@
 
 CREATE TABLE Users(
 	user_id 	CHAR(10),
-    username 	CHAR(30),
+    	username 	CHAR(30),
 	email 		CHAR(40),
 	name 		CHAR(40),
 	PRIMARY KEY (user_id),
@@ -21,8 +21,8 @@ CREATE TABLE Retailers(
 
 /* subset of Users entity set. We apply overlap and completeness constraints */	
 CREATE TABLE Consumers( 
-	user_id 		CHAR(10),
-	size_pref 		CHAR(1),
+	user_id 	CHAR(10),
+	size_pref 	CHAR(1),
 	loyalty_pnts 	INTEGER,
 	date_of_birth 	DATE,
 	PRIMARY KEY (user_id)
@@ -36,7 +36,7 @@ CREATE TABLE Posts(
 	post_id 		CHAR(10),
 	post_type		CHAR(20),
 	user_id			CHAR(10) NOT NULL,
-	privacy_type	CHAR(20),
+	privacy_type		CHAR(20),
 	date_time		DATE,
 	PRIMARY KEY (post_id),
 	FOREIGN KEY (user_id) REFERENCES Users
@@ -47,7 +47,7 @@ CREATE TABLE Addresses(
 	street_2	CHAR(20),
 	city		CHAR(30),
 	state		CHAR(30),
-	zip			CHAR(5),
+	zip		CHAR(5),
 	PRIMARY KEY (street1, street2, zip)
 )
 
@@ -58,10 +58,10 @@ Also combines Orders entity set and Ordered relationship set because each order
 is ordered by exactly one user */
 CREATE TABLE Orders(
 	order_number	CHAR(10),
-	order_date		DATE,
-	status			CHAR(20),
-	user_id			CHAR(10) NOT NULL,
-	address			CHAR(55) NOT NULL,
+	order_date	DATE,
+	status		CHAR(20),
+	user_id		CHAR(10) NOT NULL,
+	address		CHAR(55) NOT NULL,
 	PRIMARY KEY (order_number),
 	FOREIGN KEY (user_id) REFERENCES Users,
 	FOREIGN KEY (address) REFERENCES Addresses
@@ -73,15 +73,15 @@ In our model, even if two stores sell the same product, they have different
 product numbers */
 CREATE TABLE Products(
 	product_number	CHAR(10),
-	sold_by			CHAR(10) NOT NULL,
-	name			CHAR(50),
-	color			CHAR(30),
-	price			REAL,
-	description		CHAR(300),
-	on_sale			BOOLEAN,
-	available		BOOLEAN,
-	item_type		CHAR(30),
-	stock			INTEGER,
+	sold_by		CHAR(10) NOT NULL,
+	name		CHAR(50),
+	color		CHAR(30),
+	price		REAL,
+	description	CHAR(300),
+	on_sale		BOOLEAN,
+	available	BOOLEAN,
+	item_type	CHAR(30),
+	stock		INTEGER,
 	PRIMARY KEY (product_number),
 	FOREIGN KEY (sold_by) REFERENCES Retailers
 )
@@ -92,9 +92,9 @@ one user and exactly one product.
 Note: users are allowed one review per product. If they re-review a product,
 the new review will replace their previous one*/
 CREATE TABLE Review_Posts(
-	review_id			CHAR(10),
-	review_type			CHAR(30),
-	reviewer			CHAR(10) NOT NULL,
+	review_id		CHAR(10),
+	review_type		CHAR(30),
+	reviewer		CHAR(10) NOT NULL,
 	reviewed_product	CHAR(10) NOT NULL,
 	PRIMARY KEY (review_id),
 	FOREIGN KEY (reviewer) REFERENCES Consumers,
@@ -110,7 +110,7 @@ CREATE TABLE Messages(
 	content		CHAR(1000),
 	sender		CHAR(10) NOT NULL,
 	recipient	CHAR(10) NOT NULL,
-    PRIMARY KEY (session_id),
+    	PRIMARY KEY (session_id),
 	FOREIGN KEY (sender) REFERENCES Users,
 	FOREIGN KEY (recipient) REFERENCES Users
 )
