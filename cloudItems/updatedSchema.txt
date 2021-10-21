@@ -3,11 +3,11 @@
 
 CREATE TABLE Users(
 	user_id 	CHAR(10),
-    	username 	CHAR(30),
-	email 		CHAR(40),
-	name 		CHAR(40),
+    	username 	CHAR(30) NOT NULL,
+	email 		CHAR(40) NOT NULL,
+	name 		CHAR(40) NOT NULL,
 	PRIMARY KEY (user_id),
-    UNIQUE (username)
+    	UNIQUE (username)
 )
 
 /* subset of Users entity set. We apply overlap and completeness constraints */	
@@ -76,7 +76,7 @@ CREATE TABLE Products(
 	sold_by		CHAR(10) NOT NULL,
 	name		CHAR(50),
 	color		CHAR(30),
-	price		REAL,
+	price		REAL CHECK (price > 0),
 	description	CHAR(300),
 	on_sale		BOOLEAN,
 	available	BOOLEAN,
@@ -133,7 +133,7 @@ Note: users can attach more than one photo to a review */
 CREATE TABLE Includes_Photo(
 	review_id	CHAR(10),
 	photo_id	CHAR(10),
-	PRIMARY KEY (review_id),
+	PRIMARY KEY (review_id, photo_id),
 	FOREIGN KEY (review_id) REFERENCES Review,
 	FOREIGN KEY (photo_id) REFERENCES Photos
 ) 
@@ -142,7 +142,7 @@ CREATE TABLE Includes_Photo(
 Participation constraint between Photos and Products that cannot be modeled:
 Every product must have at least one photo associated with it */
 CREATE TABLE Pictures(
-	photo_id		CHAR(10),
+	photo_id	CHAR(10),
 	product_number	CHAR(10),
 	PRIMARY KEY (photo_id, product_number),
 	FOREIGN KEY (photo_id) REFERENCES Photos,
