@@ -135,7 +135,7 @@ CREATE TABLE Includes_Photo(
 	review_id	VARCHAR(10),
 	photo_id	VARCHAR(10),
 	PRIMARY KEY (review_id, photo_id),
-	FOREIGN KEY (review_id) REFERENCES Review,
+	FOREIGN KEY (review_id) REFERENCES Review_Posts,
 	FOREIGN KEY (photo_id) REFERENCES Photos
 ) 
 
