@@ -1,5 +1,20 @@
 --Note: should we add a discounted price attribute? Also a size attribute?
 
+CREATE TABLE Products(
+	product_number	VARCHAR(10),
+	sold_by		VARCHAR(10) NOT NULL,
+	name		VARCHAR(50) NOT NULL,
+	color		VARCHAR(30),
+	price		REAL CHECK (price > 0),
+	description	VARCHAR(300),
+	on_sale		BOOLEAN,
+	available	BOOLEAN,
+	item_type	VARCHAR(30),
+	stock		INTEGER CHECK (stock >= 0),
+	PRIMARY KEY (product_number),
+	FOREIGN KEY (sold_by) REFERENCES Retailers
+)
+
 INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Monaco Blue',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',30);
 INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Hazel',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',20);
 INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Fresh Bright',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',40);
