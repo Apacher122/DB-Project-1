@@ -1,3 +1,13 @@
+REATE TABLE Addresses(
+	street_1	VARCHAR(30),
+	street_2	VARCHAR(20),
+	city		VARCHAR(30),
+	state		VARCHAR(30),
+	zip		VARCHAR(5),
+	PRIMARY KEY (street_1, street_2, zip)
+)
+
+
 INSERT INTO addresses VALUES ('12345 Example St','Apt 4','New York','NY','10028');
 INSERT INTO addresses VALUES ('1800 Grovesnor Ct',NULL,'Springfield','NC','12345');
 INSERT INTO addresses VALUES ('903 Guilt Dr',NULL,'Terrytown','IO','90843');
