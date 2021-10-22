@@ -1,1 +1,14 @@
+CREATE TABLE Orders(
+	order_number	VARCHAR(10),
+	order_date	DATE,
+	status		VARCHAR(20),
+	user_id		VARCHAR(10) NOT NULL,
+	street_1	VARCHAR(20) NOT NULL,
+	street_2	VARCHAR(10) NOT NULL,
+	zip		VARCHAR(5) NOT NULL,
+	PRIMARY KEY (order_number),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
+)
+
 INSERT INTO orders VALUES ('1234567890','2021-08-01','In transit','ABC1234','123 Sister's St','Apt 1','94117');
