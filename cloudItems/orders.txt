@@ -1,0 +1,1 @@
+INSERT INTO orders VALUES ('1234567890','2021-08-01','In transit','ABC1234','123 Sister's St','Apt 1','94117');
