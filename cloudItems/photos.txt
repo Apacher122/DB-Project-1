@@ -1,0 +1,10 @@
+CREATE TABLE Photos(
+	photo_id	VARCHAR(10),
+	upload_date	DATE,
+	submitted_by	VARCHAR(10) NOT NULL,
+	PRIMARY KEY (photo_id),
+	FOREIGN KEY (submitted_by) REFERENCES Users
+)
+
+
+INSERT INTO photos VALUES ('12345ABCDE',2021-02-01, --user id--);
