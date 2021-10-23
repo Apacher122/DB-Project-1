@@ -1,3 +1,5 @@
+--DONE, NEEDS TO BE INSERTED
+
 CREATE TABLE Orders(
 	order_number	VARCHAR(10),
 	order_date	DATE,
