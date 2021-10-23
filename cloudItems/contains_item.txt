@@ -7,3 +7,4 @@ CREATE TABLE Contains_Item(
 	FOREIGN KEY (product_number) REFERENCES Products
 )
 
+INSERT INTO contains_item VALUES (
