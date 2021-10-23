@@ -10,25 +10,25 @@ CREATE TABLE Addresses(
 )
 
 
-INSERT INTO addresses VALUES ('12345 Example St','Apt 4','New York','NY','10028');
-INSERT INTO addresses VALUES ('1800 Grovesnor Ct',NULL,'Springfield','NC','12345');
-INSERT INTO addresses VALUES ('903 Guilt Dr',NULL,'Terrytown','IO','90843');
-INSERT INTO addresses VALUES ('435 Tremaine St','Unit 43','Nevado','CA','94118');
-INSERT INTO addresses VALUES ('1600 Pennsylvania Ave NW',NULL,NULL,'Washington,DC','20500');
-INSERT INTO addresses VALUES ('8 Arch St',NULL,'Hastings','MN','55033');
-INSERT INTO addresses VALUES ('47 53rd Dr',NULL,'Orange Park','FL','32065');
-INSERT INTO addresses VALUES ('265 Old Gates Dr',NULL,'Tonawanda','NY','14150');
-INSERT INTO addresses VALUES ('528 Hanover St',NULL,'Harleysville','PA','19438');
-INSERT INTO addresses VALUES ('12345 Example St','Apt 38','New York','NY','10028');
-INSERT INTO addresses VALUES ('8804 Lafayette St',NULL,'Hollywood','FL','33020');
-INSERT INTO addresses VALUES ('70 Rock Maple Ln',NULL,'Roselle','IL','60172');
+//INSERT INTO addresses VALUES ('12345 Example St','Apt 4','New York','NY','10028');
+//INSERT INTO addresses VALUES ('1800 Grovesnor Ct','','Springfield','NC','12345');
+//INSERT INTO addresses VALUES ('903 Guilt Dr','','Terrytown','IO','90843');
+//INSERT INTO addresses VALUES ('435 Tremaine St','Unit 43','Nevado','CA','94118');
+//INSERT INTO addresses VALUES ('1600 Pennsylvania Ave NW','',NULL,'Washington,DC','20500');
+//INSERT INTO addresses VALUES ('8 Arch St','','Hastings','MN','55033');
+//INSERT INTO addresses VALUES ('47 53rd Dr','','Orange Park','FL','32065');
+//INSERT INTO addresses VALUES ('265 Old Gates Dr','','Tonawanda','NY','14150');
+//INSERT INTO addresses VALUES ('528 Hanover St','','Harleysville','PA','19438');
+//INSERT INTO addresses VALUES ('12345 Example St','Apt 38','New York','NY','10028');
+//INSERT INTO addresses VALUES ('8804 Lafayette St','','Hollywood','FL','33020');
+//INSERT INTO addresses VALUES ('70 Rock Maple Ln','','Roselle','IL','60172');
 
-INSERT INTO addresses VALUES ('2400 West Central Rd','','Hoffman Estates','IL','60192'); --Claire's
-INSERT INTO addresses VALUES ('8300 Maryland Ave','','St. Louis','MO','63105'); --Famous Footwear
-INSERT INTO addresses VALUES ('110 Fifth Ave','11th floor','New York','NY','10011'); --H&M
-INSERT INTO addresses VALUES ('444 Madison Ave','Suite 436','New York','NY','10022'); --Burberry
-INSERT INTO addresses VALUES ('525 Market St','1st floor','San Francisco','CA','94105'); --Sephora
-INSERT INTO addresses VALUES ('45 Court St','','Coraopolis','PA','15108'); --Dick's Sporting Goods
-INSERT INTO addresses VALUES ('625 Westport Pkwy','','Grapevine','TX','76051'); --GameStop
-INSERT INTO addresses VALUES ('1 Infinite Loop','IL1','Cupertino','CA','95014'); --Apple
-INSERT INTO addresses VALUES ('9079 Shady Grove Ct','','Gaithersburg','MD','20877'); --Acme Wellness
+//INSERT INTO addresses VALUES ('2400 West Central Rd','','Hoffman Estates','IL','60192'); --Claire's
+//INSERT INTO addresses VALUES ('8300 Maryland Ave','','St. Louis','MO','63105'); --Famous Footwear
+//INSERT INTO addresses VALUES ('110 Fifth Ave','11th floor','New York','NY','10011'); --H&M
+//INSERT INTO addresses VALUES ('444 Madison Ave','Suite 436','New York','NY','10022'); --Burberry
+//INSERT INTO addresses VALUES ('525 Market St','1st floor','San Francisco','CA','94105'); --Sephora
+//INSERT INTO addresses VALUES ('45 Court St','','Coraopolis','PA','15108'); --Dick's Sporting Goods
+//INSERT INTO addresses VALUES ('625 Westport Pkwy','','Grapevine','TX','76051'); --GameStop
+//INSERT INTO addresses VALUES ('1 Infinite Loop','IL1','Cupertino','CA','95014'); --Apple
+//INSERT INTO addresses VALUES ('9079 Shady Grove Ct','','Gaithersburg','MD','20877'); --Acme Wellness
