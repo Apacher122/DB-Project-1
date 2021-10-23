@@ -1,0 +1,9 @@
+CREATE TABLE Contains_Item(
+	order_number	VARCHAR(10),
+	product_number	VARCHAR(10),
+	quantity	INTEGER,
+	PRIMARY KEY (order_number, product_number),
+	FOREIGN KEY (order_number) REFERENCES Orders,
+	FOREIGN KEY (product_number) REFERENCES Products
+)
+
