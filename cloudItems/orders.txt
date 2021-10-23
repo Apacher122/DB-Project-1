@@ -18,7 +18,7 @@ INSERT INTO orders VALUES ('9485730491','2021-10-20','Processing','BCD2345','123
 INSERT INTO orders VALUES ('9384848340','2021-10-02','Delivered','EFG5678','1600 Pennsylvania Ave NW','','20500');
 INSERT INTO orders VALUES ('1238473643','2021-09-30','Delivered','FGH6789','265 Old Gates Dr','','14150');
 INSERT INTO orders VALUES ('2985738934','2021-10-15','In transit','GHI7890','70 Rock Maple Ln','','60172');
-INSERT INTO orders VALUES ('0009847372','2021-03-19','Lost in transit','BCD2345','12345 Example St','','10028');
+INSERT INTO orders VALUES ('0009847372','2021-03-19','Lost in transit','BCD2345','12345 Example St','Apt 38','10028');
 INSERT INTO orders VALUES ('1128375639','2021-10-18','In transit','HIJ8901','47 53rd Dr','','32065');
 INSERT INTO orders VALUES ('5454549838','2021-10-10','Delivered','HIJ8901','47 53rd Dr','','32065');
 INSERT INTO orders VALUES ('0999847766','2021-10-11','Delivered','HIJ8901','47 53rd Dr','','32065');
