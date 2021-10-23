@@ -1,1 +1,32 @@
+-- INSERTED
+
+CREATE TABLE Posts(
+	post_id 		VARCHAR(10),
+	post_type		VARCHAR(20),
+	user_id			VARCHAR(10) NOT NULL,
+	privacy_type		VARCHAR(20),
+	date_time		DATE,
+	PRIMARY KEY (post_id),
+	FOREIGN KEY (user_id) REFERENCES Users
+);
+
+
+post types: status, advertisement
+privacy types: private, public, friends only
+
+INSERT INTO Posts VALUES ('pglIcBoND6', 'advertisement', 'HIHIHIH', 'public', '2021-10-23');
+INSERT INTO Posts VALUES ('GjGhX0DyOK', 'advertisement', 'ASDSDDD', 'public', '2020-12-25');
+INSERT INTO Posts VALUES ('7yNN4tXy8E', 'advertisement', 'BCBCBCB', 'public', '2021-10-05');
+
+INSERT INTO Posts VALUES ('SGgCUECcb9', 'advertisement', 'BDFUHEF', 'public', '2021-05-12');
+INSERT INTO Posts VALUES ('Bbxnv0q1vS', 'advertisement', 'BDJIMDF', 'public', '2020-09-16');
+INSERT INTO Posts VALUES ('syzN1kXEGL', 'status', 'ABC1234', 'private', '2021-05-05');
+INSERT INTO Posts VALUES ('UvEV7qTIil', 'status', 'DEF4567', 'public', '2021-10-21');
+INSERT INTO Posts VALUES ('vaozKCxrFl', 'status', 'EFG5678', 'private', '2021-09-06');
+INSERT INTO Posts VALUES ('mSM0gKg7qY', 'status', 'JKL0123', 'private', '2021-10-05');
+INSERT INTO Posts VALUES ('05uLgN6GjI', 'status', 'IJK9012', 'public', '2021-10-05');
+
+
+
+
 
