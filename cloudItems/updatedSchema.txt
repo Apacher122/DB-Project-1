@@ -62,7 +62,7 @@ CREATE TABLE Orders(
 	status		VARCHAR(20),
 	user_id		VARCHAR(10) NOT NULL,
 	street_1	VARCHAR(20) NOT NULL,
-	street_2	VARCHAR(10) NOT NULL,
+	street_2	VARCHAR(10),
 	zip		VARCHAR(5) NOT NULL,
 	PRIMARY KEY (order_number),
 	FOREIGN KEY (user_id) REFERENCES Users,
@@ -78,7 +78,9 @@ CREATE TABLE Products(
 	sold_by		VARCHAR(10) NOT NULL,
 	name		VARCHAR(50) NOT NULL,
 	color		VARCHAR(30),
+	size		VARCHAR(10),
 	price		REAL CHECK (price > 0),
+	discount_price	REAL CHECK (discount_price < price and discount_price < 0)
 	description	VARCHAR(300),
 	on_sale		BOOLEAN,
 	available	BOOLEAN,
