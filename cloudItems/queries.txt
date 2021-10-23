@@ -1,4 +1,11 @@
-Show the names of all retailers that have at least 1 product that is both in stock and has a photo associated with them.
+Show the names of all retailers that have at least 1 product that is both in stock and has a photo associated with it.
 
+SELECT U.name
+FROM Users U 
+WHERE U.user_id IN (SELECT R.user_id
+                    FROM Retailers R, Products P
+                    WHERE R.user_id = P.sold_by and P.available = TRUE and EXISTS (SELECT *
+                                                                                   FROM Products P1, Pictures P2
+                                                                                   WHERE P2.product_number = P.product_number));
 
 Get name, order number, and status from users that live in ZIP code 10028.
