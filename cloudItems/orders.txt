@@ -1,4 +1,4 @@
---DONE, NEEDS TO BE INSERTED
+--DONE
 
 CREATE TABLE Orders(
 	order_number	VARCHAR(10),
