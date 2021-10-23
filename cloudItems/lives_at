@@ -1,3 +1,5 @@
+--DONE, NEED TO INSERT
+
 CREATE TABLE Lives_At(
 	user_id		VARCHAR(10),
 	street_1 	VARCHAR(30),
@@ -16,8 +18,20 @@ INSERT INTO lives_at VALUES ('JKL0123', '903 Guilt Dr',NULL,'90843');
 INSERT INTO lives_at VALUES ('HIJ8901','47 53rd Dr',NULL,'32065');
 INSERT INTO lives_at VALUES ('IJK9012','903 Guilt Dr',NULL,'90843');
 INSERT INTO lives_at VALUES ('EFG5678','1600 Pennsylvania Ave NW',NULL,'20500');
-
+INSERT INTO lives_at VALUES ('ABC1234','8 Arch St',NULL,'55033');
+INSERT INTO lives_at VALUES ('FGH6789','265 Old Gates Dr',NULL,'14150');
+INSERT INTO lives_at VALUES ('GHI7890','528 Hanover St',NULL,'19438');
+INSERT INTO lives_at VALUES ('GHI7890','70 Rock Maple Ln',NULL,'60172');
+INSERT INTO lives_at VALUES ('DEF4567','12345 Example St','Apt 38','10028');
 
 --Retailer addresses
 
 INSERT INTO lives_at VALUES ('CCCCCCC', '2400 West Central Rd',NULL,'60192');
+INSERT INTO lives_at VALUES ('ABABABA','8300 Maryland Ave',NULL,'63105');
+INSERT INTO lives_at VALUES ('HMMMMMM','110 Fifth Ave','11th floor','10011');
+INSERT INTO lives_at VALUES ('BCBCBCB','444 Madison Ave','Suite 436','10022');
+INSERT INTO lives_at VALUES ('DDDDDDD','525 Market St','1st floor','94105');
+INSERT INTO lives_at VALUES ('BDFUHEF','45 Court St',NULL,'15108');
+INSERT INTO lives_at VALUES ('HIHIHIH','625 Westport Pkwy',NULL,'76051');
+INSERT INTO lives_at VALUES ('JJJJJJJ','1 Infinite Loop','IL1','95014');
+INSERT INTO lives_at VALUES ('QQQQQQQ','9079 Shady Grove Ct',NULL,'20877');
