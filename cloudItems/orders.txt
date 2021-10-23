@@ -11,4 +11,5 @@ CREATE TABLE Orders(
 	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
 )
 
-INSERT INTO orders VALUES ('1234567890','2021-08-01','In transit','ABC1234','123 Sister's St','Apt 1','94117');
+INSERT INTO orders VALUES ('1234567890',2021-08-01,'Delivered','ABC1234','123 Sister's St','Apt 1','94117');
+INSERT INTO orders VALUES ('9485730491',2021-10-20,'Processing','BCD2345','12345 Example St','Apt 4','New York','NY','10028');
