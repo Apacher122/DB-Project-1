@@ -14,7 +14,7 @@ CREATE TABLE Addresses(
 //INSERT INTO addresses VALUES ('1800 Grovesnor Ct','','Springfield','NC','12345');
 //INSERT INTO addresses VALUES ('903 Guilt Dr','','Terrytown','IO','90843');
 //INSERT INTO addresses VALUES ('435 Tremaine St','Unit 43','Nevado','CA','94118');
-//INSERT INTO addresses VALUES ('1600 Pennsylvania Ave NW','',NULL,'Washington,DC','20500');
+//INSERT INTO addresses VALUES ('1600 Pennsylvania Ave NW','',NULL,'DC','20500');
 //INSERT INTO addresses VALUES ('8 Arch St','','Hastings','MN','55033');
 //INSERT INTO addresses VALUES ('47 53rd Dr','','Orange Park','FL','32065');
 //INSERT INTO addresses VALUES ('265 Old Gates Dr','','Tonawanda','NY','14150');
