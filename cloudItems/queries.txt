@@ -13,4 +13,10 @@ Get name, order number, and status from users that live in ZIP code 10028.
   FROM users U, orders O
   WHERE U.user_id = O.user_id AND O.zip = '10028' ; 
   
-  
+Get the average satisfactory rate for each product that has been reviewed. (The satisfactory rate is the percentage of reviews given on a product that were a 'thumbs up')
+
+SELECT R.reviewed_product, (SELECT COUNT(*)::REAL
+FROM review_posts R1
+WHERE R.reviewed_product = R1.reviewed_product and R1.review_type = 'thumbs up')/COUNT(*)::REAL *100
+FROM review_posts R
+GROUP BY R.reviewed_product;
