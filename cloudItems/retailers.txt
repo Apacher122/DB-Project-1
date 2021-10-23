@@ -1,3 +1,5 @@
+--HAS BEEN INSERTED
+
 CREATE TABLE Users(
 	user_id 	VARCHAR(10),
     	username 	VARCHAR(30) NOT NULL,
