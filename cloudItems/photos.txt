@@ -1,4 +1,4 @@
---DONE, NEED TO INSERT
+--DONE
 
 CREATE TABLE Photos(
 	photo_id	VARCHAR(10),
