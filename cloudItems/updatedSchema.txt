@@ -78,14 +78,14 @@ CREATE TABLE Products(
 	sold_by		VARCHAR(10) NOT NULL,
 	name		VARCHAR(50) NOT NULL,
 	color		VARCHAR(30),
-	size		VARCHAR(10),
 	price		REAL CHECK (price > 0),
-	discount_price	REAL CHECK (discount_price < price and discount_price < 0)
 	description	VARCHAR(300),
 	on_sale		BOOLEAN,
 	available	BOOLEAN,
 	item_type	VARCHAR(30),
 	stock		INTEGER CHECK (stock >= 0),
+	size		VARCHAR(10),
+	discount_price	REAL CHECK (discount_price < price and discount_price < 0),
 	PRIMARY KEY (product_number),
 	FOREIGN KEY (sold_by) REFERENCES Retailers
 )
