@@ -39,7 +39,7 @@ INSERT INTO users VALUES ('HIHIHIH','gamestop','gs@gamestop.com','Game Stop');
 //Retailer specific attributes
 Accessories, Fashion, Shoes, Health and Beauty, Food, Sporting Goods, Electronics
 
-INSERT INTO retailers VALUES ('AAAABAA','fashion);
+INSERT INTO retailers VALUES ('AAAAAAA','fashion);
 INSERT INTO retailers VALUES ('BBBBBBB','health and beauty');
 INSERT INTO retailers VALUES ('CCCCCCC','accessories');
 INSERT INTO retailers VALUES ('ABABABA','shoes');
