@@ -1,10 +1,23 @@
+--inserted
 CREATE TABLE Messages(
     	session_id  VARCHAR(10),
     	date_time DATE,
-	    content VARCHAR(1000),
-	    sender VARCHAR(10) NOT NULL,
-	    recipient VARCHAR(10) NOT NULL,
+	content VARCHAR(1000),
+	sender VARCHAR(10) NOT NULL,
+	recipient VARCHAR(10) NOT NULL,
     	PRIMARY KEY (session_id),
 	FOREIGN KEY (sender) REFERENCES Users,
 	FOREIGN KEY (recipient) REFERENCES Users
 );
+
+
+INSERT INTO messages VALUES ('cTQUu6ZUr3', '2021-05-09', 'Hello, would you like some shoes', 'ASDSDDD', 'EFG5678');
+INSERT INTO messages VALUES ('ZpamISN9YC', '2021-05-09', 'No.', 'EFG5678', 'ASDSDDD');
+INSERT INTO messages VALUES ('qb0VGMfcg6', '2021-05-09', 'Sucks.', 'ASDSDDD', 'EFG5678');
+INSERT INTO messages VALUES ('ahHn6EibEX', '2020-10-12', 'Hello, Colonel', 'DEF4567', 'IJK9012');
+INSERT INTO messages VALUES ('pBqgCoJzSW', '2020-10-12', 'Chicken.', 'IJK9012', 'DEF4567');
+INSERT INTO messages VALUES ('zSLqC4ZMK7', '2020-09-16', 'Our prices are way too expensive for you', 'BCBCBCB', 'FGH6789');
+INSERT INTO messages VALUES ('TeCeahviyd', '2020-09-12', 'Sup, mike', 'JKL0123', 'BCD2345');
+INSERT INTO messages VALUES ('Es4WH80ADr', '2020-09-12', 'Read 09:12pm', 'BCD2345', 'JKL0123');
+INSERT INTO messages VALUES ('UOwjh5wBGu', '2020-09-12', 'You typed that stupid', 'JKL0123', 'BCD2345');
+INSERT INTO messages VALUES ('P6s6vJhDPE', '2018-06-10', 'Windoes suxxxxxxx', 'HIJ8901', 'FGH6789');
