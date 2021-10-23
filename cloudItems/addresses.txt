@@ -1,4 +1,4 @@
---DONE, NEEDS TO BE INSERTED
+--DONE
 
 CREATE TABLE Addresses(
 	street_1	VARCHAR(30),
