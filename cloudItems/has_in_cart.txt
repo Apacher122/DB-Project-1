@@ -1,0 +1,16 @@
+--DONE
+
+CREATE TABLE Has_In_Cart(
+	user_id		VARCHAR(10),
+	product_number	VARCHAR(10),
+	quantity	INTEGER,
+	PRIMARY KEY (user_id, product_number),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (product_number) REFERENCES Products
+)
+
+INSERT INTO has_in_cart VALUES ('GHI7890','6589770381',1);
+INSERT INTO has_in_cart VALUES ('DEF4567','1029239402',2);
+INSERT INTO has_in_cart VALUES ('JKL0123','1347346235',1);
+INSERT INTO has_in_cart VALUES ('JKL0123','1234567890',1);
+INSERT INTO has_in_cart VALUES ('ABC1234','1234567891',1);
