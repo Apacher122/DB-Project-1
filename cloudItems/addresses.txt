@@ -1,4 +1,6 @@
-REATE TABLE Addresses(
+--DONE, NEEDS TO BE INSERTED
+
+CREATE TABLE Addresses(
 	street_1	VARCHAR(30),
 	street_2	VARCHAR(20),
 	city		VARCHAR(30),
