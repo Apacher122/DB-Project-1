@@ -8,7 +8,6 @@ CREATE TABLE Products(
 	price		REAL CHECK (price > 0),
 	description	VARCHAR(300),
 	on_sale		BOOLEAN,
-	discount_pr	REAL CHECK (discount_pr < price && discount_pr > 0),
 	available	BOOLEAN,
 	item_type	VARCHAR(30),
 	stock		INTEGER CHECK (stock >= 0),
@@ -18,6 +17,15 @@ CREATE TABLE Products(
 	FOREIGN KEY (sold_by) REFERENCES Retailers
 )
 
-INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Monaco Blue',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',30);
-INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Hazel',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',20);
-INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Fresh Bright',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',40);
+INSERT INTO products VALUES ('1234567890','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Monaco Blue',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',30,'M',27.96);
+INSERT INTO products VALUES ('1234567891','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Hazel',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',20, 'M',27.96);
+INSERT INTO products VALUES ('1234567892','AAAAAA','Aerie Holiday Best Lace Padded Racerback Bralette','Fresh Bright',39.95,'Flower power is for everyone! Feel your greatest in this season's Holiday Best Lace.',TRUE,TRUE,'Bralette',40, 'XS',27.96);
+INSERT INTO products VALUES ('1234567880','AAAAAA','Aerie Real Sunnie Demi Push Up Blossom Lace Trim Bra','Earthy Vibes',49.95,'Feel comfy in this season's extra soft Blossom lace.',TRUE,FALSE,'Bralette',8, '36D',34.96);
+INSERT INTO products VALUES ('0900276151','BBBBBBB','White Barn Forest Adventures',NULL,14.50,'Crisp Bergamot, Patchouli, Lily of the Valley with Natural Essential Oils. Awaken your senses with the energy of the outdoors! These nature-inspired fragrances were developed with nature-identical ingredients through a patented technology called Phytogaia®. These fragrances include the replication of “phytocides” which are natural emissions from trees and plants. PHYTOGAIA is a trademark of Givaudan S.A.',FALSE,TRUE,'Single wick candle',12,NULL,10);
+INSERT INTO products VALUES ('1347346234','ABABABA','Ryka','Black',109.99,'Level up all your outdoor adventures in this exceptional water-repellent trail sneaker from our fEMPOWER collection, featuring our most premium materials and innovative technology.',FALSE,TRUE,'Athletic shoes',4,'Women's 9',NULL);
+INSERT INTO products VALUES ('1347346234','ABABABA','Ryka','Paloma Grey',109.99,'Level up all your outdoor adventures in this exceptional water-repellent trail sneaker from our fEMPOWER collection, featuring our most premium materials and innovative technology.',FALSE,TRUE,'Athletic shoes',1,'Women's 5.5',NULL);
+INSERT INTO products VALUES ('5678253444','BDJIMDF','Ray-Ban RX5154 Clubmaster','Brown/Grey Striped',189,NULL,FALSE,TRUE,'Glasses',19,NULL,NULL);
+INSERT INTO products VALUES ('2098475123','BDJIMDF','Michael Kors','Clear',136,NULL,FALSE,TRUE,'Glasses',13,NULL,NULL);
+INSERT INTO products VALUES ('1120939482','BDFUHEF','The North Face Youth Sierra Etip Gloves','TNF Medium Grey Heather',29,'Standard fit gloves, lightweight, 5 Dimensional Fit ensures consistent sizing, youth-specific Radiametric Articulation keeps hands in their natural relaxed position',FALSE, FALSE,'Gloves',0,'Children's small',19.99);
+INSERT INTO products VALUES ('6589770381','ASDSDDD','Mens adidas ZX 1K Boost Athletic Shoe','Beige Tone',109.99,'Lace up a retro runner made for the city streets with the new ZX 1K Boost Athletic Shoe from adidas!',FALSE,TRUE,'Athletic Shoes',12,'Men's 8',NULL);
+INSERT INTO products VALUES ('1029239402','HIHIHIH,'Ghost of Tsushima Director's Cut - PlayStation 5',NULL,64.99,'In the late 13th century, the Mongol empire has laid waste to entire nations along their campaign to conquer the East. Tsushima Island is all that stands between mainland Japan and a massive Mongol invasion fleet led by the ruthless and cunning general, Khotun Khan.'FALSE,TRUE,"Video game',2,NULL,39.99);
