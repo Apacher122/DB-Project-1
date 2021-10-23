@@ -1,0 +1,23 @@
+CREATE TABLE Lives_At(
+	user_id		VARCHAR(10),
+	street_1 	VARCHAR(30),
+	street_2	VARCHAR(20),
+	zip		VARCHAR(5),
+	PRIMARY KEY (user_id, street_1, street_2, zip),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (street_1, street_2, zip) REFERENCES Addresses
+)
+
+--Consumer addresses
+
+INSERT INTO lives_at VALUES ('BCD2345', '12345 Example St','Apt 4','10028');
+INSERT INTO lives_at VALUES ('CDE3456','1800 Grovesnor Ct',NULL,'12345');
+INSERT INTO lives_at VALUES ('JKL0123', '903 Guilt Dr',NULL,'90843');
+INSERT INTO lives_at VALUES ('HIJ8901','47 53rd Dr',NULL,'32065');
+INSERT INTO lives_at VALUES ('IJK9012','903 Guilt Dr',NULL,'90843');
+INSERT INTO lives_at VALUES ('EFG5678','1600 Pennsylvania Ave NW',NULL,'20500');
+
+
+--Retailer addresses
+
+INSERT INTO lives_at VALUES ('CCCCCCC', '2400 West Central Rd',NULL,'60192');
