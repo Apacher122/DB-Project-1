@@ -1,0 +1,37 @@
+--inserted
+
+CREATE TABLE Connected_To(
+	user_id		VARCHAR(10),
+	connection 	VARCHAR(10),
+	PRIMARY KEY (user_id, connection),
+	FOREIGN KEY (user_id) REFERENCES Users,
+	FOREIGN KEY (connection) REFERENCES Users
+);
+
+
+INSERT INTO connected_to VALUES ('ABC1234', 'BCD2345');
+INSERT INTO connected_to VALUES ('BCD2345', 'ABC1234');
+INSERT INTO connected_to VALUES ('DEF4567', 'EFG5678');
+INSERT INTO connected_to VALUES ('EFG5678', 'DEF4567');
+INSERT INTO connected_to VALUES ('DEF4567', 'HIJ8901');
+INSERT INTO connected_to VALUES ('HIJ8901', 'DEF4567');
+
+INSERT INTO connected_to VALUES ('EFG5678', 'JKL0123');
+INSERT INTO connected_to VALUES ('EFG5678', 'ABC1234');
+INSERT INTO connected_to VALUES ('EFG5678', 'CDE3456');
+INSERT INTO connected_to VALUES ('JKL0123', 'EFG5678');
+INSERT INTO connected_to VALUES ('ABC1234', 'EFG5678');
+INSERT INTO connected_to VALUES ('CDE3456', 'EFG5678');
+
+
+
+INSERT INTO connected_to VALUES ('DEF4567', 'IJK9012');
+INSERT INTO connected_to VALUES ('DEF4567', 'CDE3456');
+INSERT INTO connected_to VALUES ('DEF4567', 'JKL0123');
+
+INSERT INTO connected_to VALUES ('IJK9012', 'DEF4567');
+INSERT INTO connected_to VALUES ('CDE3456', 'DEF4567');
+INSERT INTO connected_to VALUES ('JKL0123', 'DEF4567');
+
+
+
