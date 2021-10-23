@@ -1,0 +1,27 @@
+inserted
+
+CREATE TABLE Review_Posts(
+	review_id		VARCHAR(10),
+	review_type		VARCHAR(30),
+	reviewer		VARCHAR(10) NOT NULL,
+	reviewed_product	VARCHAR(10) NOT NULL,
+	PRIMARY KEY (review_id),
+	FOREIGN KEY (reviewer) REFERENCES Consumers,
+	FOREIGN KEY (reviewed_product) REFERENCES Products
+)
+
+
+
+Review Types: thumbs up, thumbs down
+
+INSERT INTO Review_Posts VALUES ('7H0UNg8', 'thumbs up', 'ABC1234', '1234567890');
+INSERT INTO Review_Posts VALUES ('8uY51Vy', 'thumbs down', 'EFG5678', '1234567890');
+INSERT INTO Review_Posts VALUES ('uY2kPIU', 'thumbs down', 'FGH6789', '1234567890');
+INSERT INTO Review_Posts VALUES ('5H2IhTO', 'thumbs up', 'DEF4567', '1029239402');
+INSERT INTO Review_Posts VALUES ('Gjt2y46', 'thumbs up', 'DEF4567', '6589770381');
+INSERT INTO Review_Posts VALUES ('PTjWUpH', 'thumbs up', 'EFG5678', '2098475123');
+INSERT INTO Review_Posts VALUES ('tjLF5zp', 'thumbs up', 'IJK9012', '1029239402');
+INSERT INTO Review_Posts VALUES ('6K6TStC', 'thumbs down', 'IJK9012', '1120939482');
+INSERT INTO Review_Posts VALUES ('DZMKFHQ', 'thumbs up', 'IJK9012', '5678253444');
+INSERT INTO Review_Posts VALUES ('NXci8NM', 'thumps down', 'JKL0123', '0900276151');
+INSERT INTO Review_Posts VALUES ('uhfUWcy', 'thumbs down', 'GHI7890', '1347346234');
