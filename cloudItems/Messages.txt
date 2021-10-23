@@ -1,0 +1,10 @@
+CREATE TABLE Messages(
+    	session_id  VARCHAR(10),
+    	date_time DATE,
+	    content VARCHAR(1000),
+	    sender VARCHAR(10) NOT NULL,
+	    recipient VARCHAR(10) NOT NULL,
+    	PRIMARY KEY (session_id),
+	FOREIGN KEY (sender) REFERENCES Users,
+	FOREIGN KEY (recipient) REFERENCES Users
+);
