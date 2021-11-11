@@ -1,0 +1,57 @@
+--HAS BEEN INSERTED
+
+CREATE TABLE Users(
+	user_id 	VARCHAR(10),
+    	username 	VARCHAR(30) NOT NULL,
+	email 		VARCHAR(40) NOT NULL,
+	name 		VARCHAR(40) NOT NULL,
+	PRIMARY KEY (user_id),
+    	UNIQUE (username)
+)
+
+CREATE TABLE Retailers(
+	user_id 	VARCHAR(10),
+	store_type 	VARCHAR(20),
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users,
+		ON DELETE CASCADE
+)
+
+
+//Users
+INSERT INTO users VALUES ('AAAAAAA','aerie', 'official@aerie.com','Aerie by American Eagle Outfitters');
+INSERT INTO users VALUES ('BBBBBBB','bathbodyworks','soap@bathbodyworks.com','Bath & Body Works');
+INSERT INTO users VALUES ('CCCCCCC','claires','clairebear@claires.com','Claire's');
+INSERT INTO users VALUES ('ABABABA','ffootwear','customerservice@famousfootwear.com','Famous Footwear');
+INSERT INTO users VALUES ('ABCDEFG','ghchocolates','gertrudehawkchocolates@hotmail.com','Gertrude Hawk Chocolates');
+INSERT INTO users VALUES ('HMMMMMM','hmofficial','customerservice@hm.com','H&M');
+INSERT INTO users VALUES ('BCBCBCB','burberry','official@burberry.com','Burberry');
+INSERT INTO users VALUES ('DDDDDDD','sephora','makeup@sephora.com','Sephora');
+INSERT INTO users VALUES ('ASDSDDD','journeysshoes','journeysshoes@journeysshoes.com','Journeys');
+INSERT INTO users VALUES ('NDSJFKF','everykissbeginswithkay','kayjewelers@kayjewelers.com','Kay Jewelers');
+INSERT INTO users VALUES ('BDJIMDF','lenscrafters','question@lenscrafters.com','LensCrafters');
+INSERT INTO users VALUES ('EEEEEEE','sbsc','sbsports@sbsports',S&B Sports Collectibles');
+INSERT INTO users VALUES ('BDFUHEF','dicks','feedback@dickssportinggoods.com','Dick's Sporting Goods');
+INSERT INTO users VALUES ('QQQQQQQ','acmewellness','acme@acmeacupuncture.com','Acme Acupuncture & Wellness');
+INSERT INTO users VALUES ('JJJJJJJ','apple','official@apple.com','Apple Store');
+INSERT INTO users VALUES ('HIHIHIH','gamestop','gs@gamestop.com','Game Stop');
+
+//Retailer specific attributes
+Accessories, Fashion, Shoes, Health and Beauty, Food, Sporting Goods, Electronics
+
+INSERT INTO retailers VALUES ('AAAAAAA','fashion);
+INSERT INTO retailers VALUES ('BBBBBBB','health and beauty');
+INSERT INTO retailers VALUES ('CCCCCCC','accessories');
+INSERT INTO retailers VALUES ('ABABABA','shoes');
+INSERT INTO retailers VALUES ('ABCDEFG','food');
+INSERT INTO retailers VALUES ('HMMMMMM','fashion');
+INSERT INTO retailers VALUES ('BCBCBCB','fashion');
+INSERT INTO retailers VALUES ('DDDDDDD','health and beaty');
+INSERT INTO retailers VALUES ('ASDSDDD','shoes');
+INSERT INTO retailers VALUES ('NDSJFKF','accessories');
+INSERT INTO retailers VALUES ('BDJIMDF','accessories');
+INSERT INTO retailers VALUES ('EEEEEEE','sporting goods');
+INSERT INTO retailers VALUES ('BDFUHEF','sporting goods');
+INSERT INTO retailers VALUES ('QQQQQQQ','health and beauty');
+INSERT INTO retailers VALUES ('JJJJJJJ','electronics');
+INSERT INTO retailers VALUES ('HIHIHIH','electronics');

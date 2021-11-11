@@ -1,0 +1,22 @@
+--include photo
+
+CREATE TABLE Includes_Photo(
+	review_id	VARCHAR(10),
+	photo_id	VARCHAR(10),
+	PRIMARY KEY (review_id, photo_id),
+	FOREIGN KEY (review_id) REFERENCES Review_Posts,
+	FOREIGN KEY (photo_id) REFERENCES Photos
+) 
+
+INSERT INTO include_photo VALUES ('NXci8NM', 'JUH8374729');
+INSERT INTO include_photo VALUES ('7H0UNg8', 'JFHG384738');
+INSERT INTO include_photo VALUES ('uY2kPIU', '83748HFHEU');
+INSERT INTO include_photo VALUES ('1Inj9Bu', '1294857930');
+INSERT INTO include_photo VALUES ('dezEbPn', '1294857931');
+INSERT INTO include_photo VALUES ('go24kfi', '1294857932');
+
+
+
+INSERT INTO Review_Posts VALUES ('1Inj9Bu', 'thumbs up', 'HIJ8901', '5678253444');
+INSERT INTO Review_Posts VALUES ('dezEbPn', 'thumbs up', 'HIJ8901', '5678253444');
+INSERT INTO Review_Posts VALUES ('go24kfi', 'thumbs up', 'HIJ8901', '5678253444');
