@@ -8,8 +8,40 @@
 
 
 <body>
-  <h1>Some famous Computer Scientists</h1>
-  <div>{{data}}</div>
+  <h1>AmaBook</h1>
+
+  <button type="button">Login</button>
+
+  <label for="itemType">Shop by category:</label>
+
+<select name="itemType" id="itemType">
+  <option value="Bralette">Bralettes</option>
+  <option value="Single wick candle">Candles</option>
+  <option value="Athletic shoes">Athletic shoes</option>
+  <option value="Glasses">Glasses</option>
+  <option value="Gloves">Gloves</option>
+  <option value="Video game">Video games</option>
+</select>
+<a href="another" class="button">GO</a>
+
+<label for="brand">Shop by brand:</label>
+
+<select name="itemType" id="itemType">
+  <option value="aerie">Aerie by American Eagle</option>
+  <option value="Single wick candle">Candles</option>
+  <option value="Athletic shoes">Athletic shoes</option>
+  <option value="Glasses">Glasses</option>
+  <option value="Gloves">Gloves</option>
+  <option value="Video game">Video games</option>
+</select>
+
+<div>
+  {% for n in data %}
+  <div>{{n}}</div>
+  {% endfor %}
+</div>
+
+  <!-- <div>{{data}}</div>
 
   <div>
     {% for n in data %}
@@ -17,11 +49,11 @@
     {% endfor %}
   </div>
 
-<p><a href="another">Go to the other page</a></p>
+<p><a href="another">Go to the other page</a></p> 
 
 <form method="POST" action="/add">
 <p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
-</form>
+</form>-->
 
 </body>
 

@@ -109,10 +109,10 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT name FROM test")
+  cursor = g.conn.execute("SELECT username FROM users")
   names = []
   for result in cursor:
-    names.append(result['name'])  # can also be accessed using result[0]
+    names.append(result['username'])  # can also be accessed using result[0]
   cursor.close()
 
   #
@@ -158,9 +158,17 @@ def index():
 # Notice that the function name is another() rather than index()
 # The functions for each app.route need to have different names
 #
+
 @app.route('/another')
 def another():
-  return render_template("another.html")
+  print(request.args)
+  cursor = g.conn.execute("SELECT username FROM users")
+  names = []
+  for result in cursor:
+    names.append(result['username'])  # can also be accessed using result[0]
+  cursor.close()
+  context = dict(data = names)
+  return render_template("another.html",**context)
 
 
 # Example of adding new data to the database
