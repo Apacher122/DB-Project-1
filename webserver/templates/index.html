@@ -1,84 +1,8 @@
-<html>
-  <style>
-    body{ 
-      font-size: 15pt;
-      font-family: arial;
-    }
-    .menu-btn {
-      background-color: #7e32d4;
-      color: white;
-      padding: 16px;
-      font-size: 20px;
-      font-weight: bolder;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      border: none;
-    }
-    .dropdown-menu {
-      position: relative;
-      display: inline-block;
-    }
-    .menu-content {
-      display: none;
-      position: absolute;
-      background-color: #017575;
-      min-width: 160px;
-      z-index: 1;
-    }
-    .links {
-      color: rgb(0, 0, 0);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 18px;
-      font-weight: bold;
-      border-bottom: 1px solid black;
-    }
-    .links:hover {
-      background-color: rgb(8, 107, 46);
-    }
-    .dropdown-menu:hover .menu-btn {
-      background-color: #3e8e41;
-    }
-  </style>
+{% extends 'layout.html' %}
 
+{% block content %}
 
-<body>
-  <h1>AmaBook</h1>
-
-  <button type="button">Login</button>
-
-  <label for="itemType">Shop by category</label>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-    <body>
-      <div class="dropdown-menu">
-          <button class="menu-btn">Shop by Category<</button>
-        <div class="menu-content">
-          <form method="POST" action="/add">
-            <button name="item" class="links" value="Bralette">Bralettes</button>
-            <button name="item" class="links" value="Athletic Shoes">Shoes</button>
-            <button name="item" class="links" value="Glasses">Glasses</button>
-            <button name="item" class="links" value="Single Wick Candle">Candles</button>
-            <button name="item" class="links" value="Gloves">Gloves</button>
-            <button name="item" class="links" value="Video Games">Video Games</button>
-          </form>
-        </div>
-      </div>
-      <script>
-        let dropdownBtn = document.querySelector('.menu-btn');
-        let menuContent = document.querySelector('.menu-content');
-        dropdownBtn.addEventListener('click',()=>{
-          if(menuContent.style.display===""){
-              menuContent.style.display="block";
-          } else {
-              menuContent.style.display="";
-          }
-        })
-      </script>
-    </body>
-  </html>
-
+{% endblock %}
 <label for="brand">Shop by brand:</label>
 
 <select name="itemType" id="itemType">

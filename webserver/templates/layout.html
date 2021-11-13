@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-sacle=1.0">
+	<title>AmaBook</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
+</head>
+
+<div class="navbar">
+    <div class="container">
+      <a href="#">Ama<span>Book</span></a>
+
+      <nav>
+          <div class="dropdown">
+            <button class="dropbtn">Shop by category
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <form method="POST" action="/add">
+                <button name="item" class="links" value="Bralette">Bralettes</button>
+                <button name="item" class="links" value="Athletic Shoes">Shoes</button>
+                <button name="item" class="links" value="Glasses">Glasses</button>
+                <button name="item" class="links" value="Single Wick Candle">Candles</button>
+                <button name="item" class="links" value="Gloves">Gloves</button>
+                <button name="item" class="links" value="Video Games">Video Games</button>
+              </form>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">Shop by Brand
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <form method="POST" action="/add">
+                <button name="item" class="links" value="Bralette">Bralettes</button>
+                <button name="item" class="links" value="Athletic Shoes">Shoes</button>
+                <button name="item" class="links" value="Glasses">Glasses</button>
+                <button name="item" class="links" value="Single Wick Candle">Candles</button>
+                <button name="item" class="links" value="Gloves">Gloves</button>
+                <button name="item" class="links" value="Video Games">Video Games</button>
+              </form>
+            </div>
+          </div>
+          <script>
+            let dropdownBtn = document.querySelector('.menu-btn');
+            let menuContent = document.querySelector('.menu-content');
+            dropdownBtn.addEventListener('click',()=>{
+              if(menuContent.style.display===""){
+                  menuContent.style.display="block";
+              } else {
+                  menuContent.style.display="";
+              }
+            })
+          </script>
+      </nav>
+      <a href="#">Login</a>
+    </div>
+</div>
+    <body>        
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
