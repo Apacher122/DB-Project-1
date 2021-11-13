@@ -1,0 +1,28 @@
+ user_id |        username        |               email                |                name                
+---------+------------------------+------------------------------------+------------------------------------
+ ABC1234 | janedoe123             | janedoe@gmail.com                  | Jane Doe
+ BCD2345 | mikely234              | mikely123                          | Mike Ly
+ CDE3456 | kmk3223                | funnyMan@gmail.com                 | Keegan Key
+ DEF4567 | rda2126                | rda2126@gmail.com                  | Rey Aparece
+ EFG5678 | mc5090                 | mc5090@gmail.com                   | Melissa Chen
+ FGH6789 | sharkattack20          | mavis.beacon@gmail.com             | Mavis Beacon
+ GHI7890 | cppman1950             | helloworld@gmail.com               | Bjarne Stroustrup
+ HIJ8901 | unixbasedgod           | kernel_linus@gmail.com             | Linus Torvalds
+ IJK9012 | ColonelNotKernel       | 11HerbsAndSpices@gmail.com         | Colonel Sanders
+ JKL0123 | NoFastFood122          | healthyEats@gmail.com              | Mack Donalds
+ AAAAAAA | aerie                  | official@aerie.com                 | Aerie by American Eagle Outfitters
+ BBBBBBB | bathbodyworks          | soap@bathbodyworks.com             | Bath & Body Works
+ QQQQQQQ | acmewellness           | acme@acmeacupuncture.com           | Acme Acupuncture & Wellness
+ JJJJJJJ | apple                  | official@apple.com                 | Apple Store
+ HIHIHIH | gamestop               | gs@gamestop.com                    | Game Stop
+ CCCCCCC | claires                | clairebear@claires.com             | Claires
+ ABABABA | ffootwear              | customerservice@famousfootwear.com | Famous Footwear
+ ABCDEFG | ghchocolates           | gertrudehawkchocolates@hotmail.com | Gertrude Hawk Chocolates
+ HMMMMMM | hmofficial             | customerservice@hm.com             | H&M
+ BCBCBCB | burberry               | official@burberry.com              | Burberry
+ DDDDDDD | sephora                | makeup@sephora.com                 | Sephora
+ ASDSDDD | journeysshoes          | journeysshoes@journeysshoes.com    | Journeys
+ NDSJFKF | everykissbeginswithkay | kayjewelers@kayjewelers.com        | Kay Jewelers
+ BDJIMDF | lenscrafters           | question@lenscrafters.com          | LensCrafters
+ EEEEEEE | sbsc                   | sbsports@sbsports                  | S&B Sports Collectibles
+ BDFUHEF | dicks                  | feedback@dickssportinggoods.com    | Dicks Sporting Goods
