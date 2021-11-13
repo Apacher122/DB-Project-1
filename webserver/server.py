@@ -174,9 +174,17 @@ def another():
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  name = request.form['name']
-  g.conn.execute('INSERT INTO test(name) VALUES (%s)', name)
-  return redirect('/')
+  print(request.args)
+  print("test\n");
+  name = request.form['item']
+  print("test\n");
+  names = []
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.item_type = (%s) GROUP BY name, description", name)
+  for result in cursor:
+    names.append(result['name'])
+  cursor.close()
+  context = dict(data=names)
+  return render_template("products.html", **context)
 
 
 @app.route('/login')
