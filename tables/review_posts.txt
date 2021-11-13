@@ -1,0 +1,16 @@
+ review_id | review_type | reviewer | reviewed_product 
+-----------+-------------+----------+------------------
+ 7H0UNg8   | thumbs up   | ABC1234  | 1234567890
+ 8uY51Vy   | thumbs down | EFG5678  | 1234567890
+ uY2kPIU   | thumbs down | FGH6789  | 1234567890
+ 5H2IhTO   | thumbs up   | DEF4567  | 1029239402
+ Gjt2y46   | thumbs up   | DEF4567  | 6589770381
+ PTjWUpH   | thumbs up   | EFG5678  | 2098475123
+ tjLF5zp   | thumbs up   | IJK9012  | 1029239402
+ 6K6TStC   | thumbs down | IJK9012  | 1120939482
+ NXci8NM   | thumps down | JKL0123  | 0900276151
+ uhfUWcy   | thumbs down | GHI7890  | 1347346234
+ DZMKFHQ   | thumbs up   | IJK9012  | 5678253444
+ 1Inj9Bu   | thumbs up   | HIJ8901  | 5678253444
+ dezEbPn   | thumbs up   | HIJ8901  | 5678253444
+ go24kfi   | thumbs up   | HIJ8901  | 5678253444
