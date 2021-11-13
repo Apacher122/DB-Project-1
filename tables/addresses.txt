@@ -1,0 +1,23 @@
+         street_1         |  street_2  |      city       | state |  zip  
+--------------------------+------------+-----------------+-------+-------
+ 12345 Example St         | Apt 4      | New York        | NY    | 10028
+ 435 Tremaine St          | Unit 43    | Nevado          | CA    | 94118
+ 12345 Example St         | Apt 38     | New York        | NY    | 10028
+ 110 Fifth Ave            | 11th floor | New York        | NY    | 10011
+ 444 Madison Ave          | Suite 436  | New York        | NY    | 10022
+ 525 Market St            | 1st floor  | San Francisco   | CA    | 94105
+ 1 Infinite Loop          | IL1        | Cupertino       | CA    | 95014
+ 2400 West Central Rd     |            | Hoffman Estates | IL    | 60192
+ 8300 Maryland Ave        |            | St. Louis       | MO    | 63105
+ 45 Court St              |            | Coraopolis      | PA    | 15108
+ 625 Westport Pkwy        |            | Grapevine       | TX    | 76051
+ 9079 Shady Grove Ct      |            | Gaithersburg    | MD    | 20877
+ 903 Guilt Dr             |            | Terrytown       | IO    | 90843
+ 8 Arch St                |            | Hastings        | MN    | 55033
+ 47 53rd Dr               |            | Orange Park     | FL    | 32065
+ 265 Old Gates Dr         |            | Tonawanda       | NY    | 14150
+ 528 Hanover St           |            | Harleysville    | PA    | 19438
+ 8804 Lafayette St        |            | Hollywood       | FL    | 33020
+ 70 Rock Maple Ln         |            | Roselle         | IL    | 60172
+ 1800 Grovesnor Ct        |            | Springfield     | NC    | 12345
+ 1600 Pennsylvania Ave NW |            |                 | DC    | 20500
