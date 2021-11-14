@@ -135,3 +135,110 @@ background-color: #ddd;
 .dropdown:hover .dropdown-content {
 display: block;
 }
+
+/*products images list*/
+.prodlist {
+  max-width: 1400px;
+}
+
+.img-list a {
+  text-decoration: none;
+}
+
+.prod-sub p {
+  margin: 0;
+}
+
+.prodlist li {
+  border-bottom: 1px solid #ccc;
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+.inner {
+  display: table-row;
+  overflow: hidden;
+}
+.prod-img {
+  display: table-cell;
+  vertical-align: middle;
+  width: 30%;
+  padding-right: 1em;
+}
+.prod-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  
+}
+.prod-text {
+  display: table-cell;
+  vertical-align: middle;
+  width: 70%;
+}
+.prod-head {
+  color: black;
+  margin: 10px 0 0 0;
+}
+.prod-sub {
+  color: black;
+  font-size: smaller;
+  margin: 0;
+}
+
+@media all and (min-width: 45em) {
+  .prodlist li {
+    float: left;
+    width: 50%;
+  }
+}
+
+@media all and (min-width: 75em) {
+  .prodlist li {
+    width: 33.33333%;
+  }
+}
+
+/* for flexbox */
+@supports(display: flex) {
+  .prodlist {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .prod-img,
+  .prod-text,
+  .prodlist li {
+    display: block;
+    float: none;
+  }
+
+  .prod-img {
+    align-self: center; /* to match the middle alignment of the original */
+  }
+  
+  .inner {
+    display: flex;
+  }
+}
+
+/* for grid */
+@supports(display: grid) {
+  /* .prodlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  } */
+  
+  .prodlist li {
+    width: auto; /* this overrides the media queries */
+  }
+}
+
+/*page header*/
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+}

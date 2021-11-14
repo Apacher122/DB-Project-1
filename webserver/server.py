@@ -9,6 +9,8 @@ A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 """
 import os
+from collections import defaultdict
+from typing import DefaultDict
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
@@ -176,12 +178,24 @@ def index():
 def category():
   print(request.args)
   category = request.form['category']
+  print(category)
   categories = []
-  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.item_type = (%s)", category)
+  product_numbers = []
+  descriptions = []
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.item_type = (%s)", category)
+  
   for result in cursor:
     categories.append(result['name'])
+    product_numbers.append(result['product_number'])
+    descriptions.append(result['description'])
   cursor.close()
-  context = dict(data=categories)
+
+  my_dict2=defaultdict(dict)
+  for i,j,k in zip(product_numbers, categories, descriptions):
+    my_dict2[i][j] = k
+
+  my_dict = dict(zip(product_numbers, categories))
+  context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
 
 # Shop by brand page
@@ -190,11 +204,29 @@ def brand():
   print(request.args)
   brand = request.form['brand']
   brands = []
-  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.sold_by = (%s) GROUP BY name, description", brand)
+  product_numbers = []
+  descriptions = []
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
+  
   for result in cursor:
     brands.append(result['name'])
+    product_numbers.append(result['product_number'])
+    descriptions.append(result['description'])
   cursor.close()
-  context = dict(data=brands)
+
+  cursor1 = g.conn.execute("SELECT name FROM users WHERE user_id = (%s)", brand)
+  names = []
+  for n in cursor1:
+    names.append(n)
+  cursor1.close()
+  print(cursor1)
+
+  my_dict2=defaultdict(dict)
+  for i,j,k in zip(product_numbers,brands, descriptions):
+    my_dict2[i][j] = k
+
+  my_dict = dict(zip(product_numbers, brands))
+  context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
   return render_template("products.html", **context)
 
 # individual item page
