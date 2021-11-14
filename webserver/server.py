@@ -109,11 +109,11 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT username FROM users")
-  names = []
-  for result in cursor:
-    names.append(result['username'])  # can also be accessed using result[0]
-  cursor.close()
+  #cursor = g.conn.execute("SELECT username FROM users")
+  #names = []
+  #for result in cursor:
+  #  names.append(result['username'])  # can also be accessed using result[0]
+  #cursor.close()
 
   #
   # Flask uses Jinja templates, which is an extension to HTML where you can
@@ -141,14 +141,14 @@ def index():
   #     <div>{{n}}</div>
   #     {% endfor %}
   #
-  context = dict(data = names)
+  #context = dict(data = names)
 
 
   #
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
   #
-  return render_template("index.html", **context)
+  return render_template("index.html")
 
 #
 # This is an example of a different path.  You can see it at:
@@ -159,33 +159,57 @@ def index():
 # The functions for each app.route need to have different names
 #
 
-@app.route('/another')
-def another():
-  print(request.args)
-  cursor = g.conn.execute("SELECT username FROM users")
-  names = []
-  for result in cursor:
-    names.append(result['username'])  # can also be accessed using result[0]
-  cursor.close()
-  context = dict(data = names)
-  return render_template("another.html",**context)
+#@app.route('/another')
+#def another():
+#  print(request.args)
+#  cursor = g.conn.execute("SELECT username FROM users")
+#  names = []
+# for result in cursor:
+#    names.append(result['username'])  # can also be accessed using result[0]
+#  cursor.close()
+#  context = dict(data = names)
+#  return render_template("another.html",**context)
 
 
-# Example of adding new data to the database
-@app.route('/add', methods=['POST'])
-def add():
+# Shop by category page
+@app.route('/category', methods=['POST'])
+def category():
   print(request.args)
-  print("test\n");
-  name = request.form['item']
-  print("test\n");
-  names = []
-  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.item_type = (%s) GROUP BY name, description", name)
+  category = request.form['category']
+  categories = []
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.item_type = (%s)", category)
   for result in cursor:
-    names.append(result['name'])
+    categories.append(result['name'])
   cursor.close()
-  context = dict(data=names)
+  context = dict(data=categories)
   return render_template("products.html", **context)
 
+# Shop by brand page
+@app.route('/brand', methods=['POST'])
+def brand():
+  print(request.args)
+  brand = request.form['brand']
+  brands = []
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.sold_by = (%s) GROUP BY name, description", brand)
+  for result in cursor:
+    brands.append(result['name'])
+  cursor.close()
+  context = dict(data=brands)
+  return render_template("products.html", **context)
+
+# individual item page
+@app.route('/item')
+def item():
+  print(request.args)
+  selected_item=request.args.get('type')
+  names = []
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.name = (%s) GROUP BY name, description", selected_item)
+  for result in cursor:
+    names.append(result['name'])
+    names.append(result['description'])
+  cursor.close()
+  context = dict(data=names)
+  return render_template("item.html", **context)
 
 @app.route('/login')
 def login():
