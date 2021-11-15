@@ -3,6 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+<div class="profile-container">     
 <h2>Profile Page</h2>
 <div>
     <p>Your account details are below:</p>
@@ -32,7 +33,9 @@
                 <td>City, state, zip:</td>
                 <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
             </tr>
+
         {% endif %}
-    </table>
+        </table>
+    </div>
 </div>
 {% endblock %}

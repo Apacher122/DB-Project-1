@@ -1,4 +1,3 @@
-
 """
 Columbia's COMS W4111.001 Introduction to Databases
 Example Webserver
@@ -388,28 +387,25 @@ def join_private_chat(data):
         # include_self=False,
     )
 
-
-
-# Shop by category page
 @app.route('/category', methods=['POST'])
 def category():
   print(request.args)
   category = request.form['category']
-  print(category)
   categories = []
   product_numbers = []
   descriptions = []
-  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.item_type = (%s)", category)
-  
+  colors = []
+  cursor = g.conn.execute("SELECT product_number, name, description, color FROM Products WHERE products.item_type = (%s)", category) 
   for result in cursor:
     categories.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
+    colors.append(result['color'])
   cursor.close()
 
   my_dict2=defaultdict(dict)
-  for i,j,k in zip(product_numbers, categories, descriptions):
-    my_dict2[i][j] = k
+  for i,j,k, l in zip(product_numbers, categories, descriptions,colors):
+    my_dict2[i][j] = k,l
 
   context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
@@ -422,12 +418,14 @@ def brand():
   brands = []
   product_numbers = []
   descriptions = []
-  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
+  colors = []
+  cursor = g.conn.execute("SELECT product_number, name, description, color FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
   
   for result in cursor:
     brands.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
+    colors.append(result['color'])
   cursor.close()
 
   cursor1 = g.conn.execute("SELECT name FROM users WHERE user_id = (%s)", brand)
@@ -435,11 +433,10 @@ def brand():
   for n in cursor1:
     names.append(n)
   cursor1.close()
-  print(cursor1)
 
   my_dict2=defaultdict(dict)
-  for i,j,k in zip(product_numbers,brands, descriptions):
-    my_dict2[i][j] = k
+  for i,j,k,l in zip(product_numbers,brands, descriptions, colors):
+    my_dict2[i][j] = k,l
 
   my_dict = dict(zip(product_numbers, brands))
   context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
@@ -450,14 +447,54 @@ def brand():
 def item():
   print(request.args)
   selected_item=request.args.get('type')
+  selected_color = request.args.get('color')
+  print(selected_color)
   names = []
-  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.name = (%s) GROUP BY name, description", selected_item)
+  if selected_color:
+    print('entered')
+    cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s) AND products.color = (%s)", selected_item, selected_color)
+  else:
+        cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
   for result in cursor:
-    names.append(result['name'])
-    names.append(result['description'])
+    names.append(result[0]) #product number
+    #names.append(result[1]) #seller id
+    names.append(result[2]) #product name
+    names.append(result[3]) #color
+    names.append(result[4]) #price
+    names.append(result[5]) #description
+    names.append(result[6]) #bool
+    names.append(result[7]) #bool
+    #names.append(result[8]) #item type
+    #names.append(result[9]) #stock
+    names.append(result[10]) #size
+    names.append(result[11]) #discount price
+    #names.append(result[12]) #seller id
+    #names.append(result[13]) #store type
+    #names.append(result[14]) #seller id
+    names.append(result[15]) #username
+    #names.append(result[16]) #email
+    names.append(result[17]) #seller name
   cursor.close()
+
+  cursor1 = g.conn.execute("SELECT * FROM review_posts R, users U WHERE R.reviewer = U.user_id AND R.reviewed_product = (%s)", names[0])
+  reviews = []
+  for n in cursor1:
+    reviews.append(n)
+  cursor1.close()
+
+  cursor2 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.review_type = 'thumbs up' AND R.reviewed_product = (%s)", names[0])
+  cursor3 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.reviewed_product = (%s)", names[0])
+  average = []
+  for i in cursor2:
+    for j in cursor3:
+      if (j[0] != 0):
+        average.append(i[0]/j[0] *100)
+    cursor3.close()
+  cursor2.close()
+
   context = dict(data=names)
-  return render_template("item.html", **context)
+
+  return render_template("item.html", **context, reviews=reviews, average=average)
 
 
 

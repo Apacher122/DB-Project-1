@@ -2,8 +2,62 @@
 
 {% block content %}
 
-  <div>
-    {{data}}
+<div class="item-container">
+  <div class="item-row-1">
+    <div class="prod-img">
+      <img src="{{url_for('static', filename='/images/' + data[0])}}" align="middle"/>
+    </div>
+
+    <div class='item-info'>
+
+      <div class='item-seller'>
+        {{data[10]}} <!--Product name-->
+      </div>
+
+      <div class='item-name'>
+        {{data[1]}} <!--Product name-->
+      </div>
+
+      {% if data[2] %}
+      <div class='item-color'>
+        {{data[2]}} <!--Product color-->
+      </div>
+      {% endif %}
+
+      {% if data[3] %}
+      <div class='item-price'>
+        ${{data[3]}} <!--Product price-->
+      </div><br/>
+      {% endif %}
+
+      {% if data[4] %}
+      <div class='item-desc'>
+        {{data[4]}} <!--Product description-->
+      </div>
+      {% endif %}
+
+      {% if session['loggedin'] == True %}
+      <div>
+        <button class="add-to-cart">Add to cart</button>
+      </div>
+      {% endif %}
+    </div>
   </div>
+  <div class="review-section">
+    {% if reviews %}
+    {% set avg = average[0] | round %}
+    <h1>User rating: {{avg}}%</h1>
+    {% for n in reviews %}
+      <div class="review">{{n.name}} 
+        {% if n.review_type=='thumbs up' %}
+          <img src="{{url_for('static', filename='/images/up.png')}}" class="thumbs"/>
+        {% elif n.review_type == 'thumbs down' %}<img src="{{url_for('static', filename='/images/down.png')}}" class="thumbs"/>
+        {% endif %}
+      </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+</div>
 
 {% endblock %}

@@ -6,17 +6,21 @@
 	<title>AmaBook</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
 </head>
 
-<div class="navbar">
-    <div class="container">
+
+<div class="container">
       {% if session['loggedin'] == True %}
-        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Ama<span>Book</span></a>
+        <div class="amabook"><a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Ama<span>Book</span></a></div>
       {% else %}
-        <a href="/">Ama<span>Book</span></a>
+      <div class="amabook"><a href="/">Ama<span>Book</span></a></div>
       {% endif %}
+      <div class="navbar">
       <nav>
-          <div class="dropdown">
+          <div class="dropdown" class="navbutton">
             <button class="dropbtn">Shop by category
               <i class="fa fa-caret-down"></i>
             </button>
@@ -32,10 +36,10 @@
             </div>
           </div>
           <div class="dropdown">
-            <button class="dropbtn">Shop by Brand
+            <button class="dropbtn"><div class="bybrand">Shop by Brand
               <i class="fa fa-caret-down"></i>
             </button>
-            <div class="dropdown-content">
+            <div class="dropdown-content" class="dropdown-brands">
               <form method="POST" action="/brand">
                 <button name="brand" class="links" value="AAAAAAA">Aerie by American Eagle Outfitters</button>
                 <button name="brand" class="links" value="BBBBBBB">Bath & Body Works</button>
@@ -55,6 +59,17 @@
                 <button name="brand" class="links" value="HIHIHIH">Gamestop</button>
               </form>
             </div>
+          </div>
+          {% if session['loggedin'] == True %}
+          <div class="loggedin">
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div>
+          {% else %}
+          <div class="loggedout">
+            <a href="{{ url_for('login') }}"><i class="fas fa-user-circle"></i>Login</a>
+          </div>
+          {% endif %}
           </div>
           <script>
             let dropdownBtn = document.querySelector('.menu-btn');
