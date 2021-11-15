@@ -10,9 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
 </head>
 
+
 <div class="container">
-    <div class="amabook"><a href="#">AmaBook</a></div>
-    <div class="navbar">
+      {% if session['loggedin'] == True %}
+        <div class="amabook"><a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Ama<span>Book</span></a></div>
+      {% else %}
+      <div class="amabook"><a href="/">Ama<span>Book</span></a></div>
+      {% endif %}
+      <div class="navbar">
       <nav>
           <div class="dropdown" class="navbutton">
             <button class="dropbtn">Shop by category
@@ -65,7 +70,12 @@
               }
             })
           </script>
-      <a href="#" class="navbutton">Login</a>
+          {% if session['loggedin'] == True %}
+          <div class="loggedin">
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div>
+          {% endif %}
       </nav>
     </div>
 </div>

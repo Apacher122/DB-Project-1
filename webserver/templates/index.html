@@ -1,7 +1,21 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+<div class="login">
+  <h1>LOGIN</h1>
+  <div class="link">
+    <a href="{{ url_for('login') }}" class="active">login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+  </div>
+  <form action="{{ url_for('login') }}" method="post">
+    <label for="username">
+      <i class="fas fa-user"></i>
+    </label>
+    <input type="text" name="username" placeholder="Username" id="username" required>
+    <div class="msg">{{ msg }}</div>
+    <input type="submit" value="Login">
+  </form>
+</div>
 {% endblock %}
 <label for="brand">Shop by brand:</label>
 

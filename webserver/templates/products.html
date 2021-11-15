@@ -1,9 +1,63 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if category == 'Bralette' %}
+  <div class = "header">
+    <h1>Bralettes</h1>
+    <p>Shop all bralette collections</p>
+  </div>
+{% elif category == 'Glasses' %}
+  <div class = "header">
+    <h1>Glasses</h1>
+    <p>Spectacular Spectacles</p>
+  </div>
+{% elif category == 'Single wick candle' %}
+  <div class = "header">
+    <h1>Candles</h1>
+    <p>Just in case you have guests, and you've neglected the trash</p>
+  </div>
+{% elif category == 'Athletic Shoes' %}
+  <div class = "header">
+    <h1>Athletic Shoes</h1>
+    <p>Need new kicks?</p>
+  </div>
+{% elif category == 'Gloves' %}
+  <div class = "header">
+    <h1>Gloves</h1>
+    <p>Winter is coming..</p>
+  </div>
+{% elif category == 'Video game' %}
+  <div class = "header">
+    <h1>Video Games</h1>
+    <p>Next level entertainment</p>
+  </div>
+{% else %}
+  <div class = "header">
+    <h1>{{ brand[0][0] }}</h1>
+    <p>All your favorites from {{ brand[0][0] }}</p>
+  </div>
+{% endif %}
 
-{% for n in data %}
-    <div><a href={{ url_for('item', type=n[0]) }}>Product: {{n[0]}}{% if n[1] %}, {{n[1]}}{% endif %}</a></div>
+
+<div class="supports"></div>
+{% for i,j in my_dict2.items() %}
+  {% for k,l in j.items() %}
+  <ul class="prodlist img-list">
+    <li>
+      <a href="{{ url_for('item', type=j) }}" class="inner">
+        <div class="prod-img">
+          <img src="{{url_for('static', filename='/images/' + i)}}" align="middle"/>
+        </div>
+        <div class="prod-text">
+          <h3 class="prod-head">{{ k }}</h3>
+          <div class="prod-sub">
+            <p>{{ l }}</p>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+  {% endfor %}
 {% endfor %}
 
 {% endblock %}

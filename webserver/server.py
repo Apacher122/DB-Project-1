@@ -9,14 +9,20 @@ A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 """
 import os
+import psycopg2
+import random
+import string
+import re
+from collections import defaultdict
+from typing import DefaultDict
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, session, url_for, request, render_template, g, redirect, Response
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
-
+app.secret_key='secret'
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -106,6 +112,7 @@ def index():
   print(request.args)
 
 
+
   #
   # example of a database query
   #
@@ -171,20 +178,121 @@ def index():
 #  return render_template("another.html",**context)
 
 
+# Login functionality
+@app.route('/login', methods=['GET','POST'])
+def login():
+  msg = ''
+  if request.method == 'POST' and 'username' in request.form:
+        # Create variables for easy access
+        username = request.form['username']
+        cursor = g.conn.execute("SELECT * FROM users WHERE username = (%s)", username)
+        account = cursor.fetchone()
+
+        if account:
+          session['loggedin'] = True
+          session['user_id'] = account['user_id']
+          session['username'] = account['username']
+          return redirect(url_for('home'))
+        else:
+          msg = 'Incorrect username'
+  return render_template('index.html', msg=msg)
+
+@app.route('/logout')
+def logout():
+  session.pop('loggedin', None)
+  session.pop('user_id', None)
+  session.pop('username', None)
+  return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+  # Output message if something goes wrong...
+    msg = ''
+    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'name' in request.form and 'username' in request.form and 'email' in request.form:
+      # Create variables for easy access
+      name = request.form['name']
+      username = request.form['username']
+      email = request.form['email']
+      print("test")
+        # Check if account exists using MySQL
+      cursor = g.conn.execute("SELECT * FROM users WHERE username = (%s)", username)
+      account = cursor.fetchone()
+      # If account exists show error and validation checks
+      if account:
+          msg = 'Account already exists!'
+      elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+          msg = 'Invalid email address!'
+      elif not re.match(r'[A-Za-z0-9]+', username):
+          msg = 'Username must contain only characters and numbers!'
+      elif not username or not email or not name:
+          msg = 'Please fill out the form!'
+      else:
+          # Account doesnt exists and the form data is valid, now insert new account into accounts table
+          id = ''
+          while True:
+            id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
+            temp = g.conn.execute("SELECT user_id FROM users where user_id = (%s)", id)
+            exists = temp.fetchone()
+            if not exists:
+              break
+      
+          cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
+          msg = 'You have successfully registered!'
+    elif request.method == 'POST':
+        # Form is empty... (no POST data)
+        msg = 'Please fill out the form!'
+    # Show registration form with message (if any)
+    return render_template('register.html', msg=msg)
+
+# Home page
+@app.route('/home')
+def home():
+  # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('home.html', username=session['username'])
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+# Profile page
+@app.route('/profile')
+def profile():
+# Check if user is loggedin
+    if 'loggedin' in session:
+        # We need all the account info for the user so we can display it on the profile page
+        cursor = g.conn.execute("SELECT * FROM users WHERE user_id = (%s)", session['user_id'])
+        account = cursor.fetchone()
+        cursor1 = g.conn.execute("SELECT * FROM lives_at WHERE user_id = (%s)", session['user_id'])
+        livesAt = cursor1.fetchone()
+        cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
+        address = cursor2.fetchone()
+        # Show the profile page with account info
+        return render_template('profile.html', account=account, address=address)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
 # Shop by category page
 @app.route('/category', methods=['POST'])
 def category():
   print(request.args)
   category = request.form['category']
+  print(category)
   categories = []
-  cursor = g.conn.execute("SELECT name, description, color FROM Products WHERE products.item_type = (%s)", category)
+  product_numbers = []
+  descriptions = []
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.item_type = (%s)", category) 
   for result in cursor:
-    toInsert = []
-    toInsert = (result['name'],result['color'])
-    print(toInsert[0])
-    categories.append(toInsert)
+    categories.append(result['name'])
+    product_numbers.append(result['product_number'])
+    descriptions.append(result['description'])
   cursor.close()
-  context = dict(data=categories)
+
+  my_dict2=defaultdict(dict)
+  for i,j,k in zip(product_numbers, categories, descriptions):
+    my_dict2[i][j] = k
+
+  context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
 
 # Shop by brand page
@@ -193,13 +301,29 @@ def brand():
   print(request.args)
   brand = request.form['brand']
   brands = []
-  cursor = g.conn.execute("SELECT name, description, color FROM Products WHERE products.sold_by = (%s)", brand)
+  product_numbers = []
+  descriptions = []
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
+  
   for result in cursor:
-    toInsert = []
-    toInsert = (result['name'],result['color'])
-    brands.append(toInsert)
+    brands.append(result['name'])
+    product_numbers.append(result['product_number'])
+    descriptions.append(result['description'])
   cursor.close()
-  context = dict(data=brands)
+
+  cursor1 = g.conn.execute("SELECT name FROM users WHERE user_id = (%s)", brand)
+  names = []
+  for n in cursor1:
+    names.append(n)
+  cursor1.close()
+  print(cursor1)
+
+  my_dict2=defaultdict(dict)
+  for i,j,k in zip(product_numbers,brands, descriptions):
+    my_dict2[i][j] = k
+
+  my_dict = dict(zip(product_numbers, brands))
+  context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
   return render_template("products.html", **context)
 
 # individual item page
@@ -232,10 +356,7 @@ def item():
   context = dict(data=names)
   return render_template("item.html", **context)
 
-@app.route('/login')
-def login():
-    abort(401)
-    this_is_never_executed()
+
 
 
 if __name__ == "__main__":
