@@ -177,12 +177,9 @@ def category():
   print(request.args)
   category = request.form['category']
   categories = []
-  cursor = g.conn.execute("SELECT name, description, color FROM Products WHERE products.item_type = (%s)", category)
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.item_type = (%s)", category)
   for result in cursor:
-    toInsert = []
-    toInsert = (result['name'],result['color'])
-    print(toInsert[0])
-    categories.append(toInsert)
+    categories.append(result['name'])
   cursor.close()
   context = dict(data=categories)
   return render_template("products.html", **context)
@@ -193,11 +190,9 @@ def brand():
   print(request.args)
   brand = request.form['brand']
   brands = []
-  cursor = g.conn.execute("SELECT name, description, color FROM Products WHERE products.sold_by = (%s)", brand)
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.sold_by = (%s) GROUP BY name, description", brand)
   for result in cursor:
-    toInsert = []
-    toInsert = (result['name'],result['color'])
-    brands.append(toInsert)
+    brands.append(result['name'])
   cursor.close()
   context = dict(data=brands)
   return render_template("products.html", **context)
@@ -208,26 +203,11 @@ def item():
   print(request.args)
   selected_item=request.args.get('type')
   names = []
-  cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.name = (%s) GROUP BY name, description", selected_item)
   for result in cursor:
-    #names.append(result[0]) #product number
-    #names.append(result[1]) #seller id
-    names.append(result[2]) #product name
-    names.append(result[3]) #color
-    names.append(result[4]) #price
-    names.append(result[5]) #description
-    names.append(result[6]) #bool
-    names.append(result[7]) #bool
-    #names.append(result[8]) #item type
-    #names.append(result[9]) #stock
-    names.append(result[10]) #size
-    names.append(result[11]) #discount price
-    #names.append(result[12]) #seller id
-    #names.append(result[13]) #store type
-    #names.append(result[14]) #seller id
-    names.append(result[15]) #username
-    #names.append(result[16]) #email
-    names.append(result[17]) #seller name
+    names.append(result['name'])
+    names.append(result['description'])
+    #names.append(result['sold_by'])
   cursor.close()
   context = dict(data=names)
   return render_template("item.html", **context)

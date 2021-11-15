@@ -5,14 +5,16 @@
 	<meta name="viewport" content="width=device-width, initial-sacle=1.0">
 	<title>AmaBook</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
 </head>
 
-<div class="navbar">
-    <div class="container">
-      <a href="#">Ama<span>Book</span></a>
-
+<div class="container">
+    <div class="amabook"><a href="#">AmaBook</a></div>
+    <div class="navbar">
       <nav>
-          <div class="dropdown">
+          <div class="dropdown" class="navbutton">
             <button class="dropbtn">Shop by category
               <i class="fa fa-caret-down"></i>
             </button>
@@ -63,8 +65,8 @@
               }
             })
           </script>
+      <a href="#" class="navbutton">Login</a>
       </nav>
-      <a href="#">Login</a>
     </div>
 </div>
     <body>        

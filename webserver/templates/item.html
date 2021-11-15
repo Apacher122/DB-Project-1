@@ -3,7 +3,18 @@
 {% block content %}
 
   <div>
-    {{data}}
+    {{data[0]}} <!--Product name-->
   </div>
+
+  {% if data[1] %}
+  <div>
+    {{data[1]}} <!--Product color-->
+  </div>
+  {% endif %}
+
+  <div>
+    {{data[2]}} <!--Product price-->
+  </div>
+  
 
 {% endblock %}

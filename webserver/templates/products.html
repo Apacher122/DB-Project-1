@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
 {% for n in data %}
-  <div>
-    Product: <a href="{{ url_for('item', type=n) }}">{{n}}</a>
-  </div>
+    <div><a href={{ url_for('item', type=n[0]) }}>Product: {{n[0]}}{% if n[1] %}, {{n[1]}}{% endif %}</a></div>
 {% endfor %}
+
 {% endblock %}
