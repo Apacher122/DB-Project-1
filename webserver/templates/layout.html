@@ -9,8 +9,11 @@
 
 <div class="navbar">
     <div class="container">
-      <a href="/">Ama<span>Book</span></a>
-
+      {% if session['loggedin'] == True %}
+        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Ama<span>Book</span></a>
+      {% else %}
+        <a href="/">Ama<span>Book</span></a>
+      {% endif %}
       <nav>
           <div class="dropdown">
             <button class="dropbtn">Shop by category
@@ -63,8 +66,13 @@
               }
             })
           </script>
+          {% if session['loggedin'] == True %}
+          <div class="loggedin">
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </div>
+          {% endif %}
       </nav>
-      <a href="#">Login</a>
     </div>
 </div>
     <body>        
