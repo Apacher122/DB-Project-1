@@ -7,6 +7,10 @@
 <div>
     <p>Your account details are below:</p>
     <table>
+		<tr>
+            <td>Name:</td>
+            <td>{{ account['name'] }}</td>
+        </tr>
         <tr>
             <td>Username:</td>
             <td>{{ account['username'] }}</td>
@@ -15,18 +19,20 @@
             <td>Email:</td>
             <td>{{ account['email'] }}</td>
         </tr>
-        <tr>
-            <td>Address 1:</td>
-            <td>{{ address['street_1'] }}</td>
-        </tr>
-        <tr>
-            <td>Address 2:</td>
-            <td>{{ address['street_2'] }}</td>
-        </tr>
-        <tr>
-            <td>City, state, zip:</td>
-            <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
-        </tr>
+        {% if address != 0 %}
+            <tr>
+                <td>Address 1:</td>
+                <td>{{ address['street_1'] }}</td>
+            </tr>
+            <tr>
+                <td>Address 2:</td>
+                <td>{{ address['street_2'] }}</td>
+            </tr>
+            <tr>
+                <td>City, state, zip:</td>
+                <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
+            </tr>
+        {% endif %}
     </table>
 </div>
 {% endblock %}

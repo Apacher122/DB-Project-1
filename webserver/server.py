@@ -13,16 +13,24 @@ import psycopg2
 import random
 import string
 import re
+import pytz
+import hashlib
+import time
 from collections import defaultdict
 from typing import DefaultDict
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, session, url_for, request, render_template, g, redirect, Response
+from flask import Flask, flash, session, url_for, request, render_template, g, redirect, Response
+from flask_socketio import SocketIO, join_room
+from datetime import datetime
+from functools import wraps
+
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 app.secret_key='secret'
+socketio = SocketIO(app)
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -123,7 +131,7 @@ def index():
   #cursor.close()
 
   #
-  # Flask uses Jinja templates, which is an extension to HTML where you can
+  # Flask uses Jinja templathttps://github.com/Bamimore-Tomi/fauna-chat.gites, which is an extension to HTML where you can
   # pass data to a template and dynamically generate HTML based on the data
   # (you can think of it as simple PHP)
   # documentation: https://realpython.com/primer-on-jinja-templating/
@@ -238,6 +246,7 @@ def register():
               break
       
           cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
+          cursor1 = g.conn.execute("INSERT INTO Consumers VALUES (%s, %s, %s, %s)", (id, '', '', ''))
           msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -265,12 +274,119 @@ def profile():
         account = cursor.fetchone()
         cursor1 = g.conn.execute("SELECT * FROM lives_at WHERE user_id = (%s)", session['user_id'])
         livesAt = cursor1.fetchone()
-        cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
-        address = cursor2.fetchone()
+        if (livesAt):
+          cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
+          address = cursor2.fetchone()
+        else:
+          address = 0
         # Show the profile page with account info
         return render_template('profile.html', account=account, address=address)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+# Settings page
+@app.route('/settings', methods=['GET','POST'])
+def settings():
+  msg=''
+  if request.method == 'POST' and 'address1' in request.form and 'city' in request.form and 'state' in request.form and 'zip' in request.form and 'dob' in request.form and 'size' in request.form and session['user_id']:
+    id = session['user_id']
+    address1 = request.form['address1']
+    address2 = request.form['address2']
+    city = request.form['city']
+    state = request.form['state']
+    zip = request.form['zip']
+    dob = request.form['dob']
+    size = request.form['size']
+    
+    cursor1 = g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+    cursor2 = g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+  return render_template('settings.html')
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+  room_id = request.args.get("rid", None)
+  id = session['user_id']
+  data = []
+  chat_list = []
+  try:
+    chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
+  except:
+    chat_list = []
+  
+  for i in chat_list:
+    if i['sender'] == session['user_id']:
+      username = i['recipient']
+    if i['recipient'] == session['user_id']:
+      username = i['sender']
+    print(username)
+
+    cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", username)
+    username = cursor.fetchone()
+    active = False
+
+    if room_id == i['session_id']:
+      active = True
+    
+    try:
+      # Last message
+      cursor = g.conn.execute("SELECT content FROM chat WHERE session_id =  (%s)", i['session_id'])
+      last_message = ''
+      for n in cursor:
+        last_message = n['content']
+      cursor.close()
+      print(i['content'])
+    except:
+      last_message = "No messages..."
+
+    data.append(
+      {
+        "username":username['username'],
+        "room_id":i['session_id'],
+        "active":active,
+        "last_message":last_message,
+      }
+    )
+  chat_list.close()
+  message = []
+  dates = []
+  senders = []
+  if room_id != None:
+    cursor = g.conn.execute("SELECT date_time, content, sender FROM chat WHERE session_id = (%s)", room_id)
+    messages = cursor.fetchall()
+  
+  print("test")
+  for n in message:
+    print(n)
+  return render_template(
+    "chat.html",
+    user_data=session['username'],
+    room_id=room_id,
+    data=data,
+    message=message,
+  )
+
+# New chat
+@app.route("/new-chat", methods=['Post'])
+def new_chat():
+  user_id = session['user_id']
+  new_chat = request.form['user'].strip().lower()
+
+  if new_chat == session['user_id']:
+    return redirect(url_for("chat"))
+
+# Join room
+@socketio.on("join-chat")
+def join_private_chat(data):
+    room = data["rid"]
+    join_room(room=room)
+    socketio.emit(
+        "joined-chat",
+        {"msg": f"{room} is now online."},
+        room=room,
+        # include_self=False,
+    )
+
+
 
 # Shop by category page
 @app.route('/category', methods=['POST'])

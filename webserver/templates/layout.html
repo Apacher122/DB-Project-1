@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-sacle=1.0">
 	<title>AmaBook</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
 
 <div class="navbar">
@@ -70,6 +71,8 @@
           <div class="loggedin">
             <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
             <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i>Settings</a>
+            <a href="{{ url_for('chat') }}"><i class="fas fa-envelope"></i>Messages</a>
           </div>
           {% endif %}
       </nav>
