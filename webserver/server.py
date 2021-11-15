@@ -308,23 +308,26 @@ def chat():
   id = session['user_id']
   data = []
   chat_list = []
-  username = ''
   try:
     chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
   except:
     chat_list = []
   
   for i in chat_list:
-    if i['sender'] == session['user_id']:
-      username = i['recipient']
-    if i['recipient'] == session['user_id']:
-      username = i['sender']
+    username = id
     print("sender: " + i['sender'])
+    if i['sender'] == id:
+      username = i['recipient']
+    elif i['recipient'] == id:
+      username = i['sender']
+  
 
     cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", username)
     username = cursor.fetchone()
-    print("username: " + username)
+    cursor.close()
     active = False
+    print("username: ")
+    print(username)
 
     if room_id == i['session_id']:
       active = True
@@ -336,45 +339,83 @@ def chat():
       for n in cursor:
         last_message = n['content']
       cursor.close()
-      print(i['content'])
     except:
       last_message = "No messages..."
 
-    data.append(
-      {
-        "username":username,
-        "room_id":i['session_id'],
-        "active":active,
-        "last_message":last_message,
-      }
-    )
+    if i['sender'] == id or i['recipient'] == id:
+      data.append(
+        {
+          "username":username['username'],
+          "room_id":i['session_id'],
+          "active":active,
+          "last_message":last_message,
+        }
+      )
   chat_list.close()
   message = []
   dates = []
   senders = []
   if room_id != None:
     cursor = g.conn.execute("SELECT date_time, content, sender FROM chat WHERE session_id = (%s)", room_id)
-    messages = cursor.fetchall()
+    message = cursor.fetchall()
   
   print("test")
   for n in message:
-    print(n)
+    print(n['sender'])
   return render_template(
     "chat.html",
-    user_data=session['username'],
+    user_data=id,
     room_id=room_id,
     data=data,
     message=message,
   )
 
 # New chat
-@app.route("/new-chat", methods=['Post'])
-def new_chat():
+@app.route('/newchat', methods=['POST'])
+def newchat():
+  print("test1")
   user_id = session['user_id']
-  new_chat = request.form['user'].strip().lower()
+  new_chat = request.form['user']
+  print(new_chat)
 
-  if new_chat == session['user_id']:
+  if new_chat == session['username']:
     return redirect(url_for("chat"))
+
+  try:
+    cursor = g.conn.execute("SELECT user_id FROM users WHERE username = (%s)", new_chat)
+    new_chat_id = cursor.fetchone()
+    cursor.close()
+  except:
+    return redirect(url_for("chat"))
+  
+  cursor = g.conn.execute("SELECT * from chat WHERE sender = (%s) OR recipient = (%s)", user_id, user_id)
+  senders = cursor.fetchall()
+  cursor.close()
+
+  cursor = g.conn.execute("SELECT * from chat WHERE sender = (%s) OR recipient = (%s)", new_chat_id['user_id'], new_chat_id['user_id'])
+  recipient = cursor.fetchall()
+  cursor.close()
+
+  try:
+    chat_list1 = [list(i['recipient'] for i in senders)]
+    chat_list2 = [list(i['senders'] for i in senders)]
+  except:
+    chat_list1 = []
+    chat_list2 = []
+
+  if new_chat_id['user_id'] not in chat_list1 or new_chat_id['user_id'] not in chat_list2:
+    room_id = ''
+    while True:
+      room_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 10))
+      temp = g.conn.execute("SELECT session_id FROM chat WHERE session_id = (%s)", user_id)
+      exists = temp.fetchone()
+      if not exists:
+        break
+    
+    dateTimeObj = datetime.now()
+    date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
+    cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, '1', date, 'New Chat Request', user_id, new_chat_id['user_id'])
+  return redirect(url_for("chat"))
 
 # Join room
 @socketio.on("join-chat")
@@ -388,7 +429,30 @@ def join_private_chat(data):
         # include_self=False,
     )
 
+@socketio.on("outgoing")
+def chatting_event(json, methods=["GET", "POST"]):
+    room_id = json["rid"]
+    timestamp = json["timestamp"]
+    message = json["message"]
+    sender_id = json["sender_id"]
+    sender_username = json["sender_username"]
 
+    cursor = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
+    message = cursor.fetchall()
+    cursor.close()
+
+    for i in message:
+      if i['session_id'] == room_id:
+        message_id = int(i['message_id']) + 1
+    
+    cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, message_id, timestamp, message, sender_id, '')
+
+    socketio.emit(
+        "message",
+        json,
+        room=room_id,
+        include_self=False,
+    )
 
 # Shop by category page
 @app.route('/category', methods=['POST'])
