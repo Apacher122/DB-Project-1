@@ -308,6 +308,7 @@ def chat():
   id = session['user_id']
   data = []
   chat_list = []
+  username = ''
   try:
     chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
   except:
@@ -318,10 +319,11 @@ def chat():
       username = i['recipient']
     if i['recipient'] == session['user_id']:
       username = i['sender']
-    print(username)
+    print("sender: " + i['sender'])
 
     cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", username)
     username = cursor.fetchone()
+    print("username: " + username)
     active = False
 
     if room_id == i['session_id']:
@@ -340,7 +342,7 @@ def chat():
 
     data.append(
       {
-        "username":username['username'],
+        "username":username,
         "room_id":i['session_id'],
         "active":active,
         "last_message":last_message,
