@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-sacle=1.0">
 	<title>AmaBook</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
@@ -62,12 +63,15 @@
           </div>
           {% if session['loggedin'] == True %}
           <div class="loggedin">
-            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
-            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i> Profile</a>
+            <a href="{{ url_for('cart') }}"><i class="fas fa-user-circle"></i> Cart</a>
+            <a href="{{ url_for('chat') }}"><i class="fas fa-envelope"></i> Messages</a>
+            <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
           {% else %}
           <div class="loggedout">
-            <a href="{{ url_for('login') }}"><i class="fas fa-user-circle"></i>Login</a>
+            <a href="{{ url_for('login') }}"><i class="fas fa-user-circle"></i> Login</a>
           </div>
           {% endif %}
           </div>

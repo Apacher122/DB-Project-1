@@ -11,7 +11,7 @@
     <div class='item-info'>
 
       <div class='item-seller'>
-        {{data[10]}} <!--Product name-->
+        {{data[10]}} <!--Seller name-->
       </div>
 
       <div class='item-name'>
@@ -30,6 +30,12 @@
       </div><br/>
       {% endif %}
 
+      {% if data[7] %}
+      <div class='item-size'>
+        Size: {{data[7]}} <!--Product price-->
+      </div><br/>
+      {% endif %}
+
       {% if data[4] %}
       <div class='item-desc'>
         {{data[4]}} <!--Product description-->
@@ -37,8 +43,17 @@
       {% endif %}
 
       {% if session['loggedin'] == True %}
-      <div>
-        <button class="add-to-cart">Add to cart</button>
+      <div class="add-to-cart-section">
+        <form method="POST" action="/addtocart">
+          Quantity: <select name="cart-quantity">
+            <option name="add-to-cart-quantity" value=1>1</option>
+            <option name="add-to-cart-quantity" value=2>2</option>
+            <option name="add-to-cart-quantity" value=3>3</option>
+            <option name="add-to-cart-quantity" value=4>4</option>
+            <option name="add-to-cart-quantity" value=5>5</option>
+          </select>
+          <button name="add-to-cart" class="add-to-cart" value={{data[0]}}>Add to cart</button>
+        </form>
       </div>
       {% endif %}
     </div>
@@ -46,18 +61,31 @@
   <div class="review-section">
     {% if reviews %}
     {% set avg = average[0] | round %}
-    <h1>User rating: {{avg}}%</h1>
+    <h3>User rating: {{avg}}%</h3>
     {% for n in reviews %}
       <div class="review">{{n.name}} 
         {% if n.review_type=='thumbs up' %}
-          <img src="{{url_for('static', filename='/images/up.png')}}" class="thumbs"/>
-        {% elif n.review_type == 'thumbs down' %}<img src="{{url_for('static', filename='/images/down.png')}}" class="thumbs"/>
+        <i class="fas fa-thumbs-up"></i>
+        {% elif n.review_type == 'thumbs down' %}<i class="fas fa-thumbs-down"></i>
         {% endif %}
       </div>
     {% endfor %}
     {% endif %}
-  </div>
 
+    {% if session['loggedin'] == True %}
+    
+    <form method="POST" action="/addreview">
+      <div class="add-review-section">
+        <button class="add-review">How did you like this product?</button>
+        <div class="review-buttons">
+          <button name="add-review" value="thumbs up"><i class="fas fa-thumbs-up choice"></i></button>
+          <button name="add-review" value="thumbs down"><i class="fas fa-thumbs-down choice"></i></button>
+        </div>
+      </div> 
+    </form>
+    
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

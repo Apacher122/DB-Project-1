@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class='cart-container'>
+    <h2>Your cart</h2>
+    
+    {% if my_dict %}
+    <table>
+        <tr>
+            <td><b>Item</b></td>
+            <td><b>Quantity</b></td>
+        </tr>
+        {% for i in my_dict %}
+        <tr>
+            <td>{{i}}</td>
+            <td>{{my_dict[i][0]}}</td>
+            <td><form method="POST" action="/removefromcart">
+                <button name="removefromcart" class="removebutton" value={{my_dict[i][1]}}>Remove</button>
+            </form></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %} Your cart is empty
+    {% endif %}
+</div>
+{% endblock %}
