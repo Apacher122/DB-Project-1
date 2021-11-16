@@ -599,11 +599,44 @@ def item():
   else:
     cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
   for result in cursor:
-    names.append(result['name'])
-    names.append(result['description'])
+    names.append(result[0]) #product number
+    #names.append(result[1]) #seller id
+    names.append(result[2]) #product name
+    names.append(result[3]) #color
+    names.append(result[4]) #price
+    names.append(result[5]) #description
+    names.append(result[6]) #bool
+    names.append(result[7]) #bool
+    #names.append(result[8]) #item type
+    #names.append(result[9]) #stock
+    names.append(result[10]) #size
+    names.append(result[11]) #discount price
+    #names.append(result[12]) #seller id
+    #names.append(result[13]) #store type
+    #names.append(result[14]) #seller id
+    names.append(result[15]) #username
+    #names.append(result[16]) #email
+    names.append(result[17]) #seller name
   cursor.close()
+  cursor1 = g.conn.execute("SELECT * FROM review_posts R, users U WHERE R.reviewer = U.user_id AND R.reviewed_product = (%s)", names[0])
+  reviews = []
+  for n in cursor1:
+    reviews.append(n)
+  cursor1.close()
+
+  cursor2 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.review_type = 'thumbs up' AND R.reviewed_product = (%s)", names[0])
+  cursor3 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.reviewed_product = (%s)", names[0])
+  average = []
+  for i in cursor2:
+    for j in cursor3:
+      if (j[0] != 0):
+        average.append(i[0]/j[0] *100)
+    cursor3.close()
+  cursor2.close()
+
   context = dict(data=names)
-  return render_template("item.html", **context)
+
+  return render_template("item.html", **context, reviews=reviews, average=average)
 
 
 
