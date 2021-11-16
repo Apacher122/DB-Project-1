@@ -387,6 +387,78 @@ def join_private_chat(data):
         # include_self=False,
     )
 
+# user's cart
+@app.route('/cart')
+def cart():
+  id = session['user_id']
+  cursor = g.conn.execute("SELECT * FROM has_in_cart C, products P WHERE C.user_id = (%s) AND P.product_number = C.product_number", id)
+  names = []
+  quantities = []
+  productnumbers = []
+  for result in cursor:
+    names.append(result['name'])
+    quantities.append(result['quantity'])
+    productnumbers.append(result['product_number'])
+  cursor.close()
+
+  my_dict = defaultdict(dict)
+  for i, j, k in zip(names, quantities, productnumbers):
+    my_dict[i] = j, k
+  context = {'my_dict':my_dict}
+
+  return render_template('cart.html', **context)
+
+# remove an item from the cart (cart page)
+@app.route('/removefromcart', methods=['POST'])
+def removefromcart():
+  id = session['user_id']
+  product = request.form['removefromcart'] 
+  g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s) and C.product_number = (%s)", id, product)
+  return redirect('/cart')
+
+# add an item to the cart (item page)
+@app.route('/addtocart',methods=['POST'])
+def addtocart():
+  id = session['user_id']
+  product = request.form['add-to-cart'] 
+  print(product)
+  quantity = request.form['cart-quantity']
+  incartalready = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s) AND C.product_number=(%s)",id, product)
+  exists = incartalready.fetchone()
+  if not exists:
+    g.conn.execute("INSERT INTO has_in_cart VALUES (%s, %s, %s)", id, product, quantity) 
+  else:
+    g.conn.execute("UPDATE has_in_cart SET quantity = quantity + (%s) WHERE user_id=(%s) AND product_number = (%s)",quantity,id,product)
+  return redirect('/cart')
+
+# add review to an item
+@app.route('/addreview', methods=['POST'])
+def addreview():
+    print(request.args)
+    id = session['user_id']
+    review_type = request.form['add-review']
+    selected_item=request.args.get('type')
+    print(selected_item)
+    selected_color = request.args.get('color')
+    #if selected_color:
+    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
+    #else:
+    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
+    #name = []
+    #for result in cursor:
+    #  name.append(result[0])
+    #product_id = name[0]
+    review_id = ''
+    while True:
+      review_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
+      temp = g.conn.execute("SELECT review_id FROM review_posts WHERE review_id = (%s)", review_id)
+      exists = temp.fetchone()
+      if not exists:
+        break
+    #g.conn.execute("INSERT INTO review_posts VALUES (%s,%s,%s,%s)",review_id,review_type,id,product_id)
+    return redirect('/home')
+
+# populate products page based on category
 @app.route('/category', methods=['POST'])
 def category():
   print(request.args)
@@ -410,7 +482,7 @@ def category():
   context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
 
-# Shop by brand page
+# populate products page based on brand
 @app.route('/brand', methods=['POST'])
 def brand():
   print(request.args)
@@ -440,6 +512,7 @@ def brand():
 
   my_dict = dict(zip(product_numbers, brands))
   context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
+
   return render_template("products.html", **context)
 
 # individual item page
@@ -448,13 +521,11 @@ def item():
   print(request.args)
   selected_item=request.args.get('type')
   selected_color = request.args.get('color')
-  print(selected_color)
   names = []
   if selected_color:
-    print('entered')
     cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s) AND products.color = (%s)", selected_item, selected_color)
   else:
-        cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
+    cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
   for result in cursor:
     names.append(result[0]) #product number
     #names.append(result[1]) #seller id

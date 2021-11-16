@@ -30,6 +30,10 @@ td {
   padding-right: 15px;
 }
 
+.cart-container td{
+    padding-right: 70px;
+}
+
 body{ 
   font-size: 15pt;
   font-family: arial;
@@ -100,6 +104,10 @@ body{
   font-size: 30px;
 }
 
+.add-to-cart-section{
+  margin-top: 60px;
+}
+
 .add-to-cart{
   background-color: #16a5a5;
   color: white;
@@ -113,16 +121,50 @@ body{
 }
 
 .review-section{
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .review{
-  margin-left: 10px;
+  margin-left: 20px;
   margin-bottom: 10px;
 }
 
 .thumbs{
   width: 3%;
+}
+
+.add-review-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.add-review {
+  background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 5px;
+  margin-left: 20px;
+  margin-right: 10px;
+  border: none;
+}
+
+.choice {
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.review-buttons button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
 
 .home-container {
@@ -133,6 +175,31 @@ body{
 }
 
 .profile-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.cart-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.removebutton{
+  background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 7px;
+  border: none;
+}
+
+.add-review-container{
   margin-top: 40px;
   margin-right: 50px;
   margin-bottom: 40px;
@@ -448,8 +515,8 @@ display: block;
 }
 
 .container {
-  max-width: 1170px;
-  margin: auto;
+  width: 100%;
+  margin: 0;
 }
 
 img {
