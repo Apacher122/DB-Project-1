@@ -535,17 +535,20 @@ def category():
   categories = []
   product_numbers = []
   descriptions = []
-  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.item_type = (%s)", category)
+  colors = []
+  cursor = g.conn.execute("SELECT product_number, name, description,color FROM Products WHERE products.item_type = (%s)", category)
   
   for result in cursor:
     categories.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
+    colors.append(result['color'])
+    #print(result['color'])
   cursor.close()
 
   my_dict2=defaultdict(dict)
-  for i,j,k in zip(product_numbers, categories, descriptions):
-    my_dict2[i][j] = k
+  for i,j,k,l in zip(product_numbers, categories, descriptions,colors):
+    my_dict2[i][j] = k,l
 
   context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
@@ -558,12 +561,14 @@ def brand():
   brands = []
   product_numbers = []
   descriptions = []
-  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
+  colors=[]
+  cursor = g.conn.execute("SELECT product_number, name, description,color FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
   
   for result in cursor:
     brands.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
+    colors.append(result['color'])
   cursor.close()
 
   cursor1 = g.conn.execute("SELECT name FROM users WHERE user_id = (%s)", brand)
@@ -574,8 +579,8 @@ def brand():
   print(cursor1)
 
   my_dict2=defaultdict(dict)
-  for i,j,k in zip(product_numbers,brands, descriptions):
-    my_dict2[i][j] = k
+  for i,j,k,l in zip(product_numbers,brands, descriptions,colors):
+    my_dict2[i][j] = k,l
 
   my_dict = dict(zip(product_numbers, brands))
   context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
