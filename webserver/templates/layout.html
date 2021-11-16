@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
 
 
@@ -81,6 +82,14 @@
               }
             })
           </script>
+          {% if session['loggedin'] == True %}
+          <div class="loggedin">
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i>Settings</a>
+            <a href="{{ url_for('chat') }}"><i class="fas fa-envelope"></i>Messages</a>
+          </div>
+          {% endif %}
       </nav>
     </div>
 </div>

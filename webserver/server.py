@@ -1,4 +1,3 @@
-
 """
 Columbia's COMS W4111.001 Introduction to Databases
 Example Webserver
@@ -13,16 +12,24 @@ import psycopg2
 import random
 import string
 import re
+import pytz
+import hashlib
+import time
 from collections import defaultdict
 from typing import DefaultDict
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, session, url_for, request, render_template, g, redirect, Response
+from flask import Flask, flash, session, url_for, request, render_template, g, redirect, Response
+from flask_socketio import SocketIO, join_room
+from datetime import datetime
+from functools import wraps
+
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 app.secret_key='secret'
+socketio = SocketIO(app)
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -123,7 +130,7 @@ def index():
   #cursor.close()
 
   #
-  # Flask uses Jinja templates, which is an extension to HTML where you can
+  # Flask uses Jinja templathttps://github.com/Bamimore-Tomi/fauna-chat.gites, which is an extension to HTML where you can
   # pass data to a template and dynamically generate HTML based on the data
   # (you can think of it as simple PHP)
   # documentation: https://realpython.com/primer-on-jinja-templating/
@@ -214,6 +221,7 @@ def register():
       name = request.form['name']
       username = request.form['username']
       email = request.form['email']
+      print("test")
         # Check if account exists using MySQL
       cursor = g.conn.execute("SELECT * FROM users WHERE username = (%s)", username)
       account = cursor.fetchone()
@@ -237,6 +245,7 @@ def register():
               break
       
           cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
+          cursor1 = g.conn.execute("INSERT INTO Consumers VALUES (%s, %s, %s, %s)", (id, '', '', ''))
           msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -264,33 +273,206 @@ def profile():
         account = cursor.fetchone()
         cursor1 = g.conn.execute("SELECT * FROM lives_at WHERE user_id = (%s)", session['user_id'])
         livesAt = cursor1.fetchone()
-        cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
-        address = cursor2.fetchone()
+        if (livesAt):
+          cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
+          address = cursor2.fetchone()
+        else:
+          address = 0
         # Show the profile page with account info
         return render_template('profile.html', account=account, address=address)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+# Settings page
+@app.route('/settings', methods=['GET','POST'])
+def settings():
+  msg=''
+  if request.method == 'POST' and 'address1' in request.form and 'city' in request.form and 'state' in request.form and 'zip' in request.form and 'dob' in request.form and 'size' in request.form and session['user_id']:
+    id = session['user_id']
+    address1 = request.form['address1']
+    address2 = request.form['address2']
+    city = request.form['city']
+    state = request.form['state']
+    zip = request.form['zip']
+    dob = request.form['dob']
+    size = request.form['size']
+    
+    cursor1 = g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+    cursor2 = g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+  return render_template('settings.html')
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+  room_id = request.args.get("rid", None)
+  id = session['user_id']
+  data = []
+  chat_list = []
+  try:
+    chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
+  except:
+    chat_list = []
+  
+  for i in chat_list:
+    username = id
+    print("sender: " + i['sender'])
+    if i['sender'] == id:
+      username = i['recipient']
+    elif i['recipient'] == id:
+      username = i['sender']
+  
+
+    cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", username)
+    username = cursor.fetchone()
+    cursor.close()
+    active = False
+    print("username: ")
+    print(username)
+
+    if room_id == i['session_id']:
+      active = True
+    
+    try:
+      # Last message
+      cursor = g.conn.execute("SELECT content FROM chat WHERE session_id =  (%s)", i['session_id'])
+      last_message = ''
+      for n in cursor:
+        last_message = n['content']
+      cursor.close()
+    except:
+      last_message = "No messages..."
+
+    if i['sender'] == id or i['recipient'] == id:
+      data.append(
+        {
+          "username":username['username'],
+          "room_id":i['session_id'],
+          "active":active,
+          "last_message":last_message,
+        }
+      )
+  chat_list.close()
+  message = []
+  dates = []
+  senders = []
+  if room_id != None:
+    cursor = g.conn.execute("SELECT date_time, content, sender FROM chat WHERE session_id = (%s)", room_id)
+    message = cursor.fetchall()
+  
+  print("test")
+  for n in message:
+    print(n['sender'])
+  return render_template(
+    "chat.html",
+    user_data=id,
+    room_id=room_id,
+    data=data,
+    message=message,
+  )
+
+# New chat
+@app.route('/newchat', methods=['POST'])
+def newchat():
+  print("test1")
+  user_id = session['user_id']
+  new_chat = request.form['user']
+  print(new_chat)
+
+  if new_chat == session['username']:
+    return redirect(url_for("chat"))
+
+  try:
+    cursor = g.conn.execute("SELECT user_id FROM users WHERE username = (%s)", new_chat)
+    new_chat_id = cursor.fetchone()
+    cursor.close()
+  except:
+    return redirect(url_for("chat"))
+  
+  cursor = g.conn.execute("SELECT * from chat WHERE sender = (%s) OR recipient = (%s)", user_id, user_id)
+  senders = cursor.fetchall()
+  cursor.close()
+
+  cursor = g.conn.execute("SELECT * from chat WHERE sender = (%s) OR recipient = (%s)", new_chat_id['user_id'], new_chat_id['user_id'])
+  recipient = cursor.fetchall()
+  cursor.close()
+
+  try:
+    chat_list1 = [list(i['recipient'] for i in senders)]
+    chat_list2 = [list(i['senders'] for i in senders)]
+  except:
+    chat_list1 = []
+    chat_list2 = []
+
+  if new_chat_id['user_id'] not in chat_list1 or new_chat_id['user_id'] not in chat_list2:
+    room_id = ''
+    while True:
+      room_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 10))
+      temp = g.conn.execute("SELECT session_id FROM chat WHERE session_id = (%s)", user_id)
+      exists = temp.fetchone()
+      if not exists:
+        break
+    
+    dateTimeObj = datetime.now()
+    date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
+    cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, '1', date, 'New Chat Request', user_id, new_chat_id['user_id'])
+  return redirect(url_for("chat"))
+
+# Join room
+@socketio.on("join-chat")
+def join_private_chat(data):
+    room = data["rid"]
+    join_room(room=room)
+    socketio.emit(
+        "joined-chat",
+        {"msg": f"{room} is now online."},
+        room=room,
+        # include_self=False,
+    )
+
+@socketio.on("outgoing")
+def chatting_event(json, methods=["GET", "POST"]):
+    room_id = json["rid"]
+    timestamp = json["timestamp"]
+    message = json["message"]
+    sender_id = json["sender_id"]
+    sender_username = json["sender_username"]
+
+    cursor = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
+    message = cursor.fetchall()
+    cursor.close()
+
+    for i in message:
+      if i['session_id'] == room_id:
+        message_id = int(i['message_id']) + 1
+    
+    cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, message_id, timestamp, message, sender_id, '')
+
+    socketio.emit(
+        "message",
+        json,
+        room=room_id,
+        include_self=False,
+    )
 
 # Shop by category page
 @app.route('/category', methods=['POST'])
 def category():
   print(request.args)
   category = request.form['category']
+  print(category)
   categories = []
   product_numbers = []
   descriptions = []
-  colors = []
-  cursor = g.conn.execute("SELECT product_number, name, description, color FROM Products WHERE products.item_type = (%s)", category) 
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.item_type = (%s)", category)
+  
   for result in cursor:
     categories.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
-    colors.append(result['color'])
   cursor.close()
 
   my_dict2=defaultdict(dict)
-  for i,j,k, l in zip(product_numbers, categories, descriptions,colors):
-    my_dict2[i][j] = k,l
+  for i,j,k in zip(product_numbers, categories, descriptions):
+    my_dict2[i][j] = k
 
   context = {'my_dict2':my_dict2, 'category':category}
   return render_template("products.html", **context)
@@ -303,14 +485,12 @@ def brand():
   brands = []
   product_numbers = []
   descriptions = []
-  colors = []
-  cursor = g.conn.execute("SELECT product_number, name, description, color FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
+  cursor = g.conn.execute("SELECT product_number, name, description FROM Products WHERE products.sold_by = (%s) GROUP BY product_number, name, description", brand)
   
   for result in cursor:
     brands.append(result['name'])
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
-    colors.append(result['color'])
   cursor.close()
 
   cursor1 = g.conn.execute("SELECT name FROM users WHERE user_id = (%s)", brand)
@@ -318,10 +498,11 @@ def brand():
   for n in cursor1:
     names.append(n)
   cursor1.close()
+  print(cursor1)
 
   my_dict2=defaultdict(dict)
-  for i,j,k,l in zip(product_numbers,brands, descriptions, colors):
-    my_dict2[i][j] = k,l
+  for i,j,k in zip(product_numbers,brands, descriptions):
+    my_dict2[i][j] = k
 
   my_dict = dict(zip(product_numbers, brands))
   context = {'my_dict':my_dict, 'brand':names, 'my_dict2':my_dict2}
@@ -332,54 +513,14 @@ def brand():
 def item():
   print(request.args)
   selected_item=request.args.get('type')
-  selected_color = request.args.get('color')
-  print(selected_color)
   names = []
-  if selected_color:
-    print('entered')
-    cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s) AND products.color = (%s)", selected_item, selected_color)
-  else:
-        cursor = g.conn.execute("SELECT * FROM Products, Retailers, Users WHERE products.sold_by = retailers.user_id AND retailers.user_id = users.user_id AND products.name = (%s)", selected_item)
+  cursor = g.conn.execute("SELECT name, description FROM Products WHERE products.name = (%s) GROUP BY name, description", selected_item)
   for result in cursor:
-    names.append(result[0]) #product number
-    #names.append(result[1]) #seller id
-    names.append(result[2]) #product name
-    names.append(result[3]) #color
-    names.append(result[4]) #price
-    names.append(result[5]) #description
-    names.append(result[6]) #bool
-    names.append(result[7]) #bool
-    #names.append(result[8]) #item type
-    #names.append(result[9]) #stock
-    names.append(result[10]) #size
-    names.append(result[11]) #discount price
-    #names.append(result[12]) #seller id
-    #names.append(result[13]) #store type
-    #names.append(result[14]) #seller id
-    names.append(result[15]) #username
-    #names.append(result[16]) #email
-    names.append(result[17]) #seller name
+    names.append(result['name'])
+    names.append(result['description'])
   cursor.close()
-
-  cursor1 = g.conn.execute("SELECT * FROM review_posts R, users U WHERE R.reviewer = U.user_id AND R.reviewed_product = (%s)", names[0])
-  reviews = []
-  for n in cursor1:
-    reviews.append(n)
-  cursor1.close()
-
-  cursor2 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.review_type = 'thumbs up' AND R.reviewed_product = (%s)", names[0])
-  cursor3 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.reviewed_product = (%s)", names[0])
-  average = []
-  for i in cursor2:
-    for j in cursor3:
-      if (j[0] != 0):
-        average.append(i[0]/j[0] *100)
-    cursor3.close()
-  cursor2.close()
-
   context = dict(data=names)
-
-  return render_template("item.html", **context, reviews=reviews, average=average)
+  return render_template("item.html", **context)
 
 
 
