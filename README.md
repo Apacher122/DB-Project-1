@@ -9,3 +9,7 @@
 Additional implementation: We added some functionality that allowed for more comprehensive interaction with the database and a more logical and completed web app. This includes: a profile tab that shows the user their input information, a settings tab that allows the user to add a new address and specify their birthday and size preference, a newsfeed on the home page that shows your posts and your friends' posts, being able to remove a review once you have posted it on item pages, and being able to add a new address on the checkout page.
 
 Unimplemented portions of proposal: We did not attach images to reviews, as we found that it did not make much sense since we changed our review post formats to be just a thumbs up or a thumbs down.
+
+4. Interesting web pages:
+- Individual item pages (/item?=type[item name]&color=[color]): each page shows the product's information from the natural join of products and retailers (seller name, product name, product color if applicable, price, size, description). At the bottom of the page, we show the reviews from the table review_posts (reviewer name, thumbs up/down) and also show the average score of the item, i.e., the proportion of thumbs up to the total number of reviews
+- 
