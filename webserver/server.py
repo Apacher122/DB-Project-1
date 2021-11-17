@@ -737,7 +737,7 @@ def order():
     
     g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
     g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
-    
+
   cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
   street_1 = []
   street_2 = []
@@ -788,13 +788,6 @@ def addreview():
     next = request.referrer
 
     selected_color = next.split("&color=",1)
-    
-    #selected_item = re.search("type=(.*?)&color=",next)
-    #print(selected_item)
-    #if not selected_item:
-    #  selected_item = next.split("type=",1)[1]
-    #print(selected_item)
-    #selected_item = selected_item.replace("+", " ")
     
     if not not selected_color and selected_color[0] != next:
       selected_item = re.search("type=(.*?)&color=",next).group(1)
@@ -850,7 +843,6 @@ def category():
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
     colors.append(result['color'])
-    #print(result['color'])
   cursor.close()
 
   my_dict2=defaultdict(dict)
@@ -925,14 +917,26 @@ def item():
     #names.append(result[16]) #email
     names.append(result[17]) #seller name
   cursor.close()
+
   cursor1 = g.conn.execute("SELECT * FROM review_posts R, users U WHERE R.reviewer = U.user_id AND R.reviewed_product = (%s)", names[0])
-  reviews = []
+  reviews = [] # all reviews for the product (includes all attributes)
   for n in cursor1:
     reviews.append(n)
   cursor1.close()
 
+  photos = []
+  for review in reviews:
+    cursor4 = g.conn.execute("SELECT * FROM include_photo P WHERE P.review_id = (%s)",review['review_id'])
+    for photo in cursor4:
+      photos.append(photo)
+      #reviews[review].append(photo)
+      #print(reviews[review])
+      #print(photo)
+    cursor4.close()
+
   cursor2 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.review_type = 'thumbs up' AND R.reviewed_product = (%s)", names[0])
   cursor3 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.reviewed_product = (%s)", names[0])
+  
   average = []
   for i in cursor2:
     for j in cursor3:
@@ -943,7 +947,7 @@ def item():
 
   context = dict(data=names)
 
-  return render_template("item.html", **context, reviews=reviews, average=average)
+  return render_template("item.html", **context, reviews=reviews, photos=photos, average=average)
 
 
 # POST ITEM
