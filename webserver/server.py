@@ -353,6 +353,13 @@ def profile():
       cursor2 = g.conn.execute("SELECT connection FROM connected_to WHERE user_id = (%s)", id)
       friends = cursor2.fetchall()
 
+      preferences = []
+      cursor3 = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id = (%s)", id)
+      for n in cursor3:
+        print(n)
+        preferences.append(n)
+      cursor3.close()
+
       usernames = []
       for i in friends:
         cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", i['connection'])
@@ -366,7 +373,7 @@ def profile():
       else:
         address = 0
       # Show the profile page with account info
-      return render_template('profile.html', account=account, address=address, friends=friends, usernames=usernames)
+      return render_template('profile.html', account=account, address=address, friends=friends, usernames=usernames, preferences=preferences)
   # User is not loggedin redirect to login page
   return redirect(url_for('login'))
 
@@ -423,8 +430,18 @@ def settings():
     dob = request.form['dob']
     size = request.form['size']
     
-    cursor1 = g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-    cursor2 = g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    temp1 = g.conn.execute("SELECT * FROM addresses A WHERE A.street_1 = (%s) AND A.street_2=(%s) AND A.zip = (%s)", address1, address2, zip)
+    exists1 = temp1.fetchone()
+    if not exists1:
+      g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    
+    temp = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id =(%s)", id)
+    exists = temp.fetchone()
+    if not exists:
+      g.conn.execute("INSERT INTO consumers(user_id, size_pref, date_of_birth) VALUES (%s, %s, %s)", id, size, dob)
+    else: 
+      g.conn.execute("UPDATE consumers SET size_pref = (%s) AND date_of_birth = (%s) WHERE user_id = (%s)", size, dob, id)
   return render_template('settings.html')
 
 @app.route('/chat', methods=['GET', 'POST'])
@@ -735,8 +752,11 @@ def order():
     state = request.form['state']
     zip = request.form['zip']
     
-    g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-    g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    temp = g.conn.execute("SELECT * FROM addresses A WHERE A.street_1 = (%s) AND A.street_2 = (%s) AND A.zip=(%s)", address1, address2, zip)
+    exists = temp.fetchone()
+    if not exists:
+      g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
 
   cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
   street_1 = []
