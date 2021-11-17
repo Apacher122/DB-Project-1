@@ -24,7 +24,6 @@ from flask import Flask, flash, session, url_for, request, render_template, g, r
 from flask_socketio import SocketIO, join_room
 from datetime import datetime
 from functools import wraps
-from datetime import date
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -246,7 +245,7 @@ def register():
               break
       
           cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
-          cursor1 = g.conn.execute("INSERT INTO consumers(user_id) VALUES (%s)", id)
+          cursor1 = g.conn.execute("INSERT INTO Consumers VALUES (%s, %s, %s, %s)", (id, '', '', ''))
           msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -441,7 +440,6 @@ def chat():
   
   for i in chat_list:
     username = id
-    print("sender: " + i['sender'])
     if i['sender'] == id:
       username = i['recipient']
     elif i['recipient'] == id:
@@ -452,8 +450,6 @@ def chat():
     username = cursor.fetchone()
     cursor.close()
     active = False
-    print("username: ")
-    print(username)
 
     if room_id == i['session_id']:
       active = True
@@ -543,43 +539,51 @@ def newchat():
     cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, '1', date, 'New Chat Request', user_id, new_chat_id['user_id'])
   return redirect(url_for("chat"))
 
-# Join room
-@socketio.on("join-chat")
-def join_private_chat(data):
-    room = data["rid"]
-    join_room(room=room)
-    socketio.emit(
-        "joined-chat",
-        {"msg": f"{room} is now online."},
-        room=room,
-        # include_self=False,
-    )
+# send message
+@app.route('/send_message', methods=['GET', 'POST'])
+def send_message():
+  id = session['user_id']
+  message = request.form['message']
+  dateTimeObj = datetime.now()
+  date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
+  url = request.referrer
+  rid = url.split("rid=",1)[1]
 
-@socketio.on("outgoing")
-def chatting_event(json, methods=["GET", "POST"]):
-    room_id = json["rid"]
-    timestamp = json["timestamp"]
-    message = json["message"]
-    sender_id = json["sender_id"]
-    sender_username = json["sender_username"]
-
-    cursor = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
-    message = cursor.fetchall()
-    cursor.close()
-
-    for i in message:
-      if i['session_id'] == room_id:
-        message_id = int(i['message_id']) + 1
+  try:
+    chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
+  except:
+    chat_list = []
+  
+  for i in chat_list:
+    if i['session_id'] == rid:
+      username = id
+      if i['sender'] == id:
+        recipient = i['recipient']
+      elif i['recipient'] == id:
+        recipient = i['sender']
     
-    cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, message_id, timestamp, message, sender_id, '')
+      cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", username)
+      username = cursor.fetchone()
+      cursor.close()
+      
+      try:
+        # Last message
+        cursor = g.conn.execute("SELECT * FROM chat WHERE session_id =  (%s)", rid)
+        last_message = ''
+        counter = 1
+        for n in cursor:
+          counter += 1
+          print(counter)
+        cursor.close()
+        cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", rid, counter, date, message, id, recipient)
+        cursor.close()
+      except:
+        last_message = "No messages..."
+  chat_list.close()
 
-    socketio.emit(
-        "message",
-        json,
-        room=room_id,
-        include_self=False,
-    )
+  return redirect(url_for("chat", rid=rid))
 
+# Shop by category page
 # user's cart
 @app.route('/cart')
 def cart():
@@ -597,35 +601,7 @@ def cart():
   my_dict = defaultdict(dict)
   for i, j, k in zip(names, quantities, productnumbers):
     my_dict[i] = j, k
-
-  order_numbers =[]
-  order_dates = []
-  statuses = []
-  street_1 = []
-  street_2 = []
-  zips = []
-  cursor2 = g.conn.execute("SELECT * FROM orders O WHERE O.user_id = (%s)", id)
-  for r in cursor2:
-    order_numbers.append(r['order_number'])
-    order_dates.append(r['order_date'])
-    statuses.append(r['status'])
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor2.close()
-    
-  my_dict2 = defaultdict(dict) 
-  for l, m, n, o, p, q in zip(order_numbers, order_dates, statuses, street_1, street_2, zips):
-    my_dict2[l] = m,n,o,p,q
-  
-  my_dict3 = defaultdict(dict)
-  for order in order_numbers:
-    cursor3 = g.conn.execute("SELECT * FROM contains_item C, products P WHERE C.product_number = P.product_number AND C.order_number = (%s)",order)
-    for item in cursor3:
-      my_dict3[order][item['name']] = item['quantity']
-    cursor3.close()
-
-  context = {'my_dict':my_dict, 'my_dict2':my_dict2, 'my_dict3':my_dict3}
+  context = {'my_dict':my_dict}
 
   return render_template('cart.html', **context)
 
@@ -636,133 +612,6 @@ def removefromcart():
   product = request.form['removefromcart'] 
   g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s) and C.product_number = (%s)", id, product)
   return redirect('/cart')
-
-# checkout page
-@app.route('/checkout', methods=['POST','GET'])
-def orderpage():
-  id = session['user_id']
-  cursor = g.conn.execute("SELECT * FROM has_in_cart C, products P WHERE C.user_id = (%s) AND P.product_number = C.product_number", id)
-  names = []
-  quantities = []
-  productnumbers = []
-  for result in cursor:
-    names.append(result['name'])
-    quantities.append(result['quantity'])
-    productnumbers.append(result['product_number'])
-  cursor.close()
-
-  my_dict = defaultdict(dict)
-  for i, j, k in zip(names, quantities, productnumbers):
-    my_dict[i] = j, k
-
-  cursor2 = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
-  street_1 = []
-  street_2 = []
-  zips = []
-  for r in cursor2:
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor2.close()
-
-  my_dict2 = defaultdict(dict)
-  count = 0
-  for l, m, n in zip(street_1, street_2, zips):
-    my_dict2[count] = l,m,n
-    count = count + 1
-
-  context = {'my_dict':my_dict,'my_dict2':my_dict2}
-
-  return render_template("order.html", **context)
-
-# set if you want send your order to your address or a new one on checkout page
-@app.route('/setaddress',methods=['POST'])
-def setaddress():
-  whichaddress=request.form['selectaddress']
-  print(whichaddress)
-  id = session['user_id']
-  cursor = g.conn.execute("SELECT * FROM has_in_cart C, products P WHERE C.user_id = (%s) AND P.product_number = C.product_number", id)
-  names = []
-  quantities = []
-  productnumbers = []
-  for result in cursor:
-    names.append(result['name'])
-    quantities.append(result['quantity'])
-    productnumbers.append(result['product_number'])
-  cursor.close()
-
-  my_dict = defaultdict(dict)
-  for i, j, k in zip(names, quantities, productnumbers):
-    my_dict[i] = j, k
-
-  cursor2 = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
-  street_1 = []
-  street_2 = []
-  zips = []
-  for r in cursor2:
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor2.close()
-
-  my_dict2 = defaultdict(dict)
-  for l, m, n in zip(street_1, street_2, zips):
-    my_dict2[l] = m,n
-
-  context = {'my_dict':my_dict,'my_dict2':my_dict2}
-
-  return render_template("order.html", **context, whichaddress=whichaddress)
-
-# submit order from checkout page
-@app.route('/order', methods=['POST'])
-def order():
-  id = session['user_id']
-  order_id = ''
-  while True:
-    order_id = ''.join(random.choices(string.digits, k = 10))
-    temp = g.conn.execute("SELECT * FROM orders O WHERE O.order_number= (%s)", order_id)
-    exists = temp.fetchone()
-    if not exists:
-      break
-  today = datetime.now()
-  date = today.strftime("%Y-%m-%d")
-
-  
-  if 'address1' in request.form and 'city' in request.form and 'state' in request.form and 'zip' in request.form:
-    address1 = request.form['address1']
-    address2 = request.form['address2']
-    city = request.form['city']
-    state = request.form['state']
-    zip = request.form['zip']
-    
-    g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-    g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
-    
-  cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
-  street_1 = []
-  street_2 = []
-  zips = []
-
-  for r in cursor:
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor.close()
-  address1 = street_1[0]
-  address2 = street_2[0]
-  zip=zips[0]
-  
-  itemsincart = defaultdict(dict)
-  cursor1 = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s)", id)
-  for n in cursor1:
-    itemsincart[n['product_number']] = n['quantity']
-  cursor1.close()
-
-  g.conn.execute("INSERT INTO orders VALUES (%s, %s, %s, %s, %s, %s, %s)",order_id, date, "Processing", id, address1, address2, zip)
-  for item in itemsincart:
-    g.conn.execute("INSERT INTO contains_item VALUES (%s,%s,%s)", order_id, item, itemsincart[item])
-  g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s)", id)
-  return redirect(url_for('cart'))
 
 # add an item to the cart (item page)
 @app.route('/addtocart',methods=['POST'])
@@ -785,35 +634,17 @@ def addreview():
     print(request.args)
     id = session['user_id']
     review_type = request.form['add-review']
-    next = request.referrer
-
-    selected_color = next.split("&color=",1)
-    
-    #selected_item = re.search("type=(.*?)&color=",next)
-    #print(selected_item)
-    #if not selected_item:
-    #  selected_item = next.split("type=",1)[1]
-    #print(selected_item)
-    #selected_item = selected_item.replace("+", " ")
-    
-    if not not selected_color and selected_color[0] != next:
-      selected_item = re.search("type=(.*?)&color=",next).group(1)
-      print(selected_item)
-      selected_item = selected_item.replace("+", " ")
-      selected_color = next.split("&color=",1)[1]
-      selected_color = selected_color.replace("+"," ")
-      cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
-    else:
-      selected_item = next.split("type=",1)[1]
-      selected_item = selected_item.replace("+", " ")
-      print(selected_item)
-      cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
-    
-    name = []
-    for result in cursor:
-      name.append(result['product_number'])
-    cursor.close()
-    product_id = name[0]
+    selected_item=request.args.get('type')
+    print(selected_item)
+    selected_color = request.args.get('color')
+    #if selected_color:
+    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
+    #else:
+    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
+    #name = []
+    #for result in cursor:
+    #  name.append(result[0])
+    #product_id = name[0]
     review_id = ''
     while True:
       review_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
@@ -821,17 +652,8 @@ def addreview():
       exists = temp.fetchone()
       if not exists:
         break
-    g.conn.execute("INSERT INTO review_posts VALUES (%s,%s,%s,%s)",review_id,review_type,id,product_id)
-    return redirect(next)
-
-# remove one of your reviews for an item
-@app.route('/removereview', methods=['POST'])
-def removereview():
-  next = request.referrer
-  review_id = request.form['removereview']
-  print(review_id)
-  g.conn.execute("DELETE FROM review_posts R WHERE R.review_id = (%s)", review_id)
-  return redirect(next)
+    #g.conn.execute("INSERT INTO review_posts VALUES (%s,%s,%s,%s)",review_id,review_type,id,product_id)
+    return redirect('/home')
 
 # populate products page based on category
 @app.route('/category', methods=['POST'])
