@@ -11,8 +11,6 @@ import os
 import psycopg2
 import random
 import string
-import re
-import pytz
 import hashlib
 import time
 from collections import defaultdict
@@ -21,15 +19,12 @@ from typing import DefaultDict
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, flash, session, url_for, request, render_template, g, redirect, Response
-from flask_socketio import SocketIO, join_room
 from datetime import datetime
-from functools import wraps
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 app.secret_key='secret'
-socketio = SocketIO(app)
 
 #
 # The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
@@ -579,7 +574,11 @@ def send_message():
   dateTimeObj = datetime.now()
   date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
   url = request.referrer
-  rid = url.split("rid=",1)[1]
+
+  try:
+    rid = url.split("rid=",1)[1]
+  except:
+    return redirect(url_for("chat"))
 
   try:
     chat_list = g.conn.execute("SELECT a.* FROM chat a LEFT OUTER JOIN chat b ON (a.session_id = b.session_id AND a.message_id > b.message_id) WHERE b.session_id IS NULL")
