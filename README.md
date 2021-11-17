@@ -12,7 +12,7 @@ Implementation of proposal: From the original proposal, we implemented be able t
  size preference, a newsfeed on the home page that shows your posts and your friends' posts, being able to remove a review once you have posted it on item pages,
  and being able to add a new address on the checkout page.
 
-Note: We did implement "showing reviews with associated reviews" by querying the include_photo relationship set and just showing the photo_ids with their associated products. We did not attach actual image files to those photo IDs like we did with other product photos on the site. We found that it did not make much sense since our review post formats are just a thumbs up or a thumbs down without text, so associating a real photo might look funny.
+Note: On each product page, we implemented "showing reviews with associated reviews" by querying the include_photo relationship set and just showing the photo_ids with their associated products. We did not attach actual image files to those photo IDs like we did with other product photos on the site. We found that it did not make much sense since our review post formats are just a thumbs up or a thumbs down without text, so associating a real photo might look funny.
 
 4.
 Interesting web pages:
