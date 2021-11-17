@@ -26,7 +26,7 @@
     </form>
     {% if whichaddress is not defined or whichaddress == 'currentaddress' %} 
         {% if my_dict2[0][0] %} 
-            {{my_dict2[0][0]}} {{my_dict2[j][1]}} {{my_dict2[j][2]}}
+            {{my_dict2[0][0]}}, {% if my_dict2[0][1] %}{{my_dict2[0][1]}}, {% endif %}{{my_dict2[0][2]}}
         <form method="POST" name="submitorder" action="/order">
             <button>Submit Order</button>
         </form>
