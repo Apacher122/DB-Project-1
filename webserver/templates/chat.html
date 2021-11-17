@@ -83,7 +83,6 @@
       </div>
     </div>
   </div>
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"
@@ -91,8 +90,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript">
 
-    // THIS FUNCTION SHOULD SCROLL DOWN AUTOMATICALLY
-    //let scrollingElement = (document.scrollingElement || document.body)
+    let scrollingElement = (document.scrollingElement || document.body)
     let msgH = document.querySelectorAll(".msg_history > div"), CurrentLen;
     let init = () => {
       CurrentLen = msgH.length;
@@ -110,8 +108,8 @@
       }
     }
     let scrollDown = () => {
-      //scrollingElement.scrollTop = scrollingElement.scrollHeight;
-      //$container.animate({scrollTop: $container[0].scrollHeight }, "slow");
+      scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      $container.animate({scrollTop: $container[0].scrollHeight }, "slow");
       validatePosition();
       location.href = "#last_message";
       init();
