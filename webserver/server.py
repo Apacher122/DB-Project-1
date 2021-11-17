@@ -194,6 +194,7 @@ def login():
         username = request.form['username']
         cursor = g.conn.execute("SELECT * FROM users WHERE username = (%s)", username)
         account = cursor.fetchone()
+        cursor.close()
 
         if account:
           session['loggedin'] = True
@@ -225,6 +226,7 @@ def register():
         # Check if account exists using MySQL
       cursor = g.conn.execute("SELECT * FROM users WHERE username = (%s)", username)
       account = cursor.fetchone()
+      cursor.close()
       # If account exists show error and validation checks
       if account:
           msg = 'Account already exists!'
@@ -245,7 +247,9 @@ def register():
               break
       
           cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
+          cursor.close()
           cursor1 = g.conn.execute("INSERT INTO Consumers VALUES (%s, %s, %s, %s)", (id, '', '', ''))
+          cursor1.close()
           msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -333,6 +337,7 @@ def delpost():
   if (request.method == "POST"):
     post_id = request.form['post_id']
     cursor = g.conn.execute("DELETE FROM posts WHERE post_id = (%s)", post_id)
+    cursor.close()
   return redirect(url_for('home'))
 
 
@@ -351,6 +356,7 @@ def profile():
       cursor1.close()
       cursor2 = g.conn.execute("SELECT connection FROM connected_to WHERE user_id = (%s)", id)
       friends = cursor2.fetchall()
+      cursor2.close()
 
       preferences = []
       cursor3 = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id = (%s)", id)
@@ -413,6 +419,7 @@ def unfollow():
     cursor.close()
 
     cursor = g.conn.execute("DELETE FROM connected_to WHERE user_id = (%s) AND connection = (%s)", id, friend['user_id'])
+    cursor.close()
   return redirect(url_for('profile'))
 
 # Settings page
@@ -497,6 +504,7 @@ def chat():
   if room_id != None:
     cursor = g.conn.execute("SELECT date_time, content, sender FROM chat WHERE session_id = (%s)", room_id)
     message = cursor.fetchall()
+    cursor.close()
   
   print("test")
   for n in message:
@@ -554,6 +562,7 @@ def newchat():
     dateTimeObj = datetime.now()
     date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
     cursor = g.conn.execute("INSERT INTO chat VALUES (%s, %s, %s, %s, %s, %s)", room_id, '1', date, 'New Chat Request', user_id, new_chat_id['user_id'])
+    cursor.close()
   return redirect(url_for("chat"))
 
 # send message
@@ -810,8 +819,17 @@ def addreview():
       exists = temp.fetchone()
       if not exists:
         break
-    #g.conn.execute("INSERT INTO review_posts VALUES (%s,%s,%s,%s)",review_id,review_type,id,product_id)
-    return redirect('/home')
+    g.conn.execute("INSERT INTO review_posts VALUES (%s,%s,%s,%s)",review_id,review_type,id,product_id)
+    return redirect(next)
+
+# remove one of your reviews for an item
+@app.route('/removereview', methods=['POST'])
+def removereview():
+  next = request.referrer
+  review_id = request.form['removereview']
+  print(review_id)
+  g.conn.execute("DELETE FROM review_posts R WHERE R.review_id = (%s)", review_id)
+  return redirect(next)
 
 # populate products page based on category
 @app.route('/category', methods=['POST'])
@@ -935,7 +953,6 @@ def item():
   context = dict(data=names)
 
   return render_template("item.html", **context, reviews=reviews, photos=photos, average=average)
-
 
 # POST ITEM
 # @app.route('/posts', methods=['POST'])
