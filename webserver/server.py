@@ -352,6 +352,13 @@ def profile():
       cursor2 = g.conn.execute("SELECT connection FROM connected_to WHERE user_id = (%s)", id)
       friends = cursor2.fetchall()
 
+      preferences = []
+      cursor3 = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id = (%s)", id)
+      for n in cursor3:
+        print(n)
+        preferences.append(n)
+      cursor3.close()
+
       usernames = []
       for i in friends:
         cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", i['connection'])
@@ -365,7 +372,7 @@ def profile():
       else:
         address = 0
       # Show the profile page with account info
-      return render_template('profile.html', account=account, address=address, friends=friends, usernames=usernames)
+      return render_template('profile.html', account=account, address=address, friends=friends, usernames=usernames, preferences=preferences)
   # User is not loggedin redirect to login page
   return redirect(url_for('login'))
 
@@ -422,8 +429,18 @@ def settings():
     dob = request.form['dob']
     size = request.form['size']
     
-    cursor1 = g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-    cursor2 = g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    temp1 = g.conn.execute("SELECT * FROM addresses A WHERE A.street_1 = (%s) AND A.street_2=(%s) AND A.zip = (%s)", address1, address2, zip)
+    exists1 = temp1.fetchone()
+    if not exists1:
+      g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    
+    temp = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id =(%s)", id)
+    exists = temp.fetchone()
+    if not exists:
+      g.conn.execute("INSERT INTO consumers(user_id, size_pref, date_of_birth) VALUES (%s, %s, %s)", id, size, dob)
+    else: 
+      g.conn.execute("UPDATE consumers SET size_pref = (%s) AND date_of_birth = (%s) WHERE user_id = (%s)", size, dob, id)
   return render_template('settings.html')
 
 @app.route('/chat', methods=['GET', 'POST'])
@@ -613,6 +630,136 @@ def removefromcart():
   g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s) and C.product_number = (%s)", id, product)
   return redirect('/cart')
 
+# checkout page
+@app.route('/checkout', methods=['POST','GET'])
+def orderpage():
+  id = session['user_id']
+  cursor = g.conn.execute("SELECT * FROM has_in_cart C, products P WHERE C.user_id = (%s) AND P.product_number = C.product_number", id)
+  names = []
+  quantities = []
+  productnumbers = []
+  for result in cursor:
+    names.append(result['name'])
+    quantities.append(result['quantity'])
+    productnumbers.append(result['product_number'])
+  cursor.close()
+
+  my_dict = defaultdict(dict)
+  for i, j, k in zip(names, quantities, productnumbers):
+    my_dict[i] = j, k
+
+  cursor2 = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
+  street_1 = []
+  street_2 = []
+  zips = []
+  for r in cursor2:
+    street_1.append(r['street_1'])
+    street_2.append(r['street_2'])
+    zips.append(r['zip'])
+  cursor2.close()
+
+  my_dict2 = defaultdict(dict)
+  count = 0
+  for l, m, n in zip(street_1, street_2, zips):
+    my_dict2[count] = l,m,n
+    count = count + 1
+
+  context = {'my_dict':my_dict,'my_dict2':my_dict2}
+
+  return render_template("order.html", **context)
+
+# set if you want send your order to your address or a new one on checkout page
+@app.route('/setaddress',methods=['POST'])
+def setaddress():
+  whichaddress=request.form['selectaddress']
+  print(whichaddress)
+  id = session['user_id']
+  cursor = g.conn.execute("SELECT * FROM has_in_cart C, products P WHERE C.user_id = (%s) AND P.product_number = C.product_number", id)
+  names = []
+  quantities = []
+  productnumbers = []
+  for result in cursor:
+    names.append(result['name'])
+    quantities.append(result['quantity'])
+    productnumbers.append(result['product_number'])
+  cursor.close()
+
+  my_dict = defaultdict(dict)
+  for i, j, k in zip(names, quantities, productnumbers):
+    my_dict[i] = j, k
+
+  cursor2 = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
+  street_1 = []
+  street_2 = []
+  zips = []
+  for r in cursor2:
+    street_1.append(r['street_1'])
+    street_2.append(r['street_2'])
+    zips.append(r['zip'])
+  cursor2.close()
+
+  my_dict2 = defaultdict(dict)
+  for l, m, n in zip(street_1, street_2, zips):
+    my_dict2[l] = m,n
+
+  context = {'my_dict':my_dict,'my_dict2':my_dict2}
+
+  return render_template("order.html", **context, whichaddress=whichaddress)
+
+# submit order from checkout page
+@app.route('/order', methods=['POST'])
+def order():
+  id = session['user_id']
+  order_id = ''
+  while True:
+    order_id = ''.join(random.choices(string.digits, k = 10))
+    temp = g.conn.execute("SELECT * FROM orders O WHERE O.order_number= (%s)", order_id)
+    exists = temp.fetchone()
+    if not exists:
+      break
+  today = datetime.now()
+  date = today.strftime("%Y-%m-%d")
+
+  
+  if 'address1' in request.form and 'city' in request.form and 'state' in request.form and 'zip' in request.form:
+    address1 = request.form['address1']
+    address2 = request.form['address2']
+    city = request.form['city']
+    state = request.form['state']
+    zip = request.form['zip']
+    
+    temp = g.conn.execute("SELECT * FROM addresses A WHERE A.street_1 = (%s) AND A.street_2 = (%s) AND A.zip=(%s)", address1, address2, zip)
+    exists = temp.fetchone()
+    if not exists:
+      g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
+      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+
+  cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
+  street_1 = []
+  street_2 = []
+  zips = []
+
+  for r in cursor:
+    street_1.append(r['street_1'])
+    street_2.append(r['street_2'])
+    zips.append(r['zip'])
+  cursor.close()
+  address1 = street_1[0]
+  address2 = street_2[0]
+  zip=zips[0]
+  
+  itemsincart = defaultdict(dict)
+  cursor1 = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s)", id)
+  for n in cursor1:
+    itemsincart[n['product_number']] = n['quantity']
+  cursor1.close()
+
+  g.conn.execute("INSERT INTO orders VALUES (%s, %s, %s, %s, %s, %s, %s)",order_id, date, "Processing", id, address1, address2, zip)
+  for item in itemsincart:
+    g.conn.execute("INSERT INTO contains_item VALUES (%s,%s,%s)", order_id, item, itemsincart[item])
+  g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s)", id)
+  return redirect(url_for('cart'))
+
 # add an item to the cart (item page)
 @app.route('/addtocart',methods=['POST'])
 def addtocart():
@@ -634,17 +781,28 @@ def addreview():
     print(request.args)
     id = session['user_id']
     review_type = request.form['add-review']
-    selected_item=request.args.get('type')
-    print(selected_item)
-    selected_color = request.args.get('color')
-    #if selected_color:
-    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
-    #else:
-    #  cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
-    #name = []
-    #for result in cursor:
-    #  name.append(result[0])
-    #product_id = name[0]
+    next = request.referrer
+
+    selected_color = next.split("&color=",1)
+    
+    if not not selected_color and selected_color[0] != next:
+      selected_item = re.search("type=(.*?)&color=",next).group(1)
+      print(selected_item)
+      selected_item = selected_item.replace("+", " ")
+      selected_color = next.split("&color=",1)[1]
+      selected_color = selected_color.replace("+"," ")
+      cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
+    else:
+      selected_item = next.split("type=",1)[1]
+      selected_item = selected_item.replace("+", " ")
+      print(selected_item)
+      cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
+    
+    name = []
+    for result in cursor:
+      name.append(result['product_number'])
+    cursor.close()
+    product_id = name[0]
     review_id = ''
     while True:
       review_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
@@ -672,7 +830,6 @@ def category():
     product_numbers.append(result['product_number'])
     descriptions.append(result['description'])
     colors.append(result['color'])
-    #print(result['color'])
   cursor.close()
 
   my_dict2=defaultdict(dict)
@@ -747,14 +904,26 @@ def item():
     #names.append(result[16]) #email
     names.append(result[17]) #seller name
   cursor.close()
+
   cursor1 = g.conn.execute("SELECT * FROM review_posts R, users U WHERE R.reviewer = U.user_id AND R.reviewed_product = (%s)", names[0])
-  reviews = []
+  reviews = [] # all reviews for the product (includes all attributes)
   for n in cursor1:
     reviews.append(n)
   cursor1.close()
 
+  photos = []
+  for review in reviews:
+    cursor4 = g.conn.execute("SELECT * FROM include_photo P WHERE P.review_id = (%s)",review['review_id'])
+    for photo in cursor4:
+      photos.append(photo)
+      #reviews[review].append(photo)
+      #print(reviews[review])
+      #print(photo)
+    cursor4.close()
+
   cursor2 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.review_type = 'thumbs up' AND R.reviewed_product = (%s)", names[0])
   cursor3 = g.conn.execute("SELECT COUNT(*)::FLOAT FROM review_posts R WHERE R.reviewed_product = (%s)", names[0])
+  
   average = []
   for i in cursor2:
     for j in cursor3:
@@ -765,7 +934,7 @@ def item():
 
   context = dict(data=names)
 
-  return render_template("item.html", **context, reviews=reviews, average=average)
+  return render_template("item.html", **context, reviews=reviews, photos=photos, average=average)
 
 
 # POST ITEM

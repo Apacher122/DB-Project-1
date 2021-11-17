@@ -33,6 +33,14 @@
                     <td>City, state, zip:</td>
                     <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
                 </tr>
+                <tr>
+                    <td>Date of birth:</td>
+                    <td>{{preferences.date_of_birth}}</td> 
+                </tr>
+                <tr>
+                    <td>Size preference:</td>
+                    <td>{{preferences.size_pref}}</td> 
+                </tr>
             {% endif %}
         </table>
     </div>
