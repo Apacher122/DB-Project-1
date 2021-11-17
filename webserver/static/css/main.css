@@ -129,8 +129,8 @@ body{
   margin-bottom: 10px;
 }
 
-.thumbs{
-  width: 3%;
+.removereview {
+  display: inline-block;
 }
 
 .add-review-section {
@@ -188,8 +188,28 @@ body{
   margin-left: 50px;
 }
 
-.removebutton{
+.itemsincart {
+  margin-left: 20px;
+}
+
+.order-button {
   background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 7px;
+  margin-top: 30px;
+  border: none;
+}
+
+.orderssection {
+  margin-left: 20px;
+}
+
+.removebutton{
+  background-color: rgb(172, 30, 30);
   color: white;
   font-size: 15px;
   padding: 3px;
@@ -204,6 +224,21 @@ body{
   margin-right: 50px;
   margin-bottom: 40px;
   margin-left: 50px;
+}
+
+.order-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.checkoutitems {
+  margin-bottom: 30px;
+}
+
+.selectaddress {
+  display: inline-block;
 }
 
 /* Links inside the navbar */
@@ -282,6 +317,9 @@ nav {
   margin-right:40px !important;
 }
 
+.settingsaddresstitle{
+  text-align: center;
+}
 
 /* Dropdown content (hidden by default) */
 .dropdown-content {
