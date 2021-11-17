@@ -727,19 +727,7 @@ def order():
   today = datetime.now()
   date = today.strftime("%Y-%m-%d")
 
-  cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
-  street_1 = []
-  street_2 = []
-  zips = []
-  for r in cursor:
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor.close()
-  address1 = street_1[0]
-  address2 = street_2[0]
-  zip=zips[0]
-
+  
   if 'address1' in request.form and 'city' in request.form and 'state' in request.form and 'zip' in request.form:
     address1 = request.form['address1']
     address2 = request.form['address2']
@@ -749,6 +737,20 @@ def order():
     
     g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
     g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    
+  cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
+  street_1 = []
+  street_2 = []
+  zips = []
+
+  for r in cursor:
+    street_1.append(r['street_1'])
+    street_2.append(r['street_2'])
+    zips.append(r['zip'])
+  cursor.close()
+  address1 = street_1[0]
+  address2 = street_2[0]
+  zip=zips[0]
   
   itemsincart = defaultdict(dict)
   cursor1 = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s)", id)

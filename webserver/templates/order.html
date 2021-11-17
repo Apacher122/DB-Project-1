@@ -24,11 +24,13 @@
             <option name="selectaddress" {% if whichaddress == 'newaddress' %} selected {% endif %}value="newaddress">New address</option>
         </select>
     </form>
-    {% if whichaddress is not defined or whichaddress == 'currentaddress' %}  
+    {% if whichaddress is not defined or whichaddress == 'currentaddress' %} 
+        {% if my_dict2[0][0] %} 
             {{my_dict2[0][0]}} {{my_dict2[j][1]}} {{my_dict2[j][2]}}
         <form method="POST" name="submitorder" action="/order">
             <button>Submit Order</button>
         </form>
+        {% endif %}
     {% else %}
         <form method="POST" action="/order">
             <input type="text" name="address1" placeholder="Address 1" id="address1" required>
