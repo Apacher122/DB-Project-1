@@ -3,8 +3,65 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class='home-container'>
-    <h2>Home Page</h2>
-    <p>Welcome back, {{ username }}!</p>
+<h2>Welcome back, {{ username }}!</h2>
+<div class="submission">
+        <form method="post" action="{{ url_for('posts') }}" autocomplete="off">
+          <div class="submission_input">
+            <input type="text" name='content' placeholder="What's happening?" required>
+          </div>
+          <div class="submission_privacy">
+            <select name="privacy" id="privacy">
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select>
+          </div>
+          <button class="submission_button">Post</button>
+        </form>
 </div>
+<!-- user posts feed -->
+{% if not hasFriends %}
+<p>You have no friends :(</p>
+{% else %}
+    {% if not existsPosts %}
+    <p>No posts yet!</p>
+    {% else %}
+        {% for i in data %}
+                {% if i['user_id'] == session['user_id'] %}
+                <div class="post">
+                    <div class="post__body">
+                    <div class="post__header">
+                <div class="post__headerText">
+                    <h3>{{ i['name'] }} (You) </h3>
+                    </div>
+                    <div class="post__headerDescription">
+                    <p>{{ i['post_content'] }}</p>
+                    <p>{{ i['date_time'] }}</p>
+                    </div>
+                <form method="post" action="{{ url_for('delpost') }}">
+                    <label for="username">
+                        <i class="fas fa-trash"></i>
+                    </label>
+                    <input type="submit" name="username" value="Delete" id="username">
+                    <input type="hidden" name="post_id" value="{{ i['post_id'] }}">
+                </form>
+                {% elif i['privacy_type'] == "public" %}
+                    {% if i['privacy_type'] == "public" %}
+                    <div class="post">
+                        <div class="post__body">
+                        <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>{{ i['name'] }}</h3>
+                        </div>
+                        <div class="post__headerDescription">
+                        <p>{{ i['post_content'] }}</p>
+                        <p>{{ i['date_time'] }}</p>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
 {% endblock %}

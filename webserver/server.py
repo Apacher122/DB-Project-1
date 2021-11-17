@@ -259,29 +259,154 @@ def home():
   # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
-        return render_template('home.html', username=session['username'])
+        username=session['username']
+        user_id=session['user_id']
+        ids = []
+        posts = []
+        data = []
+        # Get friends list
+        cursor = g.conn.execute("SELECT connection FROM connected_to WHERE user_id = (%s)", user_id)
+        friends = cursor.fetchall()
+        cursor.close()
+
+        # Collect user ids
+        if friends:
+          ids.append(user_id)
+          for i in friends:
+            ids.append(i['connection'])
+
+          # Get posts
+          for i in ids:
+            cursor = g.conn.execute("SELECT * FROM posts WHERE user_id = (%s)", i)
+            temp = cursor.fetchall()
+            cursor.close()
+            for j in temp:
+              cursor = g.conn.execute("SELECT username, name FROM users WHERE user_id = (%s)", j['user_id'])
+              names = cursor.fetchone()
+              cursor.close()
+
+              data.append(
+              {
+                "username":names['username'],
+                "post_type":j['post_type'],
+                "post_content":j['post_content'],
+                "user_id":j['user_id'],
+                "name":names['name'],
+                "privacy_type":j['privacy_type'],
+                "date_time":j['date_time'],
+                "post_id":j['post_id']
+              }
+              )
+          if data:
+            return render_template('home.html', username=username, data=data, hasFriends=True, existsPosts=True)
+          else:
+            return render_template('home.html', username=username, data=data, hasFriends=True, existsPosts=False)
+        else:
+          return render_template('home.html', username=username, data=data, hasFriends=False, existsPosts=False)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/posts', methods=['GET','POST'])
+def posts():
+  if (request.method == 'POST'):
+    post_id = ''
+    while True:
+      post_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 10))
+      temp = g.conn.execute("SELECT post_id FROM posts WHERE post_id = (%s)", post_id)
+      exists = temp.fetchone()
+      if not exists:
+        break
+    
+    content = request.form['content']
+    privacy = request.form['privacy']
+    user_id = session['user_id']
+    dateTimeObj = datetime.now()
+    date = dateTimeObj.strftime('%Y-%m-%d %H:%M:%S')
+
+    cursor = g.conn.execute("INSERT INTO posts VALUES (%s, %s, %s, %s, %s, %s)", post_id, 'status', content, user_id, privacy, date)
+    cursor.close()
+  return redirect(url_for('home'))
+
+# Delete posts
+@app.route('/delpost', methods=['POST', 'GET'])
+def delpost():
+  if (request.method == "POST"):
+    post_id = request.form['post_id']
+    cursor = g.conn.execute("DELETE FROM posts WHERE post_id = (%s)", post_id)
+  return redirect(url_for('home'))
+
 
 # Profile page
 @app.route('/profile')
 def profile():
+  id = session['user_id']
 # Check if user is loggedin
-    if 'loggedin' in session:
-        # We need all the account info for the user so we can display it on the profile page
-        cursor = g.conn.execute("SELECT * FROM users WHERE user_id = (%s)", session['user_id'])
-        account = cursor.fetchone()
-        cursor1 = g.conn.execute("SELECT * FROM lives_at WHERE user_id = (%s)", session['user_id'])
-        livesAt = cursor1.fetchone()
-        if (livesAt):
-          cursor2 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
-          address = cursor2.fetchone()
-        else:
-          address = 0
-        # Show the profile page with account info
-        return render_template('profile.html', account=account, address=address)
-    # User is not loggedin redirect to login page
-    return redirect(url_for('login'))
+  if 'loggedin' in session:
+      # We need all the account info for the user so we can display it on the profile page
+      cursor = g.conn.execute("SELECT * FROM users WHERE user_id = (%s)", id)
+      account = cursor.fetchone()
+      cursor.close()
+      cursor1 = g.conn.execute("SELECT * FROM lives_at WHERE user_id = (%s)", id)
+      livesAt = cursor1.fetchone()
+      cursor1.close()
+      cursor2 = g.conn.execute("SELECT connection FROM connected_to WHERE user_id = (%s)", id)
+      friends = cursor2.fetchall()
+
+      usernames = []
+      for i in friends:
+        cursor = g.conn.execute("SELECT username FROM users WHERE user_id = (%s)", i['connection'])
+        temp = cursor.fetchone()
+        cursor.close
+        usernames.append(temp['username'])
+      if (livesAt):
+        cursor3 = g.conn.execute("SELECT * FROM addresses WHERE street_1 = (%s)", livesAt['street_1'])
+        address = cursor3.fetchone()
+        cursor3.close()
+      else:
+        address = 0
+      # Show the profile page with account info
+      return render_template('profile.html', account=account, address=address, friends=friends, usernames=usernames)
+  # User is not loggedin redirect to login page
+  return redirect(url_for('login'))
+
+# Add friends
+@app.route('/requestadd', methods=['GET', 'POST'])
+def requestadd():
+  id = session['user_id']
+  username = request.form['user']
+
+  if username == id:
+    return redirect(url_for('profile'))
+  
+  try:
+    cursor = g.conn.execute("SELECT user_id FROM users WHERE username = (%s)", username)
+    user_id = cursor.fetchone()
+    cursor.close()
+  except:
+    return redirect(url_for('profile'))
+  
+  try:
+    cursor = g.conn.execute("INSERT INTO connected_to VALUES (%s, %s)", id, user_id['user_id'])
+    cursor.close()
+  except:
+    return redirect(url_for('profile'))
+  return redirect(url_for('profile'))
+
+
+# Unfollow users
+@app.route('/unfollow', methods=['GET','POST'])
+def unfollow():
+  print("test")
+  if (request.method == 'POST'):
+    id = session['user_id']
+    username = request.form['user']
+
+    cursor = g.conn.execute("SELECT user_id FROM users WHERE username = (%s)", username)
+    friend = cursor.fetchone()
+    cursor.close()
+
+    cursor = g.conn.execute("DELETE FROM connected_to WHERE user_id = (%s) AND connection = (%s)", id, friend['user_id'])
+  return redirect(url_for('profile'))
 
 # Settings page
 @app.route('/settings', methods=['GET','POST'])
@@ -639,6 +764,9 @@ def item():
   return render_template("item.html", **context, reviews=reviews, average=average)
 
 
+# POST ITEM
+# @app.route('/posts', methods=['POST'])
+# def posts():
 
 
 if __name__ == "__main__":
