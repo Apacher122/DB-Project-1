@@ -612,11 +612,20 @@ def cart():
     street_1.append(r['street_1'])
     street_2.append(r['street_2'])
     zips.append(r['zip'])
+  cursor2.close()
+    
   my_dict2 = defaultdict(dict) 
   for l, m, n, o, p, q in zip(order_numbers, order_dates, statuses, street_1, street_2, zips):
     my_dict2[l] = m,n,o,p,q
+  
+  my_dict3 = defaultdict(dict)
+  for order in order_numbers:
+    cursor3 = g.conn.execute("SELECT * FROM contains_item C, products P WHERE C.product_number = P.product_number AND C.order_number = (%s)",order)
+    for item in cursor3:
+      my_dict3[order][item['name']] = item['quantity']
+    cursor3.close()
 
-  context = {'my_dict':my_dict, 'my_dict2':my_dict2}
+  context = {'my_dict':my_dict, 'my_dict2':my_dict2, 'my_dict3':my_dict3}
 
   return render_template('cart.html', **context)
 
@@ -741,7 +750,15 @@ def order():
     g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
     g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
   
+  itemsincart = defaultdict(dict)
+  cursor1 = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s)", id)
+  for n in cursor1:
+    itemsincart[n['product_number']] = n['quantity']
+  cursor1.close()
+
   g.conn.execute("INSERT INTO orders VALUES (%s, %s, %s, %s, %s, %s, %s)",order_id, date, "Processing", id, address1, address2, zip)
+  for item in itemsincart:
+    g.conn.execute("INSERT INTO contains_item VALUES (%s,%s,%s)", order_id, item, itemsincart[item])
   g.conn.execute("DELETE FROM has_in_cart C WHERE C.user_id = (%s)", id)
   return redirect(url_for('cart'))
 

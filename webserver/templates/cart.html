@@ -38,6 +38,8 @@
                 <td><b>Order date</b></td>
                 <td><b>Status</b></td>
                 <td><b>Delivery address</b></td>
+                <td><b>Items</b></td>
+                <td><b>Quantity</b></td>
             </tr>
             {% for j in my_dict2 %}
             <tr>
@@ -45,6 +47,16 @@
                 <td>{{my_dict2[j][0]}}</td>
                 <td>{{my_dict2[j][1]}}</td>
                 <td>{{my_dict2[j][2]}}{% if my_dict2[j][3] %}, {{my_dict2[j][3]}}{% endif %}, {{my_dict2[j][4]}}</td>
+                {% for k in my_dict3[j] %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{k}}</td>
+                        <td>{{my_dict3[j][k]}}</td>
+                    </tr>
+                {% endfor %}
             </tr>
             {% endfor %}
         </table>
