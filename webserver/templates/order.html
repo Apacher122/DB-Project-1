@@ -1,11 +1,36 @@
 {% extends 'layout.html' %}
 
+{% block title %}Cart{% endblock %}
+
 {% block content %}
-<div class="register">
-    <h1>Settings</h1>
-    <div class="settings">
-        <h3 class="settingsaddresstitle">Address</h3>
-        <form action="{{ url_for('settings') }}" method="post" autocomplete="off">
+<div class='order-container'>
+    <table class="checkoutitems">
+        <h2>Your items</h2>
+        <tr>
+            <td><b>Item</b></td>
+            <td><b>Quantity</b></td>
+        </tr>
+        {% for i in my_dict %}
+        <tr>
+            <td>{{i}}</td>
+            <td>{{my_dict[i][0]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    Order to:
+    <form method="POST" name="selectaddress" action="/setaddress" class="selectaddress">
+        <select name="selectaddress" onchange="this.form.submit()">
+            <option name="selectaddress" value="currentaddress" {% if whichaddress is not defined or whichaddress == 'currentaddress' %} selected {% endif %}>My current address</option>
+            <option name="selectaddress" {% if whichaddress == 'newaddress' %} selected {% endif %}value="newaddress">New address</option>
+        </select>
+    </form>
+    {% if whichaddress is not defined or whichaddress == 'currentaddress' %}  
+            {{my_dict2[0][0]}} {{my_dict2[j][1]}} {{my_dict2[j][2]}}
+        <form method="POST" name="submitorder" action="/order">
+            <button>Submit Order</button>
+        </form>
+    {% else %}
+        <form method="POST" action="/order">
             <input type="text" name="address1" placeholder="Address 1" id="address1" required>
             <input type="text" name="address2" placeholder="Address 2" id="address2">
             <input type="text" name="city" placeholder="City" id="city" required>
@@ -63,12 +88,8 @@
                 <option value="WY">Wyoming</option>
             </select>
             <input type="text" name="zip" placeholder="Zip" id="zip" required>
-            <h3>Personal Information</h3>
-            <p>date of birth: <input type="date" id="dob" name="dob" value="1900-01-01"></p>
-            <input type="text" name="size" placeholder="Size Preference" id="size">
-            <div class="msg">{{ msg }}</div>
-            <input type="submit" value="Save">
+            <br/><input type="submit" value="Submit Order">
         </form>
-    </div>
+    {% endif %}
 </div>
 {% endblock %}

@@ -3,39 +3,55 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="profile-container">     
-<h2>Profile Page</h2>
-<div>
-    <p>Your account details are below:</p>
-    <table>
-		<tr>
-            <td>Name:</td>
-            <td>{{ account['name'] }}</td>
-        </tr>
-        <tr>
-            <td>Username:</td>
-            <td>{{ account['username'] }}</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td>{{ account['email'] }}</td>
-        </tr>
-        {% if address != 0 %}
+<div class="profile-container">
+    <h2>Profile Page</h2>
+    <div>
+        <p>Your account details are below:</p>
+        <table>
             <tr>
-                <td>Address 1:</td>
-                <td>{{ address['street_1'] }}</td>
+                <td>Name:</td>
+                <td>{{ account['name'] }}</td>
             </tr>
             <tr>
-                <td>Address 2:</td>
-                <td>{{ address['street_2'] }}</td>
+                <td>Username:</td>
+                <td>{{ account['username'] }}</td>
             </tr>
             <tr>
-                <td>City, state, zip:</td>
-                <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
+                <td>Email:</td>
+                <td>{{ account['email'] }}</td>
             </tr>
-
-        {% endif %}
+            {% if address != 0 %}
+                <tr>
+                    <td>Address 1:</td>
+                    <td>{{ address['street_1'] }}</td>
+                </tr>
+                <tr>
+                    <td>Address 2:</td>
+                    <td>{{ address['street_2'] }}</td>
+                </tr>
+                <tr>
+                    <td>City, state, zip:</td>
+                    <td>{{ address['city'] }}, {{ address['state'] }} {{ address['zip'] }}</td> 
+                </tr>
+            {% endif %}
         </table>
     </div>
+    <h2>Follow List</h2>
+    {% if usernames %} 
+        {% for i in usernames %}
+        <form method="post" action="{{ url_for('unfollow') }}" id="new_chat_form">
+            {{ i }}
+            <input type="submit" name="username" value="Unfollow" id="username">
+            <input type="hidden" name="user" value="{{ i }}">
+        </form>
+        {% endfor %}
+    {% else %}
+    <p>You are not following anyone! :(</p>
+    {% endif %}
+    <form method="post" action="{{ url_for('requestadd') }}" id="new_chat_form">
+        <label for="email"><strong>Find Someone to Follow: </strong></label>
+        <input type="text" name="user" placeholder="Enter username">
+        <input type="submit" value="Send">
+    </form>
 </div>
 {% endblock %}
