@@ -434,14 +434,20 @@ def settings():
     exists1 = temp1.fetchone()
     if not exists1:
       g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+    
+    temp2 = g.conn.execute("SELECT * FROM lives_at L WHERE L.user_id = (%s)", id)
+    exists2 = temp2.fetchone()
+    print(exists2)
+    if exists2:
+      g.conn.execute("DELETE FROM lives_at WHERE user_id = (%s)", id)
+    g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
     
     temp = g.conn.execute("SELECT * FROM consumers C WHERE C.user_id =(%s)", id)
     exists = temp.fetchone()
     if not exists:
       g.conn.execute("INSERT INTO consumers(user_id, size_pref, date_of_birth) VALUES (%s, %s, %s)", id, size, dob)
     else: 
-      g.conn.execute("UPDATE consumers SET size_pref = (%s) AND date_of_birth = (%s) WHERE user_id = (%s)", size, dob, id)
+      g.conn.execute("UPDATE consumers SET size_pref = (%s), date_of_birth = (%s) WHERE user_id = (%s)", size, dob, id)
   return render_template('settings.html')
 
 @app.route('/chat', methods=['GET', 'POST'])
@@ -756,21 +762,20 @@ def order():
     exists = temp.fetchone()
     if not exists:
       g.conn.execute("INSERT INTO addresses VALUES (%s, %s, %s, %s, %s)", address1, address2, city, state, zip)
-      g.conn.execute("INSERT INTO lives_at VALUES (%s, %s, %s, %s)", id, address1, address2, zip)
+  else:
+    cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
+    street_1 = []
+    street_2 = []
+    zips = []
 
-  cursor = g.conn.execute("SELECT * FROM users U, lives_at L WHERE U.user_id = L.user_id AND U.user_id = (%s)", id)
-  street_1 = []
-  street_2 = []
-  zips = []
-
-  for r in cursor:
-    street_1.append(r['street_1'])
-    street_2.append(r['street_2'])
-    zips.append(r['zip'])
-  cursor.close()
-  address1 = street_1[0]
-  address2 = street_2[0]
-  zip=zips[0]
+    for r in cursor:
+      street_1.append(r['street_1'])
+      street_2.append(r['street_2'])
+      zips.append(r['zip'])
+    cursor.close()
+    address1 = street_1[0]
+    address2 = street_2[0]
+    zip=zips[0]
   
   itemsincart = defaultdict(dict)
   cursor1 = g.conn.execute("SELECT * FROM has_in_cart C WHERE C.user_id = (%s)", id)
