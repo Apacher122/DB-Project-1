@@ -804,11 +804,14 @@ def addreview():
       selected_item = selected_item.replace("+", " ")
       selected_color = next.split("&color=",1)[1]
       selected_color = selected_color.replace("+"," ")
+      selected_item = selected_item.replace("%22", "\"")
       cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s) AND P.color = (%s)", selected_item, selected_color)
     else:
       selected_item = next.split("type=",1)[1]
       selected_item = selected_item.replace("+", " ")
+      selected_item = selected_item.replace("%22", "\"")
       print(selected_item)
+      print('entered else')
       cursor = g.conn.execute("SELECT product_number FROM Products P WHERE P.name = (%s)", selected_item)
     
     name = []
