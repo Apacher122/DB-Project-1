@@ -246,7 +246,7 @@ def register():
               break
       
           cursor = g.conn.execute("INSERT INTO users VALUES (%s, %s, %s, %s)", (id, username, email, name))
-          cursor1 = g.conn.execute("INSERT INTO Consumers VALUES (%s, %s, %s, %s)", (id, '', '', ''))
+          cursor1 = g.conn.execute("INSERT INTO consumers(user_id) VALUES (%s)", id)
           msg = 'You have successfully registered!'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
