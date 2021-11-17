@@ -12,6 +12,7 @@ import psycopg2
 import random
 import string
 import hashlib
+import re
 import time
 from collections import defaultdict
 from typing import DefaultDict
