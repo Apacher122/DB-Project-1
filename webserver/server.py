@@ -615,7 +615,6 @@ def send_message():
 
   return redirect(url_for("chat", rid=rid))
 
-# Shop by category page
 # user's cart
 @app.route('/cart')
 def cart():
@@ -633,9 +632,38 @@ def cart():
   my_dict = defaultdict(dict)
   for i, j, k in zip(names, quantities, productnumbers):
     my_dict[i] = j, k
-  context = {'my_dict':my_dict}
+
+  order_numbers =[]
+  order_dates = []
+  statuses = []
+  street_1 = []
+  street_2 = []
+  zips = []
+  cursor2 = g.conn.execute("SELECT * FROM orders O WHERE O.user_id = (%s)", id)
+  for r in cursor2:
+    order_numbers.append(r['order_number'])
+    order_dates.append(r['order_date'])
+    statuses.append(r['status'])
+    street_1.append(r['street_1'])
+    street_2.append(r['street_2'])
+    zips.append(r['zip'])
+  cursor2.close()
+    
+  my_dict2 = defaultdict(dict) 
+  for l, m, n, o, p, q in zip(order_numbers, order_dates, statuses, street_1, street_2, zips):
+    my_dict2[l] = m,n,o,p,q
+  
+  my_dict3 = defaultdict(dict)
+  for order in order_numbers:
+    cursor3 = g.conn.execute("SELECT * FROM contains_item C, products P WHERE C.product_number = P.product_number AND C.order_number = (%s)",order)
+    for item in cursor3:
+      my_dict3[order][item['name']] = item['quantity']
+    cursor3.close()
+
+  context = {'my_dict':my_dict, 'my_dict2':my_dict2, 'my_dict3':my_dict3}
 
   return render_template('cart.html', **context)
+
 
 # remove an item from the cart (cart page)
 @app.route('/removefromcart', methods=['POST'])
