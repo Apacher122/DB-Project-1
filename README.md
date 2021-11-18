@@ -2,7 +2,7 @@
 
 1. PostgreSQL database account: mc5090
 
-2. application url
+2. http://35.243.154.113:8111/
 
 3.
 Implementation of proposal: From the original proposal, we implemented be able to browse products based on item type ("Shop by category" tab) or brand ("Shop by brand" tab). We also allowed users to create an account ("Register" tab accessible on the home page) and to log in (also on the home page). No password is required; we simply check that the input username is one that is in our database. Once logged in, the user can leave reviews on items (items page), connect with other users (profile tab), message them (messages tab), and make text posts (home page). If logged in, on an item page, a user can add the item with a quantity to their cart. The user can also enter the "Cart" tab to see the contents of their cart. Their previous orders and items contained in each order are also shown. If the user clicks "order" they can order what is currently in their cart.
