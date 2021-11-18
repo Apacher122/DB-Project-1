@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class='cart-container'>
+    <h2>Your cart</h2>
+    
+    {% if my_dict %}
+    <div class="itemsincart">
+        <table>
+            <tr>
+                <td><b>Item</b></td>
+                <td><b>Quantity</b></td>
+            </tr>
+            {% for i in my_dict %}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{my_dict[i][0]}}</td>
+                <td><form method="POST" action="/removefromcart">
+                    <button name="removefromcart" class="removebutton" value={{my_dict[i][1]}}>Remove</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <form method="POST" action="/checkout">
+            <button class="order-button">Order</button>
+        </form>
+        {% else %} Your cart is empty
+        {% endif %}
+    <br/>
+
+    <h2>Your orders</h2>
+    {% if my_dict2 %}
+        <table class="orderssection">
+            <tr>
+                <td><b>Order number</b></td>
+                <td><b>Order date</b></td>
+                <td><b>Status</b></td>
+                <td><b>Delivery address</b></td>
+                <td><b>Items</b></td>
+                <td><b>Quantity</b></td>
+            </tr>
+            {% for j in my_dict2 %}
+            <tr>
+                <td>{{j}}</td>
+                <td>{{my_dict2[j][0]}}</td>
+                <td>{{my_dict2[j][1]}}</td>
+                <td>{{my_dict2[j][2]}}{% if my_dict2[j][3] %}, {{my_dict2[j][3]}}{% endif %}, {{my_dict2[j][4]}}</td>
+                {% for k in my_dict3[j] %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{k}}</td>
+                        <td>{{my_dict3[j][k]}}</td>
+                    </tr>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    You haven't ordered anything yet!
+    {% endif %}
+</div>
+</div>
+{% endblock %}

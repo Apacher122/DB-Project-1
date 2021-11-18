@@ -1,29 +1,22 @@
-<html>
-  <style>
-    body{ 
-      font-size: 15pt;
-      font-family: arial;
-    }
-  </style>
+{% extends 'layout.html' %}
 
-
-<body>
-  <h1>AmaBook</h1>
-
-  <button type="button">Login</button>
-
-  <label for="itemType">Shop by category:</label>
-
-<select name="itemType" id="itemType">
-  <option value="Bralette">Bralettes</option>
-  <option value="Single wick candle">Candles</option>
-  <option value="Athletic shoes">Athletic shoes</option>
-  <option value="Glasses">Glasses</option>
-  <option value="Gloves">Gloves</option>
-  <option value="Video game">Video games</option>
-</select>
-<a href="another" class="button">GO</a>
-
+{% block content %}
+<div class="login">
+  <h1>LOGIN</h1>
+  <div class="link">
+    <a href="{{ url_for('login') }}" class="active">Login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+  </div>
+  <form action="{{ url_for('login') }}" method="post">
+    <label for="username">
+      <i class="fas fa-user"></i>
+    </label>
+    <input type="text" name="username" placeholder="Username" id="username" required>
+    <div class="msg">{{ msg }}</div>
+    <input type="submit" value="Login">
+  </form>
+</div>
+{% endblock %}
 <label for="brand">Shop by brand:</label>
 
 <select name="itemType" id="itemType">

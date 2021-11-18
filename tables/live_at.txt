@@ -1,0 +1,22 @@
+ user_id |         street_1         |  street_2  |  zip  
+---------+--------------------------+------------+-------
+ BCD2345 | 12345 Example St         | Apt 4      | 10028
+ CDE3456 | 1800 Grovesnor Ct        |            | 12345
+ JKL0123 | 903 Guilt Dr             |            | 90843
+ HIJ8901 | 47 53rd Dr               |            | 32065
+ IJK9012 | 903 Guilt Dr             |            | 90843
+ EFG5678 | 1600 Pennsylvania Ave NW |            | 20500
+ ABC1234 | 8 Arch St                |            | 55033
+ FGH6789 | 265 Old Gates Dr         |            | 14150
+ GHI7890 | 528 Hanover St           |            | 19438
+ GHI7890 | 70 Rock Maple Ln         |            | 60172
+ DEF4567 | 12345 Example St         | Apt 38     | 10028
+ CCCCCCC | 2400 West Central Rd     |            | 60192
+ ABABABA | 8300 Maryland Ave        |            | 63105
+ HMMMMMM | 110 Fifth Ave            | 11th floor | 10011
+ BCBCBCB | 444 Madison Ave          | Suite 436  | 10022
+ DDDDDDD | 525 Market St            | 1st floor  | 94105
+ BDFUHEF | 45 Court St              |            | 15108
+ HIHIHIH | 625 Westport Pkwy        |            | 76051
+ JJJJJJJ | 1 Infinite Loop          | IL1        | 95014
+ QQQQQQQ | 9079 Shady Grove Ct      |            | 20877

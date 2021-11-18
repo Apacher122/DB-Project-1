@@ -1,0 +1,12 @@
+session_id | date_time  |                 content                  | sender  | recipient 
+------------+------------+------------------------------------------+---------+-----------
+ cTQUu6ZUr3 | 2021-05-09 | Hello, would you like some shoes         | ASDSDDD | EFG5678
+ ZpamISN9YC | 2021-05-09 | No.                                      | EFG5678 | ASDSDDD
+ qb0VGMfcg6 | 2021-05-09 | Sucks.                                   | ASDSDDD | EFG5678
+ ahHn6EibEX | 2020-10-12 | Hello, Colonel                           | DEF4567 | IJK9012
+ zSLqC4ZMK7 | 2020-09-16 | Our prices are way too expensive for you | BCBCBCB | FGH6789
+ TeCeahviyd | 2020-09-12 | Sup, mike                                | JKL0123 | BCD2345
+ Es4WH80ADr | 2020-09-12 | Read 09:12pm                             | BCD2345 | JKL0123
+ pBqgCoJzSW | 2020-10-12 | Chicken.                                 | IJK9012 | DEF4567
+ UOwjh5wBGu | 2020-09-12 | You typed that stupid                    | JKL0123 | BCD2345
+ P6s6vJhDPE | 2018-06-10 | Windoes suxxxxxxx                        | HIJ8901 | FGH6789

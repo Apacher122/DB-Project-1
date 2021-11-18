@@ -1,0 +1,13 @@
+order_number | order_date |     status      | user_id |         street_1         | street_2 |  zip  
+--------------+------------+-----------------+---------+--------------------------+----------+-------
+ 1234567890   | 2021-08-01 | Delivered       | ABC1234 | 12345 Example St         | Apt 4    | 10028
+ 9485730491   | 2021-10-20 | Processing      | BCD2345 | 12345 Example St         | Apt 4    | 10028
+ 9384848340   | 2021-10-02 | Delivered       | EFG5678 | 1600 Pennsylvania Ave NW |          | 20500
+ 1238473643   | 2021-09-30 | Delivered       | FGH6789 | 265 Old Gates Dr         |          | 14150
+ 2985738934   | 2021-10-15 | In transit      | GHI7890 | 70 Rock Maple Ln         |          | 60172
+ 1128375639   | 2021-10-18 | In transit      | HIJ8901 | 47 53rd Dr               |          | 32065
+ 5454549838   | 2021-10-10 | Delivered       | HIJ8901 | 47 53rd Dr               |          | 32065
+ 0999847766   | 2021-10-11 | Delivered       | HIJ8901 | 47 53rd Dr               |          | 32065
+ 1123834744   | 2021-01-29 | Delivered       | ABC1234 | 8 Arch St                |          | 55033
+ 7155255238   | 2021-10-25 | Processing      | JKL0123 | 903 Guilt Dr             |          | 90843
+ 0009847372   | 2021-03-19 | Lost in transit | BCD2345 | 12345 Example St         | Apt 38   | 10028

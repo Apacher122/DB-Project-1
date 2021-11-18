@@ -1,0 +1,12 @@
+  post_id   |   post_type   | user_id | privacy_type | date_time  
+------------+---------------+---------+--------------+------------
+ pglIcBoND6 | advertisement | HIHIHIH | public       | 2021-10-23
+ GjGhX0DyOK | advertisement | ASDSDDD | public       | 2020-12-25
+ 7yNN4tXy8E | advertisement | BCBCBCB | public       | 2021-10-05
+ SGgCUECcb9 | advertisement | BDFUHEF | public       | 2021-05-12
+ Bbxnv0q1vS | advertisement | BDJIMDF | public       | 2020-09-16
+ syzN1kXEGL | status        | ABC1234 | private      | 2021-05-05
+ UvEV7qTIil | status        | DEF4567 | public       | 2021-10-21
+ vaozKCxrFl | status        | EFG5678 | private      | 2021-09-06
+ mSM0gKg7qY | status        | JKL0123 | private      | 2021-10-05
+ 05uLgN6GjI | status        | IJK9012 | public       | 2021-10-05

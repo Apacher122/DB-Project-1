@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-sacle=1.0">
+	<title>AmaBook</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+</head>
+
+
+<div class="container">
+      {% if session['loggedin'] == True %}
+        <div class="amabook"><a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Ama<span>Book</span></a></div>
+      {% else %}
+      <div class="amabook"><a href="/">Ama<span>Book</span></a></div>
+      {% endif %}
+      <div class="navbar">
+      <nav>
+          <div class="dropdown" class="navbutton">
+            <button class="dropbtn">Shop by category
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <form method="POST" action="/category">
+                <button name="category" class="links" value="Bralette">Bralettes</button>
+                <button name="category" class="links" value="Athletic Shoes">Shoes</button>
+                <button name="category" class="links" value="Glasses">Glasses</button>
+                <button name="category" class="links" value="Single wick candle">Candles</button>
+                <button name="category" class="links" value="Gloves">Gloves</button>
+                <button name="category" class="links" value="Video game">Video Games</button>
+              </form>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn"><div class="bybrand">Shop by Brand
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content" class="dropdown-brands">
+              <form method="POST" action="/brand">
+                <button name="brand" class="links" value="AAAAAAA">Aerie by American Eagle Outfitters</button>
+                <button name="brand" class="links" value="BBBBBBB">Bath & Body Works</button>
+                <button name="brand" class="links" value="CCCCCCC">Claire's</button>
+                <button name="brand" class="links" value="ABABABA">Famous Footwear</button>
+                <button name="brand" class="links" value="ABCDEFG">Gertrube Hawk Chocolates</button>
+                <button name="brand" class="links" value="HMMMMMM">H&M</button>
+                <button name="brand" class="links" value="BCBCBCB">Burberry</button>
+                <button name="brand" class="links" value="DDDDDDD">Sephora</button>
+                <button name="brand" class="links" value="ASDSDDD">Journeys</button>
+                <button name="brand" class="links" value="NDSJFKF">Kay Jewelers</button>
+                <button name="brand" class="links" value="BDJIMDF">LensCrafters</button>
+                <button name="brand" class="links" value="EEEEEEE">S&B Sports Collectibles</button>
+                <button name="brand" class="links" value="BDFUHEF">Dick's Sporting Goods</button>
+                <button name="brand" class="links" value="QQQQQQQ">Acme Acupuncture & Wellness</button>
+                <button name="brand" class="links" value="JJJJJJJ">Apple Store</button>
+                <button name="brand" class="links" value="HIHIHIH">Gamestop</button>
+              </form>
+            </div>
+          </div>
+          {% if session['loggedin'] == True %}
+          <div class="loggedin">
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i> Profile</a>
+            <a href="{{ url_for('cart') }}"><i class="fas fa-user-circle"></i> Cart</a>
+            <a href="{{ url_for('chat') }}"><i class="fas fa-envelope"></i> Messages</a>
+            <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+          {% else %}
+          <div class="loggedout">
+            <a href="{{ url_for('login') }}"><i class="fas fa-user-circle"></i> Login</a>
+          </div>
+          {% endif %}
+          </div>
+          <script>
+            let dropdownBtn = document.querySelector('.menu-btn');
+            let menuContent = document.querySelector('.menu-content');
+            dropdownBtn.addEventListener('click',()=>{
+              if(menuContent.style.display===""){
+                  menuContent.style.display="block";
+              } else {
+                  menuContent.style.display="";
+              }
+            })
+          </script>
+      </nav>
+    </div>
+</div>
+    <body>        
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

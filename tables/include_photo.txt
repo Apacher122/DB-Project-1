@@ -1,0 +1,8 @@
+review_id |  photo_id  
+-----------+------------
+ NXci8NM   | JUH8374729
+ 7H0UNg8   | JFHG384738
+ uY2kPIU   | 83748HFHEU
+ 1Inj9Bu   | 1294857930
+ dezEbPn   | 1294857931
+ go24kfi   | 1294857932

@@ -1,0 +1,18 @@
+ user_id |    store_type     
+---------+-------------------
+ BBBBBBB | health and beauty
+ CCCCCCC | accessories
+ ABABABA | shoes
+ ABCDEFG | food
+ HMMMMMM | fashion
+ BCBCBCB | fashion
+ DDDDDDD | health and beaty
+ ASDSDDD | shoes
+ NDSJFKF | accessories
+ BDJIMDF | accessories
+ EEEEEEE | sporting goods
+ BDFUHEF | sporting goods
+ QQQQQQQ | health and beauty
+ JJJJJJJ | electronics
+ HIHIHIH | electronics
+ AAAAAAA | fashion

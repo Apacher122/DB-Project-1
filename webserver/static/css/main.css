@@ -1,0 +1,903 @@
+/* No CSS *//*# sourceMappingURL=main.css.map */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Didact Gothic', sans-serif;
+}
+
+/* Layout */
+header {
+    background: #2e354f;
+    padding: 45px 0;
+    color: #fff;
+}
+
+section {
+    padding: 45 px 0;
+}
+
+/* .container {
+    width: 620px;
+    margin: 0 auto;
+} */
+
+/*.section-two {
+    background: #2e354f;
+    color: #fff;
+}*/
+
+td {
+  padding-right: 15px;
+}
+
+.cart-container td{
+    padding-right: 70px;
+}
+
+body{ 
+  font-size: 15pt;
+  font-family: arial;
+  margin:0px;
+}
+
+.menu-btn {
+  background-color: #7e32d4;
+  color: white;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: bolder;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+}
+
+.btn-white:hover {
+  color: #2e354f;
+  background-color: #999;
+}
+
+.dropdown-menu {
+  position: relative;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  background-color: #16a5a5;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.links:hover {
+  background-color: #16a5a5;
+}
+
+    
+.navbar {
+  height:60px;
+  background-color: black;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.item-row-1{
+  display: flex;
+}
+
+.item-seller{
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-style: italic; 
+}
+
+.item-info {
+  margin-left: 50px;
+}
+
+.item-name {
+  font-size: 30px;
+}
+
+.add-to-cart-section{
+  margin-top: 60px;
+}
+
+.add-to-cart{
+  background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 7px;
+  margin-top: 30px;
+  border: none;
+}
+
+.review-section{
+  margin-top: 50px;
+}
+
+.review{
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.removereview {
+  display: inline-block;
+}
+
+.add-review-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.add-review {
+  background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 5px;
+  margin-left: 20px;
+  margin-right: 10px;
+  border: none;
+}
+
+.choice {
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.review-buttons button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.home-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.profile-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.cart-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.itemsincart {
+  margin-left: 20px;
+}
+
+.order-button {
+  background-color: #16a5a5;
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 7px;
+  margin-top: 30px;
+  border: none;
+}
+
+.orderssection {
+  margin-left: 20px;
+}
+
+.removebutton{
+  background-color: rgb(172, 30, 30);
+  color: white;
+  font-size: 15px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 7px;
+  border: none;
+}
+
+.add-review-container{
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.order-container {
+  margin-top: 40px;
+  margin-right: 50px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.checkoutitems {
+  margin-bottom: 30px;
+}
+
+.selectaddress {
+  display: inline-block;
+}
+
+/* Links inside the navbar */
+.navbar a {
+float: left;
+font-size: 16px;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+float: left;
+overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+font-size: 16px;
+border: none;
+outline: none;
+color: white;
+width:100%;
+
+background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.links {
+    color: rgb(0, 0, 0);
+    border: none;
+    background: none;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 16px;
+    width:100%;
+  }
+
+/* Add an underline to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  text-decoration: underline;
+}
+
+.amabook{
+  padding: 15px;
+  font-size: 20px !important ;
+  background-color: black;
+  width: 100%;
+  color: white !important;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.amabook a{
+  color: white !important;
+  text-decoration: none;
+}
+
+.bybrand{
+  margin-right:120px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbutton, .dropdown {
+  margin-left: 120px !important;
+  margin-right:40px !important;
+}
+
+.settingsaddresstitle{
+  text-align: center;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+.dropdown-brands{
+  margin-right: 40px !important;
+  position:absolute;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+float: none;
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/*products images list*/
+.prodlist {
+  max-width: 1400px;
+}
+
+.img-list a {
+  text-decoration: none;
+}
+
+.prod-sub p {
+  margin: 0;
+}
+
+.prodlist li {
+  border-bottom: 1px solid #ccc;
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+.inner {
+  display: table-row;
+  overflow: hidden;
+}
+.prod-img {
+  display: table-cell;
+  vertical-align: middle;
+  width: 30%;
+  padding-right: 1em;
+}
+.prod-img img {
+  display: block;
+  width: 100%;
+}
+
+.prod-text {
+  display: table-cell;
+  vertical-align: middle;
+  width: 70%;
+}
+.prod-head {
+  color: black;
+  margin: 10px 0 0 0;
+}
+.prod-sub {
+  color: black;
+  font-size: smaller;
+  margin: 0;
+}
+
+@media all and (min-width: 45em) {
+  .prodlist li {
+    float: left;
+    width: 50%;
+  }
+}
+
+@media all and (min-width: 75em) {
+  .prodlist li {
+    width: 33.33333%;
+  }
+}
+
+/* for flexbox */
+@supports(display: flex) {
+  .prodlist {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .prod-img,
+  .prod-text,
+  .prodlist li {
+    display: block;
+    float: none;
+  }
+
+  .prod-img {
+    align-self: center; /* to match the middle alignment of the original */
+  }
+  
+  .inner {
+    display: flex;
+  }
+}
+
+/* for grid */
+@supports(display: grid) {
+  /* .prodlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  } */
+  
+  .prodlist li {
+    width: auto; /* this overrides the media queries */
+  }
+}
+
+/*page header*/
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+}
+
+.login, .register {
+  width: 400px;
+  background-color: #ffffff;
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+  margin: 100px auto;
+}
+.login h1, .register h1 {
+  text-align: center;
+  color: #5b6574;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+  border-bottom: 1px solid #dee0e4;
+}
+.login .link, .register .link {
+  display: flex;
+  padding: 0 15px;
+}
+.login .link a, .register .link a {
+  color: #1abc9c;
+  text-decoration: none;
+  display: inline-flex;
+  padding: 0 10px 10px 10px;
+  font-weight: bold;
+}
+.login .link a:hover, .register .link a:hover {
+  color: #9da3ac;
+}
+.login .link a.active, .register .link a.active {
+  border-bottom: 3px solid #1abc9c;
+  color: #3274d6;
+}
+
+.login form, .register form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+.login form label, .register form label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: #1abc9c;
+  color: #ffffff;
+}
+.login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
+  width: 310px;
+  height: 50px;
+  border: 1px solid #dee0e4;
+  margin-bottom: 20px;
+  padding: 0 15px;
+}
+.login form input[type="submit"], .register form input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #1abc9c;
+  border: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover, .register form input[type="submit"]:hover {
+  background-color: #1abc9c;
+  transition: background-color 0.2s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+.inbox_people {
+  background: #f8f8f8 none repeat scroll 0 0;
+  float: left;
+  overflow: hidden;
+  width: 40%;
+  border-right: 1px solid #c4c4c4;
+}
+
+.inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+}
+
+.top_spac {
+  margin: 20px 0 0;
+}
+
+.recent_heading {
+  float: left;
+  width: 27%;
+}
+
+.srch_bar {
+  display: inline-block;
+  text-align: right;
+  width: 40%;
+}
+
+.headind_srch {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 10px 15px 10px 15px;
+  overflow: hidden;
+  border-bottom: 1px solid #c4c4c4;
+}
+
+.recent_heading h4 {
+  color: #05728f;
+  font-size: 21px;
+  margin: auto;
+}
+
+.srch_bar input {
+  border: 1px solid #cdcdcd;
+  border-width: 0 0 1px 0;
+  width: 85%;
+  padding: 2px 0 4px 6px;
+  background: none;
+}
+
+.srch_bar .input-group-addon button {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  padding: 0;
+  color: #707070;
+  font-size: 18px;
+}
+
+.srch_bar .input-group-addon {
+  margin: 0 0 0 -27px;
+}
+
+/* NEW-CHAT BUTTON STYLES */
+
+.headind_srch>.new_chat {
+  width: 30%;
+  z-index: 100;
+}
+
+.headind_srch>.new_chat>button {
+  outline: none;
+  border: none;
+  width: 80%;
+  margin-left: 20%;
+  cursor: pointer;
+  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+  border-width: 0 0 1px 0;
+}
+
+.headind_srch>.new_chat form {
+  background: #e5e5e5;
+  margin-top: 10px;
+  display: none;
+  padding: 15px;
+  border: 1px solid #05728f;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 500;
+}
+
+.headind_srch>.new_chat form[type="submit"] {
+  cursor: pointer;
+}
+
+#new_chat_overlay {
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+
+.chat_ib h5 {
+  font-size: 15px;
+  color: #464646;
+  margin: 0 0 8px 0;
+}
+
+.chat_ib h5 span {
+  font-size: 13px;
+  float: right;
+}
+
+.chat_ib p {
+  font-size: 14px;
+  color: #989898;
+  margin: auto
+}
+
+.chat_img {
+  float: left;
+  width: 11%;
+}
+
+.chat_ib {
+  float: left;
+  padding: 0 0 0 15px;
+  width: 88%;
+}
+
+.chat_people {
+  overflow: hidden;
+  clear: both;
+}
+
+.chat_list {
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0;
+  padding: 18px 16px 10px;
+}
+
+.inbox_chat {
+  height: 550px;
+  overflow-y: scroll;
+}
+
+.active_chat {
+  background: #ebebeb;
+}
+
+.incoming_msg_img {
+  display: inline-block;
+  width: 6%;
+}
+
+.received_msg {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 92%;
+}
+
+.received_withd_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.time_date {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.received_withd_msg {
+  width: 57%;
+}
+
+.mesgs {
+  float: left;
+  padding: 30px 15px 0 25px;
+  width: 60%;
+}
+
+.sent_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0;
+  color: #fff;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+
+.outgoing_msg {
+  overflow: hidden;
+  margin: 26px 0 26px;
+}
+
+.sent_msg {
+  float: right;
+  width: 46%;
+}
+
+.input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.type_msg {
+  border-top: 1px solid #c4c4c4;
+  position: relative;
+}
+
+.msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 11px;
+  width: 33px;
+}
+
+.messaging {
+  padding: 0 0 50px 0;
+}
+
+.msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
+
+ /* POST */
+.submission {
+  padding-bottom: 10px;
+  border-bottom: 8px solid black;
+  padding-right: 10px;
+}
+
+.submission form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submission_input {
+  display: flex;
+  padding: 20px;
+}
+
+.submission_input input {
+  flex: 1;
+  margin-left: 20px;
+  font-size: 20px;
+  border: none;
+  outline: none;
+}
+
+.submission_button {
+  background-color: black;
+  border: none;
+  color: white;
+  font-weight: 900;
+
+  border-radius: 30px;
+  width: 80px;
+  height: 40px;
+  margin-top: 20px;
+  margin-left: auto;
+}
+
+.submission_privacy {
+  border: none;
+  color: white;
+  font-weight: 900;
+
+  border-radius: 30px;
+  width: 80px;
+  height: 40px;
+  margin-top: 20px;
+  margin-left: auto;
+}
+
+.post {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
+
+.post__footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.post__badge {
+  font-size: 14px !important;
+  color: var(--twitter-color);
+  margin-right: 5px;
+}
+
+.post__headerSpecial {
+  font-weight: 600;
+  font-size: 12px;
+  color: gray;
+}
+
+.post__headerText h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.post__headerDescription {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.post__body {
+  flex: 1;
+  padding: 10px;
+}
