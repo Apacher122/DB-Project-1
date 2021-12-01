@@ -20,3 +20,10 @@
  HIHIHIH | 625 Westport Pkwy        |            | 76051
  JJJJJJJ | 1 Infinite Loop          | IL1        | 95014
  QQQQQQQ | 9079 Shady Grove Ct      |            | 20877
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['123 Previous St, Valleytown, MD 20854','890 Test St, Portland, OR 12345']) 
+WHERE user_id = 'BCD2345';
+UPDATE associated_addresses SET prev_addresses= (ARRAY['1800 Sister St, Fatheria, OH 10293']) 
+WHERE user_id = 'CDE3456';
+UPDATE associated_addresses SET prev_addresses= (ARRAY['294 Porto Ave, Springfield, IL 39475']) 
+WHERE user_id = 'JKL0123';
