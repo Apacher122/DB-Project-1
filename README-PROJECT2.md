@@ -1,5 +1,5 @@
 TODO:
-- Add text attribute to product table for descriptions
+- DONE Add text attribute to product table for descriptions
 - Add array attribute to users' shipped to addresses 
 - Create type for addresses
 
