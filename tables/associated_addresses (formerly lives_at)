@@ -23,7 +23,30 @@
 
 UPDATE associated_addresses SET prev_addresses= (ARRAY['123 Previous St, Valleytown, MD 20854','890 Test St, Portland, OR 12345']) 
 WHERE user_id = 'BCD2345';
+
 UPDATE associated_addresses SET prev_addresses= (ARRAY['1800 Sister St, Fatheria, OH 10293']) 
 WHERE user_id = 'CDE3456';
-UPDATE associated_addresses SET prev_addresses= (ARRAY['294 Porto Ave, Springfield, IL 39475']) 
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['294 Porto Ave, Springfield, IL 39475','235 E 84th St Apt 38, New York, NY 10028','74 Parker Blvd Apt 3, Fort Worth, TX 65734','1 Union Ave, Reims, UT 09345']) 
 WHERE user_id = 'JKL0123';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['1110 Terracotta Terr, Transylvania, PA 93847']) 
+WHERE user_id = 'DEF4567';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['4378 W Parkwood Ln, Amherst, MA 10394']) 
+WHERE user_id = 'HIJ8901';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['9 Jefferson St Unit 1, New York, NY 10011','525 Market St 1st floor, San Francisco, CA 94105','555 Melissa Way, Buffalo, NY 22222','873 Open St, Potomac, MD 20854','12 India, MN 10239']) 
+WHERE user_id = 'IJK9012';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['90 Jupiter Pkwy, Rome, VE 66666','83 Mercury Ln, Rome, VE 66666','11 Io Ln Apt 22, Rome, VE 66666','777 Vulcan Blvd, Rome, VE 66666']) 
+WHERE user_id = 'EFG5678';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['16A Baker Ave, Dublin, CA 91149']) 
+WHERE user_id = 'ABC1234';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['88 Mads Way, Mikkelsen, UT 97573']) 
+WHERE user_id = 'FGH6789';
+
+UPDATE associated_addresses SET prev_addresses= (ARRAY['4378 W Parkwood Ln, Amherst, MA 10394', '8300 Maryland Ave, Baltimore, MD 63105']) 
+WHERE user_id = 'DEF4567';
