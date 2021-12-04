@@ -14,7 +14,7 @@
     SELECT U1.name, U2.name
     FROM users U1, users U2, lives_at L1, lives_at L2
     WHERE U1.user_id = L1.user_id AND U2.user_id = L2.user_id AND L1.user_id != L2.user_id AND L1.prev_addresses && L2.prev_addresses;
-  - Get users who are connected to a user who lives at an addresses with ZIP code 12345
+  - Get the names of users who are connected to someone living at an address with ZIP code 12345
     SELECT U1.name, U2.name
     FROM users U1, users U2, lives_at L, connected_to C
     WHERE U1.user_id = C.user_id AND U2.user_id = C.connection AND U2.user_id = L.user_id AND L.zip = '12345'; 
