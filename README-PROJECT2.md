@@ -1,10 +1,10 @@
 1. Team members' UNIs: mc5090 and rda2126
 2. PostgreSQL account: mc5090
 3. Our three implemented additions are:
-    - A new text attribute called "full_desc" for the PRODUCTS table. It stores a longer form text description of the product.
-    - A new array attribute called "prev_addresses" to the LIVES_AT table, which has been renamed ASSOCIATED_ADDRESSES. This array saves a list of addresses that the user has either previously lived at or has shipped an order to. The primary key (street_1, street_2, zip) remains store each user's current residence and is the address that is set in our "settings" tab in our front-end implementation.
-    - A new composite type called "friendship_type" which stores attributes "user_id" and "connection". We altered our original table "connected_to" to a table of "friendship_type" that stores which users are connected to which other users.
-5. Example queries
+  - A new text attribute called "full_desc" for the PRODUCTS table. It stores a longer form text description of the product.
+  - A new array attribute called "prev_addresses" to the LIVES_AT table, which has been renamed ASSOCIATED_ADDRESSES. This array saves a list of addresses that the user has either previously lived at or has shipped an order to. The primary key (street_1, street_2, zip) remains store each user's current residence and is the address that is set in our "settings" tab in our front-end implementation.
+  - A new composite type called "friendship_type" which stores attributes "user_id" and "connection". We altered our original table "connected_to" to a table of "friendship_type" that stores which users are connected to which other users.
+5. Example queries:
   - Get the name of every customer who has in their cart one or more items that are specfied as imported in their descriptions and the total number of such items (for example, if a user has in their cart two items that are imported with respective quantities 1 and 3, this query will output the user's name and count 4):
     SELECT U.name, SUM(C.quantity)
     FROM products P, has_in_cart C, users U
