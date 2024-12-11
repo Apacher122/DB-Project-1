@@ -44,19 +44,23 @@
   {% for k,l in j.items() %}
   <ul class="prodlist img-list">
     <li>
-      <a href="{{ url_for('item', type=j) }}" class="inner">
+      <a href="{{ url_for('item', type=k, color=l[1]) }}" class="inner">
         <div class="prod-img">
           <img src="{{url_for('static', filename='/images/' + i)}}" align="middle"/>
         </div>
         <div class="prod-text">
+          
           <h3 class="prod-head">{{ k }}</h3>
+          {% if l[0] %}
           <div class="prod-sub">
-            <p>{{ l }}</p>
+            <p>{{ l[0] }}</p>
           </div>
+          {% endif %}
         </div>
       </a>
     </li>
   </ul>
   {% endfor %}
 {% endfor %}
+
 {% endblock %}
